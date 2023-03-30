@@ -4,8 +4,13 @@
     "target": "es6",
     "baseUrl": ".",
     "paths": {
-      "@navigation/*": ["./src/navigation/*"],
-      "@components/*": ["./src/components/*"],
+      "@components/*": ["./src/navigation/*"],
+      "@navigation/*": ["./src/components/*"],
+      "@redux/*": ["./src/redux/*"],
+      "@screens/*": ["./src/screens/*"],
+      "@services/*": ["./src/services/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@utilities/*": ["./src/utilities/*"],
       "@assets/*": ["./assets/*"]
     }
   },
