@@ -1,18 +1,36 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import Home from "@screens/Home";
+import Login from "@screens/Login";
+import Register from "@screens/Register";
 import Settings from "@screens/Settings";
+import { useSelector } from "react-redux";
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 export default function Navigator() {
+  const token = useSelector((state) => state.user.token);
   return (
     <NavigationContainer>
-      <MainTabNavigator />
+      {token ? <MainTabNavigator /> : <LoginNavigator />}
     </NavigationContainer>
   );
 }
+
+const LoginNavigator = () => (
+  <Stack.Navigator
+    screenOptions={{
+      headerShown: true,
+      headerMode: false,
+    }}
+  >
+    <Stack.Screen name="login" component={Login} />
+    <Stack.Screen name="register" component={Register} />
+  </Stack.Navigator>
+);
 
 const MainTabNavigator = () => (
   <Tab.Navigator

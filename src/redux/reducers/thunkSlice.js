@@ -11,19 +11,21 @@ export const gallerySlice = createSlice({
   name: "gallery",
   initialState: {
     isLoading: false,
-    photo: [],
+    photos: [],
   },
-  extraReducers: {
-    [getPhotos.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [getPhotos.fulfilled]: (state, action) => {
-      state.photos = action.payload;
-      state.isLoading = false;
-    },
-    [getPhotos.rejected]: (state) => {
-      state.isLoading = false;
-    },
+
+  extraReducers: (builder) => {
+    builder
+      .addCase(getPhotos.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getPhotos.fulfilled, (state, action) => {
+        state.photos = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(getPhotos.rejected, (state) => {
+        state.isLoading = false;
+      });
   },
 });
 
