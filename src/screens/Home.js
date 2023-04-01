@@ -1,6 +1,6 @@
-import ComponentAddPaquet from "@components/addPaquet";
+import ComponentAddPaquet from "@components/PaquetComponents/addPaquet";
+import Paquet from "@components/PaquetComponents/paquet";
 import ModernModal from "@components/modal";
-import Paquet from "@components/paquet";
 import SearchBarHome from "@components/searchBar";
 import { COLORS } from "@utilities/contans";
 import { useState } from "react";

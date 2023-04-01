@@ -20,6 +20,23 @@ function Button({ onPress, title, color, ownStyle }) {
   );
 }
 
+export function ButtonIcon({ onPress, ownStyle, color, icon }) {
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <View
+        style={{
+          ...styles.buttonContainer,
+          ...styles.buttonIcon,
+          ...ownStyle,
+          backgroundColor: color,
+        }}
+      >
+        {icon}
+      </View>
+    </TouchableOpacity>
+  );
+}
+
 const styles = StyleSheet.create({
   buttonContainer: {
     borderRadius: 25,
@@ -41,6 +58,13 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_800ExtraBold",
     color: "#fff",
     fontSize: 16,
+  },
+  buttonIcon: {
+    width: wp(8),
+    height: hp(4),
+    borderRadius: 50,
+    margin: 0,
+    elevation: 5,
   },
 });
 
