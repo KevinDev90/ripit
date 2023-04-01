@@ -6,6 +6,8 @@ import Home from "@screens/Home";
 import Login from "@screens/Login";
 import Register from "@screens/Register";
 import Settings from "@screens/Settings";
+import { COLORS } from "@utilities/contans";
+import { heightPercentageToDP } from "react-native-responsive-screen";
 import { useSelector } from "react-redux";
 
 const Tab = createBottomTabNavigator();
@@ -15,7 +17,7 @@ export default function Navigator() {
   const token = useSelector((state) => state.user.token);
   return (
     <NavigationContainer>
-      {token ? <MainTabNavigator /> : <LoginNavigator />}
+      {!token ? <MainTabNavigator /> : <LoginNavigator />}
     </NavigationContainer>
   );
 }
@@ -42,12 +44,14 @@ const MainTabNavigator = () => (
 
         return <Ionicons name={iconName} size={size} color={color} />;
       },
-      tabBarActiveTintColor: "#000",
+      tabBarActiveTintColor: COLORS.BLUE,
       tabBarInactiveTintColor: "#8b8b8b",
-      tabBarShowLabel: true,
+      tabBarShowLabel: false,
       tabBarStyle: {
-        borderTopWidth: 0,
+        borderTopWidth: 1,
+        borderTopColor: COLORS.GREY,
         elevation: 0,
+        height: heightPercentageToDP(7),
       },
     })}
   >

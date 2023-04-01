@@ -1,3 +1,4 @@
+import { COLORS } from "@utilities/contans";
 import { StyleSheet, TextInput, View } from "react-native";
 import {
   heightPercentageToDP as hp,
@@ -21,7 +22,7 @@ function TextInputForm({ title, changeText, secureTextEntry }) {
 const styles = StyleSheet.create({
   inputView: {
     width: wp(80),
-    backgroundColor: "#f2f2f2",
+    backgroundColor: COLORS.GREY,
     borderRadius: 25,
     height: hp(6),
     marginBottom: 20,

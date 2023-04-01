@@ -4,10 +4,16 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 
-function Button({ onPress, title, color }) {
+function Button({ onPress, title, color, ownStyle }) {
   return (
     <TouchableOpacity onPress={onPress}>
-      <View style={{ ...styles.buttonContainer, backgroundColor: color }}>
+      <View
+        style={{
+          ...styles.buttonContainer,
+          ...ownStyle,
+          backgroundColor: color,
+        }}
+      >
         <Text style={styles.buttonTitle}>{title}</Text>
       </View>
     </TouchableOpacity>
