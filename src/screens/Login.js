@@ -30,15 +30,13 @@ export default function Login({ navigation }) {
       </View>
       <TextInputForm
         title="Email"
-        changeText={(v) => {
-          setEmail(v);
-        }}
+        value={email}
+        changeText={(v) => setEmail(v)}
       />
       <TextInputForm
         title="Password"
-        changeText={(v) => {
-          setPassword(v);
-        }}
+        value={password}
+        changeText={(v) => setPassword(v)}
         secureTextEntry={true}
       />
       <Button

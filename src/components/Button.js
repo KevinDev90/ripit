@@ -6,7 +6,7 @@ import {
 
 function Button({ onPress, title, color, ownStyle }) {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} style={{ alignItems: "center" }}>
       <View
         style={{
           ...styles.buttonContainer,

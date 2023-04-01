@@ -17,22 +17,19 @@ export default function Register({ navigation }) {
     <View style={styles.container}>
       <TextInputForm
         title="Correo"
-        changeText={(v) => {
-          setEmail(v);
-        }}
+        value={email}
+        changeText={(v) => setEmail(v)}
       />
       <TextInputForm
         title="Contraseña"
-        changeText={(v) => {
-          setPassword(v);
-        }}
+        value={password}
+        changeText={(v) => setPassword(v)}
         secureTextEntry={true}
       />
       <TextInputForm
         title="Confirma tu contraseña"
-        changeText={(v) => {
-          setConfirmPassword(v);
-        }}
+        value={confirmPassword}
+        changeText={(v) => setConfirmPassword(v)}
         secureTextEntry={true}
       />
       <Button

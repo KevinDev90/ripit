@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import { TouchableOpacity, Text, View, StyleSheet, Modal } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { COLORS } from "@utilities/contans";
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import { COLORS } from "@utilities/contans";
 
 const ModernModal = ({ visible, onClose, title, children }) => {
   return (
@@ -20,7 +19,7 @@ const ModernModal = ({ visible, onClose, title, children }) => {
           <View style={styles.headerContainer}>
             <Text style={styles.headerText}>{title}</Text>
             <TouchableOpacity onPress={onClose}>
-              <Ionicons name="close-outline" color="black" size={24} />
+              <Ionicons name="close-outline" color="#fff" size={24} />
             </TouchableOpacity>
           </View>
           {children}
@@ -40,19 +39,23 @@ const styles = StyleSheet.create({
   modalContainer: {
     backgroundColor: "#fff",
     borderRadius: 10,
-    padding: 20,
-    width: wp(80),
+    width: wp(90),
   },
   headerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: hp(3),
+    backgroundColor: COLORS.PURPLE,
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    borderTopEndRadius: 10,
+    borderTopStartRadius: 10,
   },
   headerText: {
     fontSize: 20,
     fontFamily: "Inter_600SemiBold",
-    color: "#000",
+    color: "#FFF",
   },
 });
 

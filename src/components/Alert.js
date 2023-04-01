@@ -1,10 +1,9 @@
-import { COLORS } from "@utilities/contans";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Button from "./Button";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+import Button from "./Button";
 
 export default function MinimalAlert({
   message,

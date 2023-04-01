@@ -16,7 +16,13 @@ function Paquet({ item }) {
   return (
     <View style={styles.deckContainer}>
       {cards.map((card, index) => (
-        <Card cards={cards} card={card} item={item} index={index} />
+        <Card
+          key={card.id}
+          cards={cards}
+          card={card}
+          item={item}
+          index={index}
+        />
       ))}
     </View>
   );
