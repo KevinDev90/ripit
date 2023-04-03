@@ -30,14 +30,25 @@ export const paquetSlice = createSlice({
       state.push(action.payload);
     },
     deletePaquet: (state, action) => {
-      const index = state.indexOf(action.payload);
-      if (index > -1) {
-        const newState = state.splice(index, 1);
-        state = newState;
-      }
+      const index = state.findIndex((element) => element.id === action.payload);
+      if (index !== -1) state.splice(index, 1);
+    },
+    editPaquet: (state, action) => {
+      const item = action.payload;
+      const editState = state.map((element) => {
+        if (element.id === item.id)
+          return {
+            id: item.id,
+            title: item.title,
+            color: item.color,
+            words: item.words,
+          };
+        else return element;
+      });
+      return editState;
     },
   },
 });
 
-export const { addPaquet, deletePaquet } = paquetSlice.actions;
+export const { addPaquet, deletePaquet, editPaquet } = paquetSlice.actions;
 export default paquetSlice.reducer;

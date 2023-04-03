@@ -27,7 +27,7 @@ function ListWords({ words }) {
         }}
       >
         <Text numberOfLines={1} ellipsizeMode="tail" style={{ color: "#fff" }}>
-          {item}
+          {item.word ? item.word : item}
         </Text>
       </TouchableOpacity>
     </View>
@@ -39,7 +39,7 @@ function ListWords({ words }) {
       horizontal={true}
       style={styles.list}
       renderItem={renderColorItem}
-      keyExtractor={(item) => item}
+      keyExtractor={(item) => (item.id ? item.id : item)}
       contentContainerStyle={{ alignItems: "center" }}
       showsHorizontalScrollIndicator={false}
     />

@@ -1,16 +1,16 @@
 import Button from "@components/Button";
 import TextInputForm, { TextInputIcon } from "@components/TextInput";
 import { FontAwesome } from "@expo/vector-icons";
-import { addPaquet } from "@redux/reducers/paquetSlice";
+import { addPaquet, editPaquet } from "@redux/reducers/paquetSlice";
 import { COLORS } from "@utilities/contans";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { useDispatch } from "react-redux";
 import ListWords from "../FormAddPaquet/ListWords";
 import ColorPicker from "../FormAddPaquet/colorPicker";
 
-function FormNewPaquet({ onClose }) {
+function FormNewPaquet({ onClose, fields, edit }) {
   const dispatch = useDispatch();
 
   const id = Math.floor(Math.random() * 100) + 1;
@@ -21,6 +21,16 @@ function FormNewPaquet({ onClose }) {
   const [newInputValue, setNewInputValue] = useState("");
 
   const handleColorChange = (color) => setColor(color);
+
+  useEffect(() => {
+    if (edit) fillFields();
+  }, [edit]);
+
+  const fillFields = () => {
+    setTitle(fields.title);
+    setColor(fields.color);
+    setWords(fields.words);
+  };
 
   const handleAddInput = () => {
     setWords([...words, newInputValue]);
@@ -40,8 +50,25 @@ function FormNewPaquet({ onClose }) {
     }
   };
 
+  const editCard = () => {
+    if (title && color && words.length > 0) {
+      const data = {
+        id: fields.id,
+        title,
+        color,
+        words,
+      };
+      dispatch(editPaquet(data));
+      onClose();
+    }
+  };
+
   return (
     <View style={{ paddingHorizontal: 20, paddingBottom: 20 }}>
+      <Text style={{ fontFamily: "Inter_200ExtraLight", marginBottom: 10 }}>
+        Ponle un titulo:
+      </Text>
+
       <TextInputForm
         title="Titulo"
         value={title}
@@ -69,12 +96,21 @@ function FormNewPaquet({ onClose }) {
 
       <ListWords words={words} />
 
-      <Button
-        title={"Guardar"}
-        color={COLORS.GREEN}
-        onPress={() => save()}
-        ownStyle={{ width: wp(50) }}
-      />
+      {!edit ? (
+        <Button
+          title={"Guardar"}
+          color={COLORS.GREEN}
+          onPress={() => save()}
+          ownStyle={{ width: wp(50) }}
+        />
+      ) : (
+        <Button
+          title={"Editar"}
+          color={COLORS.GREEN}
+          onPress={() => editCard()}
+          ownStyle={{ width: wp(50) }}
+        />
+      )}
     </View>
   );
 }

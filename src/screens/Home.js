@@ -3,40 +3,19 @@ import FormNewPaquet from "@components/PaquetComponents/form";
 import Paquet from "@components/PaquetComponents/paquet";
 import ModernModal from "@components/modal";
 import SearchBarHome from "@components/searchBar";
-import { addPaquet } from "@redux/reducers/paquetSlice";
 import { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 export default function Home() {
   const [search, setSearch] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   const paquets = useSelector((state) => state.paquet);
-  const dispatch = useDispatch();
-
-  const newPaquet = () => {
-    const data = {
-      id: Math.floor(Math.random() * 100) + 1,
-      title: "otro",
-      color: getRandomColor(),
-      words: [],
-    };
-    dispatch(addPaquet(data));
-  };
-
-  const getRandomColor = () => {
-    const letters = "0123456789ABCDEF";
-    let color = "#";
-    for (let i = 0; i < 6; i++)
-      color += letters[Math.floor(Math.random() * 16)];
-
-    return color;
-  };
 
   return (
     <View style={styles.container}>

@@ -1,25 +1,34 @@
 import MinimalAlert from "@components/Alert";
 import { ButtonIcon } from "@components/Button";
+import ModernModal from "@components/modal";
 import { MaterialIcons } from "@expo/vector-icons";
+import { deletePaquet } from "@redux/reducers/paquetSlice";
 import { COLORS } from "@utilities/contans";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
+import { useDispatch } from "react-redux";
+import FormNewPaquet from "./form";
 
 function ActionsButton({ item }) {
   const [modalVisible, setModalVisible] = useState(false);
+
+  const [modalVisibleEdit, setModalVisibleEdit] = useState(false);
+
+  const dispatch = useDispatch();
 
   const deleteCard = () => {
     // Fetch para borrar de la base de datos
     // devuelve las barajas que existe
     // cambio el estado con las nuevas barajas
-    console.log(item.id);
+    dispatch(deletePaquet(item.id));
+    setModalVisible(false);
   };
 
   return (
     <>
       <View style={styles.container}>
         <ButtonIcon
-          onPress={() => {}}
+          onPress={() => setModalVisibleEdit(true)}
           color={COLORS.GREEN}
           icon={<MaterialIcons name="edit" size={18} color="#fff" />}
         />
@@ -41,6 +50,18 @@ function ActionsButton({ item }) {
           }}
         />
       )}
+
+      <ModernModal
+        visible={modalVisibleEdit}
+        onClose={() => setModalVisibleEdit(false)}
+        // title="Nueva baraja"
+      >
+        <FormNewPaquet
+          onClose={() => setModalVisibleEdit(false)}
+          edit={true}
+          fields={item}
+        />
+      </ModernModal>
     </>
   );
 }
