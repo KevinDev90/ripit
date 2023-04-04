@@ -13,6 +13,7 @@ import {
 import Navigator from "@navigation";
 import store from "@redux/store";
 import { Provider } from "react-redux";
+
 // import { collection, getDocs } from "firebase/firestore/lite";
 // import { db } from "@services/firebaseConfig";
 
