@@ -54,7 +54,6 @@ function ActionsButton({ item }) {
       <ModernModal
         visible={modalVisibleEdit}
         onClose={() => setModalVisibleEdit(false)}
-        // title="Nueva baraja"
       >
         <FormNewPaquet
           onClose={() => setModalVisibleEdit(false)}

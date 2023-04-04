@@ -1,5 +1,8 @@
+import HappyAlert from "@components/Alert2";
 import Button from "@components/Button";
+import { useNavigation } from "@react-navigation/native";
 import { COLORS } from "@utilities/contans";
+import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import {
   heightPercentageToDP as hp,
@@ -8,6 +11,9 @@ import {
 import ActionsButton from "./actionButton";
 
 function Card({ cards, card, index, item }) {
+  const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <View
       key={card.id}
@@ -25,9 +31,21 @@ function Card({ cards, card, index, item }) {
       <Button
         title="Practicar"
         color={COLORS.GREEN}
-        onPress={() => {}}
+        onPress={() => setModalVisible(true)}
         ownStyle={{ width: wp(30), height: hp(5) }}
       />
+      {modalVisible && (
+        <HappyAlert
+          modalVisible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          message={"Estas listo?"}
+          button={{
+            text: "Vamos",
+            color: COLORS.GREEN,
+            press: () => navigation.navigate("Lab", { item }),
+          }}
+        />
+      )}
     </View>
   );
 }

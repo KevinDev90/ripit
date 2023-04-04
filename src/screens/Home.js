@@ -12,20 +12,25 @@ import {
 import { useSelector } from "react-redux";
 
 export default function Home() {
+  const paquets = useSelector((state) => state.paquet);
   const [search, setSearch] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
-  const paquets = useSelector((state) => state.paquet);
+  const searchMyPaquet = () => {
+    return paquets.filter((obj) =>
+      obj.title.toLowerCase().includes(search.toLowerCase())
+    );
+  };
 
   return (
     <View style={styles.container}>
-      {/* <Text>name {user.name}</Text>
-      <Text>email {user.email}</Text> */}
       <SearchBarHome value={search} onChange={(text) => setSearch(text)} />
+
       <ScrollView contentContainerStyle={styles.containerScroll}>
         <View style={styles.containerPaquets}>
           <ComponentAddPaquet onPress={() => setModalVisible(true)} />
-          {paquets.map((paquet) => (
+
+          {searchMyPaquet().map((paquet) => (
             <Paquet item={paquet} key={paquet.id} />
           ))}
         </View>
@@ -34,7 +39,6 @@ export default function Home() {
       <ModernModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
-        // title="Nueva baraja"
       >
         <FormNewPaquet onClose={() => setModalVisible(false)} />
       </ModernModal>
@@ -48,7 +52,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     alignItems: "center",
     paddingTop: hp(5),
-    // justifyContent: "center",
   },
   containerScroll: {
     flexGrow: 1,
