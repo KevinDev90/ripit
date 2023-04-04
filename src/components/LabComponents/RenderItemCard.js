@@ -1,19 +1,28 @@
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { editWord } from "@redux/reducers/paquetSlice";
 import { apiKey, urlCompetitions } from "@services/openIAapi";
 import { COLORS } from "@utilities/contans";
 import { Audio } from "expo-av";
-import * as FileSystem from "expo-file-system";
-import { Base64 } from "js-base64";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+import { useDispatch } from "react-redux";
 
-function RenderItemCard({ item }) {
+function RenderItemCard({ item, listRef, index, id, lastIndex }) {
   const prompt = `podrias darme una frase nivel intermedio en ingles que incluya esta palabra en cualquier posicion '${item.word}'`;
   const [phrase, setPhrase] = useState(null);
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   useEffect(() => {
     fetch(urlCompetitions, {
@@ -37,63 +46,63 @@ function RenderItemCard({ item }) {
       .catch((error) => console.error(error));
   }, []);
 
-  useEffect(() => {
-    if (phrase) {
-      const text = Base64.encode(phrase); // string to base64
-    }
-  }, [phrase]);
+  async function textToSpeech() {
+    const { sound } = await Audio.Sound.createAsync(
+      {
+        uri: `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(
+          phrase
+        )}&tl=es&client=tw-ob`,
+      },
+      { shouldPlay: true }
+    );
+    // await sound.loadAsync();
+    // await sound.playAsync();
+  }
+  console.log("", lastIndex, index);
+  const wrongAnswer = () => {
+    if (lastIndex !== index)
+      listRef.current.scrollToIndex({ index: index + 1 });
+    else navigation.navigate("HomeTabs", { screen: "Home" });
+  };
+  const goodAnswer = () => {
+    dispatch(editWord({ id, word: item.id }));
+
+    if (lastIndex !== index)
+      listRef.current.scrollToIndex({ index: index + 1 });
+    else navigation.navigate("HomeTabs", { screen: "Home" });
+  };
 
   return (
     <View style={styles.card}>
-      <View
-        style={{
-          backgroundColor: COLORS.BLUE,
-          width: wp(90),
-          alignItems: "center",
-          justifyContent: "center",
-          height: hp(8),
-          borderTopEndRadius: 10,
-          borderTopStartRadius: 10,
-        }}
-      >
+      <View style={styles.contentTitle}>
         <Text style={styles.title}>{item.word}</Text>
       </View>
-      <View
-        style={{
-          width: wp(90),
-          alignItems: "center",
-          justifyContent: "center",
-          padding: 10,
-          height: hp(70),
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 18,
-            fontFamily: "Inter_600SemiBold",
-            lineHeight: hp(3.5),
-            textAlign: "center",
-          }}
-        >
-          {phrase}
-        </Text>
+
+      <View style={styles.contentPhrase}>
+        <View style={styles.contentIconVolume}>
+          <TouchableOpacity onPress={() => textToSpeech()}>
+            <FontAwesome name="volume-up" size={36} color={COLORS.BLUE} />
+          </TouchableOpacity>
+        </View>
+
+        {phrase ? (
+          <Text style={styles.text}>{phrase}</Text>
+        ) : (
+          <ActivityIndicator size={32} color={COLORS.BLUE} />
+        )}
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          width: wp(26),
-          height: hp(10),
-        }}
-      >
-        <TouchableOpacity>
-          <AntDesign name="checkcircle" size={42} color={COLORS.GREEN} />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <MaterialIcons name="cancel" size={50} color={COLORS.RED} />
-        </TouchableOpacity>
-      </View>
+
+      {!item.pass && (
+        <View style={styles.contentButtonActions}>
+          <TouchableOpacity onPress={() => goodAnswer()}>
+            <AntDesign name="checkcircle" size={42} color={COLORS.GREEN} />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => wrongAnswer()}>
+            <MaterialIcons name="cancel" size={50} color={COLORS.RED} />
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
@@ -114,5 +123,41 @@ const styles = StyleSheet.create({
     color: "#fff",
     textTransform: "capitalize",
   },
+  text: {
+    fontSize: 18,
+    fontFamily: "Inter_600SemiBold",
+    lineHeight: hp(3.5),
+    textAlign: "center",
+  },
+  contentTitle: {
+    backgroundColor: COLORS.BLUE,
+    width: wp(90),
+    alignItems: "center",
+    justifyContent: "center",
+    height: hp(8),
+    borderTopEndRadius: 10,
+    borderTopStartRadius: 10,
+  },
+  contentPhrase: {
+    width: wp(90),
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
+    height: hp(70),
+  },
+  contentButtonActions: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: wp(26),
+    height: hp(10),
+  },
+  contentIconVolume: {
+    position: "absolute",
+    top: 5,
+    right: 5,
+    padding: 15,
+  },
 });
+
 export default RenderItemCard;

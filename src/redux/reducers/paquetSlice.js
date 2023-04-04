@@ -7,8 +7,8 @@ const initialState = [
     title: "tema 1",
     color: COLORS.PURPLE,
     words: [
-      { id: 1, word: "men" },
-      { id: 2, word: "women" },
+      { id: 1, word: "men", pass: false },
+      { id: 2, word: "women", pass: false },
     ],
   },
   {
@@ -16,8 +16,8 @@ const initialState = [
     title: "tema 2",
     color: COLORS.BLUE,
     words: [
-      { id: 1, word: "rattled" },
-      { id: 2, word: "flee" },
+      { id: 1, word: "rattled", pass: false },
+      { id: 2, word: "flee", pass: false },
     ],
   },
 ];
@@ -47,8 +47,33 @@ export const paquetSlice = createSlice({
       });
       return editState;
     },
+    editWord: (state, action) => {
+      const item = action.payload;
+
+      const editState = state.map((element) => {
+        if (element.id === item.id) {
+          const newItems = element.words.map((word) => {
+            if (word.id === item.word) {
+              return {
+                ...word,
+                ["pass"]: true,
+              };
+            }
+            return word;
+          });
+          return {
+            ...element,
+            words: newItems,
+          };
+        }
+        return element;
+      });
+
+      return editState;
+    },
   },
 });
 
-export const { addPaquet, deletePaquet, editPaquet } = paquetSlice.actions;
+export const { addPaquet, deletePaquet, editPaquet, editWord } =
+  paquetSlice.actions;
 export default paquetSlice.reducer;

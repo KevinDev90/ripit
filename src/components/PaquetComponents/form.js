@@ -33,7 +33,12 @@ function FormNewPaquet({ onClose, fields, edit }) {
   };
 
   const handleAddInput = () => {
-    setWords([...words, newInputValue]);
+    const word = {
+      id: Math.floor(Math.random() * (100 - 1 + 1)) + 1,
+      word: newInputValue,
+      pass: false,
+    };
+    setWords([...words, word]);
     setNewInputValue("");
   };
 

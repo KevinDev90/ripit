@@ -42,7 +42,10 @@ function Card({ cards, card, index, item }) {
           button={{
             text: "Vamos",
             color: COLORS.GREEN,
-            press: () => navigation.navigate("Lab", { item }),
+            press: () => {
+              setModalVisible(false);
+              navigation.navigate("Lab", { item });
+            },
           }}
         />
       )}
