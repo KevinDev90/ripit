@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "@screens/Home";
-import Settings from "@screens/Settings";
+import Profile from "@screens/Profile";
 import { COLORS } from "@utilities/contans";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
@@ -14,7 +14,7 @@ export const HomeTabs = () => {
         tabBarIcon: ({ color, size }) => {
           let iconName;
           if (route.name === "Home") iconName = "home-outline";
-          else if (route.name === "Settings") iconName = "person-outline";
+          else if (route.name === "Profile") iconName = "person-outline";
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -35,8 +35,8 @@ export const HomeTabs = () => {
         options={{ headerShown: false }}
       />
       <Tab.Screen
-        name="Settings"
-        component={Settings}
+        name="Profile"
+        component={Profile}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>

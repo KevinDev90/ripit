@@ -10,8 +10,10 @@ export const authLoginAction = async (value, dispatch) => {
   return await signInWithEmailAndPassword(auth, value.email, value.password)
     .then((userCredential) => {
       const user = userCredential.user;
+      console.log(user);
       if (user) {
         const data = {
+          uid: user.uid,
           displayName: user.displayName,
           email: user.email,
           phoneNumber: user.phoneNumber,
