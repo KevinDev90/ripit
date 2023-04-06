@@ -17,6 +17,7 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { useDispatch } from "react-redux";
+import * as Speech from "expo-speech";
 
 function RenderItemCard({ item, listRef, index, id, lastIndex }) {
   const prompt = `podrias darme una frase nivel intermedio en ingles que incluya esta palabra en cualquier posicion '${item.word}'`;
@@ -47,18 +48,19 @@ function RenderItemCard({ item, listRef, index, id, lastIndex }) {
   }, []);
 
   async function textToSpeech() {
-    const { sound } = await Audio.Sound.createAsync(
-      {
-        uri: `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(
-          phrase
-        )}&tl=es&client=tw-ob`,
-      },
-      { shouldPlay: true }
-    );
+    Speech.speak(phrase);
+    // const { sound } = await Audio.Sound.createAsync(
+    //   {
+    //     uri: `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(
+    //       phrase
+    //     )}&tl=es&client=tw-ob`,
+    //   },
+    //   { shouldPlay: true }
+    // );
     // await sound.loadAsync();
     // await sound.playAsync();
   }
-  console.log("", lastIndex, index);
+
   const wrongAnswer = () => {
     if (lastIndex !== index)
       listRef.current.scrollToIndex({ index: index + 1 });

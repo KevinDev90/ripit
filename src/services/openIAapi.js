@@ -1,3 +1,3 @@
-export const apiKey = "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";
+export const apiKey = "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";
 
 export const urlCompetitions = "https://api.openai.com/v1/completions";
