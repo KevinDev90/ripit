@@ -3,6 +3,7 @@ import FormNewPaquet from "@components/PaquetComponents/form";
 import Paquet from "@components/PaquetComponents/paquet";
 import ModernModal from "@components/modal";
 import SearchBarHome from "@components/searchBar";
+import { COLORS } from "@utilities/contans";
 import { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import {
@@ -39,6 +40,7 @@ export default function Home() {
       <ModernModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
+        color={COLORS.PURPLE}
       >
         <FormNewPaquet onClose={() => setModalVisible(false)} />
       </ModernModal>

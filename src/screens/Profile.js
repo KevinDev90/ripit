@@ -1,26 +1,32 @@
 import ProfilePicture from "@components/ProfileComponents/image";
-import { authLogoutAction } from "@redux/actions/authActions";
 import { db } from "@services/firebaseConfig";
 import { COLORS } from "@utilities/contans";
 import { doc, setDoc } from "firebase/firestore/lite";
 import { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+
+import NoImage from "@assets/img/no-photo-available.png";
+import { ButtonLogout } from "@components/ProfileComponents/button";
+import { InputCustom } from "@components/ProfileComponents/input";
+import ModalCamera from "@components/ProfileComponents/modalCamera";
+import { pickImage, takePhoto } from "@utilities/expoUtility";
 
 export default function Profile() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [bio, setBio] = useState("");
-
-  const dispatch = useDispatch();
   const data = useSelector((state) => state.auth);
   const user = data.user;
-
   const userDocRef = doc(db, "users", user.uid);
+
+  const [username, setUsername] = useState(user.username);
+  const [email, setEmail] = useState(user.email);
+  const [bio, setBio] = useState(user.bio);
+  const [imageForm, setImageForm] = useState(user.photoURL);
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const updateUser = () => {
     const data = {};
@@ -28,51 +34,57 @@ export default function Profile() {
     setDoc(userDocRef, data);
   };
 
+  const image = async () => {
+    await pickImage().then((res) => {
+      setImageForm(res[0].uri);
+      setModalVisible(false);
+    });
+  };
+
+  const photo = async () => {
+    await takePhoto().then((res) => {
+      setImageForm(res.uri);
+      setModalVisible(false);
+    });
+  };
+
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          width: wp(100),
-          backgroundColor: COLORS.PURPLE,
-          height: hp(40),
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text
-          style={{ color: "#fff", fontSize: 22, fontFamily: "Inter_900Black" }}
-        >
-          Editar Perfil
-        </Text>
+      <View style={styles.section}>
+        <Text style={styles.text}>Editar Perfil</Text>
+
         <ProfilePicture
-          imageSource={
-            "https://lh3.googleusercontent.com/StND2cg3sSbR6l-AHr3VdxKziIhEP4kYHQiTppD-aKc6gwn7PVdht1YqzjWSmwf5JLWf=w200-rwa"
-          }
+          imageSource={imageForm || NoImage}
+          onPress={() => setModalVisible(true)}
+        />
+
+        <ModalCamera
+          modalVisible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          image={() => image()}
+          photo={() => photo()}
         />
       </View>
-      <View>
-        <TouchableOpacity
-          onPress={() => authLogoutAction(dispatch)}
-          style={{
-            backgroundColor: COLORS.RED,
-            borderRadius: 10,
-            alignItems: "center",
-            justifyContent: "center",
-            height: hp(6),
-            width: wp(60),
-          }}
-        >
-          <Text
-            style={{
-              color: "#FFF",
-              fontSize: 18,
-              fontFamily: "Inter_800ExtraBold",
-            }}
-          >
-            Cerrar sesion
-          </Text>
-        </TouchableOpacity>
-      </View>
+
+      <InputCustom
+        title={"Nombre"}
+        value={username}
+        onChangeText={(v) => setUsername(v)}
+      />
+
+      <InputCustom
+        title={"Email"}
+        value={email}
+        onChangeText={(v) => setEmail(v)}
+      />
+
+      <InputCustom
+        title={"Biografia"}
+        value={bio}
+        onChangeText={(v) => setBio(v)}
+      />
+
+      <ButtonLogout />
     </View>
   );
 }
@@ -82,8 +94,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    // justifyContent: "center",
-    // paddingBottom: 100,
     paddingVertical: 40,
+  },
+  section: {
+    width: wp(100),
+    backgroundColor: COLORS.PURPLE,
+    height: hp(35),
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    color: "#fff",
+    fontSize: 22,
+    fontFamily: "Inter_900Black",
   },
 });

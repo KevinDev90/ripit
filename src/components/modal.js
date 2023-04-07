@@ -6,7 +6,7 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 
-const ModernModal = ({ visible, onClose, title, children }) => {
+const ModernModal = ({ visible, onClose, title, children, color }) => {
   return (
     <Modal
       transparent={true}
@@ -16,7 +16,7 @@ const ModernModal = ({ visible, onClose, title, children }) => {
     >
       <View style={styles.container}>
         <View style={styles.modalContainer}>
-          <View style={styles.headerContainer}>
+          <View style={{ ...styles.headerContainer, backgroundColor: color }}>
             <Text style={styles.headerText}>{title}</Text>
             <TouchableOpacity onPress={onClose}>
               <Ionicons name="close-outline" color="#fff" size={24} />
@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: hp(3),
-    backgroundColor: COLORS.PURPLE,
     paddingVertical: 15,
     paddingHorizontal: 15,
     borderTopEndRadius: 10,
@@ -54,7 +53,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 20,
-    fontFamily: "Inter_600SemiBold",
+    fontFamily: "Inter_900Black",
     color: "#FFF",
   },
 });

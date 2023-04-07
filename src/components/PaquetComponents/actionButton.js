@@ -54,6 +54,7 @@ function ActionsButton({ item }) {
       <ModernModal
         visible={modalVisibleEdit}
         onClose={() => setModalVisibleEdit(false)}
+        color={COLORS.PURPLE}
       >
         <FormNewPaquet
           onClose={() => setModalVisibleEdit(false)}
