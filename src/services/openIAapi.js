@@ -1,3 +1,4 @@
-export const apiKey = "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";
+import { API_KEY } from "@env";
 
+export const apiKey = API_KEY;
 export const urlCompetitions = "https://api.openai.com/v1/completions";
