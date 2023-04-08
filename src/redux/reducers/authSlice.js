@@ -12,7 +12,7 @@ export const authSlice = createSlice({
     updateUser: (state, action) => {
       return (state = {
         ...state,
-        user: action.payload.user,
+        user: action.payload,
       });
     },
     login: (state, action) => {

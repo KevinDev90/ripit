@@ -1,5 +1,6 @@
 import ListWords from "@components/FormAddPaquet/ListWords";
 import Popover from "@components/Popover";
+import { Picker } from "@react-native-picker/picker";
 import { COLORS } from "@utilities/contans";
 import {
   StyleSheet,
@@ -70,6 +71,21 @@ export function InputSchedule({
   );
 }
 
+export function InputPicker({ title, value, onChange, children }) {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>{title}</Text>
+      <Picker
+        selectedValue={value}
+        onValueChange={onChange}
+        style={styles.picker}
+      >
+        {children}
+      </Picker>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
@@ -82,6 +98,7 @@ const styles = StyleSheet.create({
   title: {
     flex: 1,
     marginRight: 10,
+    marginBottom: 5,
     fontFamily: "Inter_700Bold",
     fontSize: 16,
     color: "#333",
@@ -107,5 +124,9 @@ const styles = StyleSheet.create({
     padding: 12,
     marginBottom: hp(1),
     flexDirection: "row",
+  },
+  picker: {
+    width: wp(50),
+    marginBottom: 10,
   },
 });

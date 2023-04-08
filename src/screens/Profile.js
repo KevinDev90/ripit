@@ -3,22 +3,32 @@ import Button from "@components/Button";
 import ProfilePicture from "@components/ProfileComponents/image";
 import {
   InputCustom,
+  InputPicker,
   InputSchedule,
 } from "@components/ProfileComponents/input";
 import ModalCamera from "@components/ProfileComponents/modalCamera";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { Picker } from "@react-native-picker/picker";
 import { authLogoutAction } from "@redux/actions/authActions";
+import { updateUser } from "@redux/reducers/authSlice";
 import { db } from "@services/firebaseConfig";
-import { COLORS } from "@utilities/contans";
+import { COLORS, ToastAlert } from "@utilities/contans";
 import { pickImage, takePhoto } from "@utilities/expoUtility";
 import { doc, setDoc } from "firebase/firestore/lite";
 import { useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { useDispatch, useSelector } from "react-redux";
+import { getStorage, ref, uploadString } from "firebase/storage";
 
 const dateToday = new Date();
 
@@ -27,36 +37,57 @@ export default function Profile() {
   const user = data.user;
   const userDocRef = doc(db, "users", user.uid);
   const dispatch = useDispatch();
+  const storage = getStorage();
 
   const [username, setUsername] = useState(user.username || "");
   const [email, setEmail] = useState(user.email || "");
   const [bio, setBio] = useState(user.bio || "");
   const [imageForm, setImageForm] = useState(user.photoURL || "");
+  const [level, setLevel] = useState(user.photoURL || "basico");
 
   const [modalVisible, setModalVisible] = useState(false);
   const [isVisiblePopover, setIsVisiblePopover] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
   const [selectedTime, setSelectedTime] = useState([]);
 
-  const updateUser = async () => {
-    const data = {
-      username,
-      email,
-      bio,
-      photoURL: imageForm,
-      selectedTime,
-    };
+  const save = async () => {
+    if (email) {
+      setLoading(true);
+      const data = {
+        ...user,
+        username,
+        email,
+        bio,
+        photoURL: imageForm,
+        selectedTime,
+        level,
+      };
+      await setDoc(userDocRef, data)
+        .then((res) => {
+          setLoading(false);
+          ToastAlert("Usuario editado");
+          dispatch(updateUser(data));
+        })
+        .catch((err) => {
+          setLoading(false);
+          ToastAlert("Error al editar el usuario");
+        });
+    }
+  };
 
-    console.log(data);
-
-    // setDoc(userDocRef, data).then((res) => {
-    //   console.log(res);
-    // });
+  const uploadPhoto = async (path) => {
+    console.log("====", typeof path);
+    const spaceRef = ref(storage, path);
+    uploadString(spaceRef, path, "base64").then((res) => {
+      console.log(res);
+    });
+    // return url;
   };
 
   const image = async () => {
     await pickImage().then((res) => {
+      uploadPhoto(res[0].base64);
       setImageForm(res[0].uri);
       setModalVisible(false);
     });
@@ -103,7 +134,7 @@ export default function Profile() {
 
       <ScrollView
         style={{ width: wp(100) }}
-        contentContainerStyle={{ alignItems: "center", paddingBottom: hp(5) }}
+        contentContainerStyle={{ alignItems: "center" }}
         showsVerticalScrollIndicator={false}
       >
         <InputCustom
@@ -145,12 +176,22 @@ export default function Profile() {
           words={selectedTime}
         />
 
+        <InputPicker
+          title={"Nivel de ingles"}
+          value={level}
+          onChange={(v) => setLevel(v)}
+        >
+          <Picker.Item label="Basico" value="basico" />
+          <Picker.Item label="Intermedio" value="intermedio" />
+          <Picker.Item label="Avanzado" value="avanzado" />
+        </InputPicker>
+
         <View style={{ marginTop: hp(5), flexDirection: "row" }}>
           <Button
-            title={"Guardar"}
+            title={loading ? <ActivityIndicator color={"#fff"} /> : "Guardar"}
             color={COLORS.BLUE}
             ownStyle={styles.button}
-            onPress={() => updateUser()}
+            onPress={() => save()}
           />
           <Button
             title={"Cerrar sesion"}
@@ -187,7 +228,7 @@ const styles = StyleSheet.create({
   button: {
     width: wp(45),
     borderRadius: 10,
-    elevation: 5,
+    elevation: 0,
   },
   arrow: {
     borderTopColor: "white",

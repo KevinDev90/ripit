@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { editWord } from "@redux/reducers/paquetSlice";
 import { apiKey, urlCompetitions } from "@services/openIAapi";
 import { COLORS } from "@utilities/contans";
-import { Audio } from "expo-av";
+import * as Speech from "expo-speech";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -16,17 +16,22 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import { useDispatch } from "react-redux";
-import * as Speech from "expo-speech";
+import { useDispatch, useSelector } from "react-redux";
 
 function RenderItemCard({ item, listRef, index, id, lastIndex }) {
-  const prompt = `podrias darme una frase nivel intermedio en ingles que incluya esta palabra en cualquier posicion '${item.word}'`;
-  const [phrase, setPhrase] = useState(null);
+  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  const prompt = `podrias darme una frase nivel ${user.level} en ingles que incluya esta palabra en cualquier posicion '${item.word}'`;
+  const [phrase, setPhrase] = useState(null);
+
   useEffect(() => {
-    fetch(urlCompetitions, {
+    getPhrases();
+  }, []);
+
+  const getPhrases = async () => {
+    await fetch(urlCompetitions, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,30 +50,18 @@ function RenderItemCard({ item, listRef, index, id, lastIndex }) {
         setPhrase(message);
       })
       .catch((error) => console.error(error));
-  }, []);
+  };
 
-  async function textToSpeech() {
-    Speech.speak(phrase);
-    // const { sound } = await Audio.Sound.createAsync(
-    //   {
-    //     uri: `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(
-    //       phrase
-    //     )}&tl=es&client=tw-ob`,
-    //   },
-    //   { shouldPlay: true }
-    // );
-    // await sound.loadAsync();
-    // await sound.playAsync();
-  }
+  const textToSpeech = () => Speech.speak(phrase);
 
   const wrongAnswer = () => {
     if (lastIndex !== index)
       listRef.current.scrollToIndex({ index: index + 1 });
     else navigation.navigate("HomeTabs", { screen: "Home" });
   };
+
   const goodAnswer = () => {
     dispatch(editWord({ id, word: item.id }));
-
     if (lastIndex !== index)
       listRef.current.scrollToIndex({ index: index + 1 });
     else navigation.navigate("HomeTabs", { screen: "Home" });

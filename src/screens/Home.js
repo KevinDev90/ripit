@@ -3,24 +3,42 @@ import FormNewPaquet from "@components/PaquetComponents/form";
 import Paquet from "@components/PaquetComponents/paquet";
 import ModernModal from "@components/modal";
 import SearchBarHome from "@components/searchBar";
+import { updateUser } from "@redux/reducers/authSlice";
+import { db } from "@services/firebaseConfig";
 import { COLORS } from "@utilities/contans";
-import { useState } from "react";
+import { doc, getDoc } from "firebase/firestore/lite";
+import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
+  const auth = useSelector((state) => state.auth);
   const paquets = useSelector((state) => state.paquet);
+  const dispatch = useDispatch();
+
+  const docRef = doc(db, "users", auth.user.uid);
+
   const [search, setSearch] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   const searchMyPaquet = () => {
     return paquets.filter((obj) =>
       obj.title.toLowerCase().includes(search.toLowerCase())
     );
+  };
+
+  const getUser = async () => {
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) dispatch(updateUser(docSnap.data()));
+    else console.log("No such document!");
   };
 
   return (
