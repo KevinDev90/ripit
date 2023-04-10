@@ -43,13 +43,13 @@ export default function Profile() {
   const [email, setEmail] = useState(user.email || "");
   const [bio, setBio] = useState(user.bio || "");
   const [imageForm, setImageForm] = useState(user.photoURL || "");
-  const [level, setLevel] = useState(user.photoURL || "basico");
+  const [level, setLevel] = useState(user.level || "basico");
+  const [selectedTime, setSelectedTime] = useState(user.hours || []);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [isVisiblePopover, setIsVisiblePopover] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
-  const [selectedTime, setSelectedTime] = useState([]);
 
   const save = async () => {
     if (email) {
@@ -60,7 +60,7 @@ export default function Profile() {
         email,
         bio,
         photoURL: imageForm,
-        selectedTime,
+        hours: selectedTime,
         level,
       };
       await setDoc(userDocRef, data)
@@ -78,11 +78,13 @@ export default function Profile() {
 
   const uploadPhoto = async (path) => {
     console.log("====", typeof path);
-    const spaceRef = ref(storage, path);
-    uploadString(spaceRef, path, "base64").then((res) => {
-      console.log(res);
-    });
-    // return url;
+    // const spaceRef = ref(storage, path);
+    // await uploadString(spaceRef, path, "base64")
+    //   .then((res) => {
+    //     console.log(res.ref);
+    //   })
+    //   .catch((err) => console.log(err));
+    // // return url;
   };
 
   const image = async () => {
@@ -108,7 +110,7 @@ export default function Profile() {
       const amPM = time
         .toLocaleString("en-US", { hour: "numeric", hour12: true })
         .slice(-2);
-      const timeFormat = `${hour}: ${minute} ${amPM}`;
+      const timeFormat = hour;
 
       setSelectedTime([...selectedTime, timeFormat]);
     }

@@ -5,13 +5,7 @@ import {
 } from "react-native-responsive-screen";
 import Button from "./Button";
 
-export default function HappyAlert({
-  message,
-  modalVisible,
-  onClose,
-  onPressAction,
-  button,
-}) {
+export default function HappyAlert({ message, modalVisible, onClose, button }) {
   return (
     <View style={styles.container}>
       <Modal
