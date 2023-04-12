@@ -2,16 +2,26 @@ import Button from "@components/Button";
 import TextInputForm, { TextInputIcon } from "@components/TextInput";
 import { FontAwesome } from "@expo/vector-icons";
 import { addPaquet, editPaquet } from "@redux/reducers/paquetSlice";
-import { COLORS } from "@utilities/contans";
+import { db } from "@services/firebaseConfig";
+import { COLORS, ToastAlert } from "@utilities/contans";
+import {
+  addDoc,
+  collection,
+  doc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ListWords from "../FormAddPaquet/ListWords";
 import ColorPicker from "../FormAddPaquet/colorPicker";
 
 function FormNewPaquet({ onClose, fields, edit }) {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  const packDocRef = doc(db, "pack", user.uid);
 
   const id = Math.floor(Math.random() * 100) + 1;
   const [title, setTitle] = useState("");
@@ -21,6 +31,8 @@ function FormNewPaquet({ onClose, fields, edit }) {
   const [newInputValue, setNewInputValue] = useState("");
 
   const handleColorChange = (color) => setColor(color);
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (edit) fillFields();
@@ -42,20 +54,42 @@ function FormNewPaquet({ onClose, fields, edit }) {
     setNewInputValue("");
   };
 
-  const save = () => {
+  const save = async () => {
     if (title && color && words.length > 0) {
+      setLoading(true);
       const data = {
         id,
+        userID: user.uid,
         title,
         color,
         words,
       };
-      dispatch(addPaquet(data));
-      onClose();
+
+      // const docRef = await addDoc(collection(db, "pack"), data);
+
+      // if (docRef) {
+      //   console.log("IDDD", docRef.id);
+      //   dispatch(addPaquet(data));
+      //   onClose();
+      //   setLoading(false);
+      //   ToastAlert("Usuario editado");
+      // }
+
+      // await setDoc(packDocRef, data)
+      //   .then((res) => {
+      //     setLoading(false);
+      //     ToastAlert("Usuario editado");
+      //     dispatch(addPaquet(data));
+      //     onClose();
+      //   })
+      //   .catch((err) => {
+      //     setLoading(false);
+      //     ToastAlert("Error al editar el usuario");
+      //   });
     }
   };
 
-  const editCard = () => {
+  const editCard = async () => {
     if (title && color && words.length > 0) {
       const data = {
         id: fields.id,
@@ -63,6 +97,11 @@ function FormNewPaquet({ onClose, fields, edit }) {
         color,
         words,
       };
+
+      // await updateDoc(packDocRef, {
+      //   capital: true
+      // });
+
       dispatch(editPaquet(data));
       onClose();
     }
@@ -103,7 +142,13 @@ function FormNewPaquet({ onClose, fields, edit }) {
 
       {!edit ? (
         <Button
-          title={"Guardar"}
+          title={
+            loading ? (
+              <ActivityIndicator size={32} color={COLORS.BLUE} />
+            ) : (
+              "Guardar"
+            )
+          }
           color={COLORS.GREEN}
           onPress={() => save()}
           ownStyle={{ width: wp(50) }}

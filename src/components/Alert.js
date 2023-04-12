@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     fontSize: 18,
     textAlign: "center",
+    textTransform: "capitalize",
   },
   openButton: {
     backgroundColor: "#2196F3",

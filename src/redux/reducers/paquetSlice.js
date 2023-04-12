@@ -1,26 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { COLORS } from "@utilities/contans";
 
-const initialState = [
-  {
-    id: 1,
-    title: "tema 1",
-    color: COLORS.PURPLE,
-    words: [
-      { id: 1, word: "men", pass: false },
-      { id: 2, word: "women", pass: false },
-    ],
-  },
-  {
-    id: 2,
-    title: "tema 2",
-    color: COLORS.BLUE,
-    words: [
-      { id: 1, word: "rattled", pass: false },
-      { id: 2, word: "flee", pass: false },
-    ],
-  },
-];
+const initialState = [];
 
 export const paquetSlice = createSlice({
   name: "paquet",

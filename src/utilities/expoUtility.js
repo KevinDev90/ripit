@@ -13,7 +13,6 @@ export const pickImage = async () => {
   const result = await ImagePicker.launchImageLibraryAsync({
     mediaTypes: ImagePicker.MediaTypeOptions.All,
     allowsEditing: false,
-    base64: true,
     aspect: [4, 3],
     quality: 1,
   });

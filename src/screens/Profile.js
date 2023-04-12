@@ -1,4 +1,4 @@
-import NoImage from "@assets/img/no-photo-available.png";
+import NoImage from "@assets/img/no-image.jpg";
 import Button from "@components/Button";
 import ProfilePicture from "@components/ProfileComponents/image";
 import {
@@ -28,7 +28,6 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { useDispatch, useSelector } from "react-redux";
-import { getStorage, ref, uploadString } from "firebase/storage";
 
 const dateToday = new Date();
 
@@ -37,7 +36,6 @@ export default function Profile() {
   const user = data.user;
   const userDocRef = doc(db, "users", user.uid);
   const dispatch = useDispatch();
-  const storage = getStorage();
 
   const [username, setUsername] = useState(user.username || "");
   const [email, setEmail] = useState(user.email || "");
@@ -76,20 +74,37 @@ export default function Profile() {
     }
   };
 
-  const uploadPhoto = async (path) => {
-    console.log("====", typeof path);
-    // const spaceRef = ref(storage, path);
-    // await uploadString(spaceRef, path, "base64")
-    //   .then((res) => {
-    //     console.log(res.ref);
-    //   })
-    //   .catch((err) => console.log(err));
-    // // return url;
-  };
+  // const uploadPhoto = async (path) => {
+  //   console.log("====", path);
+  //   const { uri, filename, type } = path;
+  //   const path = uri.replace('file://', '');
+  //   const formData = new FormData();
+  //   formData.append('file', {
+  //     uri: path,
+  //     type: type,
+  //     name: filename
+  //   });
+
+  //   // cloudinary.v2.uploader.upload(path, { folder: 'my_folder' })
+  //   //   .then(response => {
+  //   //     console.log(response);
+  //   //   })
+  //   //   .catch(error => {
+  //   //     console.log(error);
+  //   //   });
+
+  //   // const spaceRef = ref(storage, path);
+  //   // await uploadString(spaceRef, path, "base64")
+  //   //   .then((res) => {
+  //   //     console.log(res.ref);
+  //   //   })
+  //   //   .catch((err) => console.log(err));
+  //   // // return url;
+  // };
 
   const image = async () => {
     await pickImage().then((res) => {
-      uploadPhoto(res[0].base64);
+      // uploadPhoto(res[0]);
       setImageForm(res[0].uri);
       setModalVisible(false);
     });
@@ -123,7 +138,7 @@ export default function Profile() {
 
         <ProfilePicture
           imageSource={imageForm || NoImage}
-          onPress={() => setModalVisible(true)}
+          // onPress={() => setModalVisible(true)}
         />
 
         <ModalCamera

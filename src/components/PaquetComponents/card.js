@@ -1,6 +1,9 @@
 import HappyAlert from "@components/Alert2";
 import Button from "@components/Button";
+import ModernModal from "@components/modal";
+import { Entypo, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { deletePaquet } from "@redux/reducers/paquetSlice";
 import { COLORS } from "@utilities/contans";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -8,11 +11,27 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+import { useDispatch } from "react-redux";
 import ActionsButton from "./actionButton";
+import FormNewPaquet from "./form";
+import MinimalAlert from "@components/Alert";
 
 function Card({ cards, card, index, item }) {
   const navigation = useNavigation();
-  const [modalVisible, setModalVisible] = useState(false);
+  const dispatch = useDispatch();
+
+  const [modalVisiblePractice, setModalVisiblePractice] = useState(false);
+  const [modalVisibleEdit, setModalVisibleEdit] = useState(false);
+  const [modalVisibleDelete, setModalVisibleDelete] = useState(false);
+  const [modalVisibleView, setModalVisibleView] = useState(false);
+
+  const deleteCard = () => {
+    // Fetch para borrar de la base de datos
+    // devuelve las barajas que existe
+    // cambio el estado con las nuevas barajas
+    dispatch(deletePaquet(item.id));
+    setModalVisibleDelete(false);
+  };
 
   return (
     <View
@@ -26,29 +45,78 @@ function Card({ cards, card, index, item }) {
         },
       ]}
     >
-      <ActionsButton item={item} />
+      <ActionsButton
+        item={item}
+        icon1={<MaterialIcons name="edit" size={18} color="#fff" />}
+        onPressIcon1={() => setModalVisibleEdit(true)}
+        icon2={<MaterialIcons name="delete" size={18} color="#fff" />}
+        onPressIcon2={() => setModalVisibleDelete(true)}
+        icon3={<Entypo name="eye" size={18} color="#fff" />}
+        onPressIcon3={() => setModalVisibleView(true)}
+      />
+
       <Text style={styles.text}>{item.title}</Text>
+
       <Button
         title="Practicar"
         color={COLORS.GREEN}
-        onPress={() => setModalVisible(true)}
+        onPress={() => setModalVisiblePractice(true)}
         ownStyle={{ width: wp(30), height: hp(5) }}
       />
-      {modalVisible && (
+
+      {modalVisiblePractice && (
         <HappyAlert
-          modalVisible={modalVisible}
-          onClose={() => setModalVisible(false)}
+          modalVisible={modalVisiblePractice}
+          onClose={() => setModalVisiblePractice(false)}
           message={"Estas listo?"}
           button={{
             text: "Vamos",
             color: COLORS.GREEN,
             press: () => {
-              setModalVisible(false);
+              setModalVisiblePractice(false);
               navigation.navigate("Lab", { item });
             },
           }}
         />
       )}
+
+      {modalVisibleDelete && (
+        <MinimalAlert
+          modalVisible={modalVisibleDelete}
+          onClose={() => setModalVisibleDelete(false)}
+          message={"Estas seguro de eliminar tu baraja?"}
+          button={{
+            text: "Eliminar",
+            color: COLORS.RED,
+            press: () => deleteCard(),
+          }}
+        />
+      )}
+
+      {modalVisibleView && (
+        <MinimalAlert
+          modalVisible={modalVisibleView}
+          onClose={() => setModalVisibleView(false)}
+          message={item.words.map((e, i) => `${i + 1}. ${e.word} \n`)}
+          button={{
+            text: "Listo",
+            color: COLORS.BLUE,
+            press: () => setModalVisibleView(false),
+          }}
+        />
+      )}
+
+      <ModernModal
+        visible={modalVisibleEdit}
+        onClose={() => setModalVisibleEdit(false)}
+        color={COLORS.PURPLE}
+      >
+        <FormNewPaquet
+          onClose={() => setModalVisibleEdit(false)}
+          edit={true}
+          fields={item}
+        />
+      </ModernModal>
     </View>
   );
 }

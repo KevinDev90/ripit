@@ -4,9 +4,17 @@ import Paquet from "@components/PaquetComponents/paquet";
 import ModernModal from "@components/modal";
 import SearchBarHome from "@components/searchBar";
 import { updateUser } from "@redux/reducers/authSlice";
+import { addPaquet } from "@redux/reducers/paquetSlice";
 import { db } from "@services/firebaseConfig";
 import { COLORS } from "@utilities/contans";
-import { doc, getDoc } from "firebase/firestore/lite";
+import {
+  Firestore,
+  collection,
+  doc,
+  getDoc,
+  query,
+  where,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import {
@@ -16,17 +24,19 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
-  const auth = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.auth.user);
   const paquets = useSelector((state) => state.paquet);
   const dispatch = useDispatch();
 
-  const docRef = doc(db, "users", auth.user.uid);
+  const userRef = doc(db, "users", user.uid);
+  // const packRef = doc(db, "pack");
 
   const [search, setSearch] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     getUser();
+    // getPacks();
   }, []);
 
   const searchMyPaquet = () => {
@@ -36,9 +46,20 @@ export default function Home() {
   };
 
   const getUser = async () => {
-    const docSnap = await getDoc(docRef);
+    const docSnap = await getDoc(userRef);
     if (docSnap.exists()) dispatch(updateUser(docSnap.data()));
     else console.log("No such document!");
+  };
+
+  const getPacks = async () => {
+    // const filter = query(
+    //   collection(db, "pack"),
+    //   where("userID", "==", user.uid)
+    // );
+    // const docSnap = await getDoc(filter);
+    // console.log(docSnap);
+    // if (docSnap.exists()) dispatch(addPaquet(docSnap.data()));
+    // else console.log("No such document!");
   };
 
   return (
