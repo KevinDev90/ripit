@@ -5,12 +5,7 @@ import {
 } from "react-native-responsive-screen";
 import Button from "./Button";
 
-export default function MinimalAlert({
-  message,
-  modalVisible,
-  onClose,
-  button,
-}) {
+export function MinimalAlert({ message, modalVisible, onClose, button }) {
   return (
     <View style={styles.container}>
       <Modal
@@ -40,9 +35,37 @@ export default function MinimalAlert({
   );
 }
 
+export function HappyAlert({ title, text, modalVisible, onClose, button }) {
+  return (
+    <View style={styles.container}>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={onClose}
+      >
+        <View style={styles.centeredView}>
+          <View style={{ ...styles.modalView, width: wp(90) }}>
+            <Text style={styles.modalText2}>{title}</Text>
+            <Text style={{ fontFamily: "Inter_500Medium" }}>{text}</Text>
+
+            <View style={styles.containerButtons2}>
+              <Button
+                title={button.text}
+                onPress={button.press}
+                color={button.color}
+                ownStyle={styles.button2}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -53,7 +76,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalView: {
-    backgroundColor: "white",
+    backgroundColor: "#fff",
     borderRadius: 8,
     padding: 24,
     alignItems: "center",
@@ -63,7 +86,13 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     fontSize: 18,
     textAlign: "center",
+  },
+  modalText2: {
+    marginBottom: 12,
+    fontSize: 20,
+    textAlign: "center",
     textTransform: "capitalize",
+    fontFamily: "Inter_700Bold",
   },
   openButton: {
     backgroundColor: "#2196F3",
@@ -72,7 +101,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   openButtonText: {
-    color: "white",
+    color: "#fff",
     fontWeight: "bold",
     textAlign: "center",
   },
@@ -86,10 +115,21 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: wp(40),
   },
+  containerButtons2: {
+    flexDirection: "row",
+    justifyContent: "center",
+    width: "100%",
+  },
   button: {
     width: wp(22),
     borderRadius: 10,
     height: hp(4),
+    elevation: 0,
+  },
+  button2: {
+    width: wp(50),
+    borderRadius: 10,
+    height: hp(5),
     elevation: 0,
   },
 });

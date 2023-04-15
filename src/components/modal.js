@@ -1,5 +1,4 @@
 import { Ionicons } from "@expo/vector-icons";
-import { COLORS } from "@utilities/contans";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
   heightPercentageToDP as hp,
@@ -37,7 +36,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalContainer: {
-    backgroundColor: "#fff",
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
     borderRadius: 10,
     width: wp(90),
   },

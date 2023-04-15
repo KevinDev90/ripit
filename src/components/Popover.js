@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter_300Light",
   },
   arrow: {
-    borderTopColor: "white",
+    borderTopColor: "#fff",
     borderTopWidth: 10,
     borderRightWidth: 10,
     borderRightColor: "transparent",
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     borderLeftColor: "transparent",
   },
   popover: {
-    backgroundColor: "white",
+    backgroundColor: "#fff",
     padding: 15,
     borderRadius: 5,
     width: wp(60),

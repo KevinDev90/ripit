@@ -16,11 +16,7 @@ function ActionsButton({
     <>
       <View style={{ ...styles.container, top: 10 }}>
         {icon1 && (
-          <ButtonIcon
-            onPress={onPressIcon1}
-            color={COLORS.GREEN}
-            icon={icon1}
-          />
+          <ButtonIcon onPress={onPressIcon1} color={COLORS.BLUE} icon={icon1} />
         )}
 
         {icon2 && (

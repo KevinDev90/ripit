@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   inputText: {
     height: hp(5),
-    color: "black",
+    color: "#000",
     fontFamily: "Inter_200ExtraLight",
   },
 });

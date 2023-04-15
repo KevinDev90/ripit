@@ -21,7 +21,7 @@ import ColorPicker from "../FormAddPaquet/colorPicker";
 function FormNewPaquet({ onClose, fields, edit }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const packDocRef = doc(db, "pack", user.uid);
+  // const packDocRef = doc(db, "pack", user.uid);
 
   const id = Math.floor(Math.random() * 100) + 1;
   const [title, setTitle] = useState("");

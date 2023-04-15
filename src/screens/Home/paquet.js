@@ -4,7 +4,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import Card from "./card";
+import Card from "@screens/Home/card";
 
 function Paquet({ item }) {
   const cards = [

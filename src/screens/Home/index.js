@@ -1,22 +1,15 @@
 import ComponentAddPaquet from "@components/PaquetComponents/addPaquet";
 import FormNewPaquet from "@components/PaquetComponents/form";
-import Paquet from "@components/PaquetComponents/paquet";
 import ModernModal from "@components/modal";
 import SearchBarHome from "@components/searchBar";
 import { updateUser } from "@redux/reducers/authSlice";
 import { addPaquet } from "@redux/reducers/paquetSlice";
-import { db } from "@services/firebaseConfig";
+import Paquet from "@screens/Home/paquet";
 import { COLORS } from "@utilities/contans";
-import {
-  Firestore,
-  collection,
-  doc,
-  getDoc,
-  query,
-  where,
-} from "firebase/firestore";
+import { packRef, userRef } from "@utilities/references";
+import { getDoc, getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet, View } from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -28,15 +21,14 @@ export default function Home() {
   const paquets = useSelector((state) => state.paquet);
   const dispatch = useDispatch();
 
-  const userRef = doc(db, "users", user.uid);
-  // const packRef = doc(db, "pack");
-
   const [search, setSearch] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     getUser();
-    // getPacks();
+    if (paquets.length === 0) getPacks();
   }, []);
 
   const searchMyPaquet = () => {
@@ -52,29 +44,30 @@ export default function Home() {
   };
 
   const getPacks = async () => {
-    // const filter = query(
-    //   collection(db, "pack"),
-    //   where("userID", "==", user.uid)
-    // );
-    // const docSnap = await getDoc(filter);
-    // console.log(docSnap);
-    // if (docSnap.exists()) dispatch(addPaquet(docSnap.data()));
-    // else console.log("No such document!");
+    setLoading(true);
+    const filter = query(packRef, where("userID", "==", user.uid));
+    const docSnap = await getDocs(filter);
+    docSnap.forEach((doc) => dispatch(addPaquet(doc.data())));
+    setLoading(false);
   };
 
   return (
     <View style={styles.container}>
       <SearchBarHome value={search} onChange={(text) => setSearch(text)} />
 
-      <ScrollView contentContainerStyle={styles.containerScroll}>
-        <View style={styles.containerPaquets}>
-          <ComponentAddPaquet onPress={() => setModalVisible(true)} />
+      {!loading ? (
+        <ScrollView contentContainerStyle={styles.containerScroll}>
+          <View style={styles.containerPaquets}>
+            <ComponentAddPaquet onPress={() => setModalVisible(true)} />
 
-          {searchMyPaquet().map((paquet) => (
-            <Paquet item={paquet} key={paquet.id} />
-          ))}
-        </View>
-      </ScrollView>
+            {searchMyPaquet().map((paquet) => (
+              <Paquet item={paquet} key={paquet.id} />
+            ))}
+          </View>
+        </ScrollView>
+      ) : (
+        <ActivityIndicator color={COLORS.BLUE} size={30} />
+      )}
 
       <ModernModal
         visible={modalVisible}

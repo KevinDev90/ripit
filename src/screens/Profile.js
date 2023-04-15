@@ -11,10 +11,10 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { authLogoutAction } from "@redux/actions/authActions";
 import { updateUser } from "@redux/reducers/authSlice";
-import { db } from "@services/firebaseConfig";
 import { COLORS, ToastAlert } from "@utilities/contans";
 import { pickImage, takePhoto } from "@utilities/expoUtility";
-import { doc, setDoc } from "firebase/firestore/lite";
+import { userRef } from "@utilities/references";
+import { setDoc } from "firebase/firestore/lite";
 import { useState } from "react";
 import {
   ActivityIndicator,
@@ -32,10 +32,9 @@ import { useDispatch, useSelector } from "react-redux";
 const dateToday = new Date();
 
 export default function Profile() {
+  const dispatch = useDispatch();
   const data = useSelector((state) => state.auth);
   const user = data.user;
-  const userDocRef = doc(db, "users", user.uid);
-  const dispatch = useDispatch();
 
   const [username, setUsername] = useState(user.username || "");
   const [email, setEmail] = useState(user.email || "");
@@ -61,7 +60,7 @@ export default function Profile() {
         hours: selectedTime,
         level,
       };
-      await setDoc(userDocRef, data)
+      await setDoc(userRef, data)
         .then((res) => {
           setLoading(false);
           ToastAlert("Usuario editado");
@@ -248,7 +247,7 @@ const styles = StyleSheet.create({
     elevation: 0,
   },
   arrow: {
-    borderTopColor: "white",
+    borderTopColor: "#fff",
     borderTopWidth: 10,
     borderRightWidth: 10,
     borderRightColor: "transparent",
@@ -257,7 +256,7 @@ const styles = StyleSheet.create({
     borderLeftColor: "transparent",
   },
   popover: {
-    backgroundColor: "white",
+    backgroundColor: "#fff",
     padding: 10,
     borderRadius: 5,
   },
