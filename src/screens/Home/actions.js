@@ -1,12 +1,14 @@
 import Button, { ButtonIcon } from "@components/Button";
 import ModalBlur from "@components/ModalBlur";
-import FormNewPaquet from "@components/PaquetComponents/form";
 import ModernModal from "@components/modal";
 import { Entypo, MaterialIcons } from "@expo/vector-icons";
 import { deletePaquet } from "@redux/reducers/paquetSlice";
+import FormNewPaquet from "@screens/Home/formPaquet";
 import { COLORS } from "@utilities/contans";
+import { filterPackDoc, packRefUpdate } from "@utilities/references";
+import { deleteDoc, getDocs } from "firebase/firestore";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -20,12 +22,21 @@ function ActionsModal({ visibleOptions, setVisibleOptions, item }) {
   const [modalVisibleView, setModalVisibleView] = useState(false);
   const [modalVisibleEdit, setModalVisibleEdit] = useState(false);
 
-  const deleteCard = () => {
-    // Fetch para borrar de la base de datos
-    // devuelve las barajas que existe
-    // cambio el estado con las nuevas barajas
+  const [loading, setLoading] = useState(false);
+
+  const deleteCard = async () => {
+    setLoading(true);
+    let idDoc;
+
+    const filter = filterPackDoc(item.userID, item.id);
+    const docSnap = await getDocs(filter);
+    docSnap.forEach((doc) => (idDoc = doc.id));
+
+    if (!docSnap.empty) await deleteDoc(packRefUpdate(idDoc));
+
     dispatch(deletePaquet(item.id));
     setModalVisibleDelete(false);
+    setLoading(false);
   };
 
   return (
@@ -71,17 +82,20 @@ function ActionsModal({ visibleOptions, setVisibleOptions, item }) {
         </View>
 
         {modalVisibleDelete && (
-          <View style={{ marginTop: hp(2) }}>
+          <View style={styles.containerActions}>
             <Text
               style={{
-                fontFamily: "Inter_400Regular",
+                fontFamily: "Inter_300Light",
                 fontSize: 17,
+                textAlign: "center",
               }}
             >
               Quieres eliminar tu baraja?
             </Text>
             <Button
-              title={"Eliminar"}
+              title={
+                loading ? <ActivityIndicator color={"#fff"} /> : "Eliminar"
+              }
               onPress={() => deleteCard()}
               color={COLORS.RED}
               ownStyle={styles.button}
@@ -90,27 +104,31 @@ function ActionsModal({ visibleOptions, setVisibleOptions, item }) {
         )}
 
         {modalVisibleView && (
-          <View style={{ marginTop: hp(2) }}>
+          <View style={styles.containerActions}>
             <Text
               style={{
                 fontSize: 20,
-                fontFamily: "Inter_600SemiBold",
+                fontFamily: "Inter_400Regular",
+                textAlign: "center",
               }}
             >
               Tus Palabras
             </Text>
-            <Text
-              style={{
-                fontFamily: "Inter_400Regular",
-                textAlign: "center",
-                marginTop: hp(1),
-              }}
-            >
-              {item.words.map((e, i) => `${i + 1}. ${e.word} \n`)}
-            </Text>
+            <View style={{ width: "50%" }}>
+              <Text
+                style={{
+                  fontFamily: "Inter_300Light",
+                  fontSize: 17,
+                  marginTop: hp(1),
+                }}
+              >
+                {item.words.map((e, i) => `${i + 1}. ${e.word} \n`)}
+              </Text>
+            </View>
           </View>
         )}
       </ModalBlur>
+
       <ModernModal
         visible={modalVisibleEdit}
         onClose={() => setModalVisibleEdit(false)}
@@ -130,7 +148,6 @@ const styles = StyleSheet.create({
   icon: {
     width: wp(12),
     height: hp(6),
-    // borderRadius: 10,
   },
   button: {
     width: wp(40),
@@ -144,6 +161,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
+  },
+  containerActions: {
+    marginTop: hp(2),
+    width: "100%",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    padding: 15,
+    borderRadius: 15,
   },
 });
 

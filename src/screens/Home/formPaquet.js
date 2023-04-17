@@ -1,27 +1,20 @@
 import Button from "@components/Button";
+import ListWords from "@components/FormAddPaquet/ListWords";
+import ColorPicker from "@components/FormAddPaquet/colorPicker";
 import TextInputForm, { TextInputIcon } from "@components/TextInput";
 import { FontAwesome } from "@expo/vector-icons";
 import { addPaquet, editPaquet } from "@redux/reducers/paquetSlice";
-import { db } from "@services/firebaseConfig";
 import { COLORS, ToastAlert } from "@utilities/contans";
-import {
-  addDoc,
-  collection,
-  doc,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore/lite";
+import { packRef, packRefUpdate } from "@utilities/references";
+import { addDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { useDispatch, useSelector } from "react-redux";
-import ListWords from "../FormAddPaquet/ListWords";
-import ColorPicker from "../FormAddPaquet/colorPicker";
 
 function FormNewPaquet({ onClose, fields, edit }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  // const packDocRef = doc(db, "pack", user.uid);
 
   const id = Math.floor(Math.random() * 100) + 1;
   const [title, setTitle] = useState("");
@@ -29,10 +22,9 @@ function FormNewPaquet({ onClose, fields, edit }) {
   const [words, setWords] = useState([]);
 
   const [newInputValue, setNewInputValue] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleColorChange = (color) => setColor(color);
-
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (edit) fillFields();
@@ -54,7 +46,7 @@ function FormNewPaquet({ onClose, fields, edit }) {
     setNewInputValue("");
   };
 
-  const save = async () => {
+  const saveCard = async () => {
     if (title && color && words.length > 0) {
       setLoading(true);
       const data = {
@@ -65,44 +57,42 @@ function FormNewPaquet({ onClose, fields, edit }) {
         words,
       };
 
-      // const docRef = await addDoc(collection(db, "pack"), data);
+      const docRef = await addDoc(packRef, data);
 
-      // if (docRef) {
-      //   console.log("IDDD", docRef.id);
-      //   dispatch(addPaquet(data));
-      //   onClose();
-      //   setLoading(false);
-      //   ToastAlert("Usuario editado");
-      // }
-
-      // await setDoc(packDocRef, data)
-      //   .then((res) => {
-      //     setLoading(false);
-      //     ToastAlert("Usuario editado");
-      //     dispatch(addPaquet(data));
-      //     onClose();
-      //   })
-      //   .catch((err) => {
-      //     setLoading(false);
-      //     ToastAlert("Error al editar el usuario");
-      //   });
+      if (docRef) {
+        dispatch(addPaquet(data));
+        onClose();
+        setLoading(false);
+        ToastAlert("Baraja creada");
+      }
     }
   };
 
   const editCard = async () => {
     if (title && color && words.length > 0) {
+      setLoading(true);
+      let idDoc;
+
       const data = {
         id: fields.id,
+        userID: user.uid,
         title,
         color,
         words,
       };
 
-      // await updateDoc(packDocRef, {
-      //   capital: true
-      // });
+      const filter = query(
+        packRef,
+        where("userID", "==", data.userID),
+        where("id", "==", data.id)
+      );
+      const docSnap = await getDocs(filter);
+      docSnap.forEach((doc) => (idDoc = doc.id));
+
+      if (!docSnap.empty) await updateDoc(packRefUpdate(idDoc), data);
 
       dispatch(editPaquet(data));
+      setLoading(false);
       onClose();
     }
   };
@@ -150,12 +140,18 @@ function FormNewPaquet({ onClose, fields, edit }) {
             )
           }
           color={COLORS.GREEN}
-          onPress={() => save()}
+          onPress={() => saveCard()}
           ownStyle={{ width: wp(50) }}
         />
       ) : (
         <Button
-          title={"Editar"}
+          title={
+            loading ? (
+              <ActivityIndicator size={32} color={COLORS.BLUE} />
+            ) : (
+              "Editar"
+            )
+          }
           color={COLORS.GREEN}
           onPress={() => editCard()}
           ownStyle={{ width: wp(50) }}

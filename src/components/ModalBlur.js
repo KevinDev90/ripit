@@ -17,7 +17,7 @@ function ModalBlur({ visible, onClose, children }) {
 
 const styles = StyleSheet.create({
   modalContainer: {
-    backgroundColor: "rgba(255, 255, 255, 0.5)",
+    backgroundColor: "rgba(255, 255, 255, 0.6)",
     width: wp(70),
     // height: hp(30),
     padding: 20,

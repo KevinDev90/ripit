@@ -1,9 +1,9 @@
 import ComponentAddPaquet from "@components/PaquetComponents/addPaquet";
-import FormNewPaquet from "@components/PaquetComponents/form";
 import ModernModal from "@components/modal";
 import SearchBarHome from "@components/searchBar";
 import { updateUser } from "@redux/reducers/authSlice";
 import { addPaquet } from "@redux/reducers/paquetSlice";
+import FormNewPaquet from "@screens/Home/formPaquet";
 import Paquet from "@screens/Home/paquet";
 import { COLORS } from "@utilities/contans";
 import { packRef, userRef } from "@utilities/references";
