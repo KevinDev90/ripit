@@ -1,30 +1,26 @@
-import { AntDesign, FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { editWord } from "@redux/reducers/paquetSlice";
+import { addWords } from "@redux/reducers/wordsSlice";
 import { apiKey, urlCompetitions } from "@services/openIAapi";
 import { COLORS } from "@utilities/contans";
 import * as Speech from "expo-speech";
 import { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { useDispatch, useSelector } from "react-redux";
+import HeaderCard from "./headerCard";
 
-function RenderItemCard({ item, listRef, index, id, lastIndex }) {
+function RenderItemCard({ item, listRef, index, id, userID, lastIndex }) {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const prompt = `podrias darme una frase nivel ${user.level} en ingles que incluya esta palabra en cualquier posicion '${item.word}'`;
   const [phrase, setPhrase] = useState(null);
+  const [visibleText, setVisibleText] = useState(false);
 
   useEffect(() => {
     getPhrases();
@@ -52,16 +48,24 @@ function RenderItemCard({ item, listRef, index, id, lastIndex }) {
       .catch((error) => console.error(error));
   };
 
-  const textToSpeech = () => Speech.speak(phrase);
+  const textToSpeech = () => {
+    if (phrase) Speech.speak(phrase);
+  };
 
   const wrongAnswer = () => {
+    const data = { idPaquet: id, id: item.id, pass: false, word: item.word };
+
+    dispatch(addWords(data));
+
     if (lastIndex !== index)
       listRef.current.scrollToIndex({ index: index + 1 });
     else navigation.navigate("HomeTabs", { screen: "Home" });
   };
 
-  const goodAnswer = () => {
-    dispatch(editWord({ id, word: item.id }));
+  const goodAnswer = async () => {
+    const data = { idPaquet: id, id: item.id, pass: true, word: item.word };
+    dispatch(addWords(data));
+
     if (lastIndex !== index)
       listRef.current.scrollToIndex({ index: index + 1 });
     else navigation.navigate("HomeTabs", { screen: "Home" });
@@ -74,16 +78,18 @@ function RenderItemCard({ item, listRef, index, id, lastIndex }) {
       </View>
 
       <View style={styles.contentPhrase}>
-        <View style={styles.contentIconVolume}>
-          <TouchableOpacity onPress={() => textToSpeech()}>
-            <FontAwesome name="volume-up" size={36} color={COLORS.BLUE} />
-          </TouchableOpacity>
-        </View>
+        <HeaderCard
+          visible={visibleText}
+          unSeen={() => setVisibleText(!visibleText)}
+          speach={() => textToSpeech()}
+        />
 
         {phrase ? (
-          <Text style={styles.text}>{phrase}</Text>
+          <Text style={styles.text}>
+            {visibleText ? phrase : "-----------------"}
+          </Text>
         ) : (
-          <ActivityIndicator size={32} color={COLORS.BLUE} />
+          <Text style={styles.text}>-----------------</Text>
         )}
       </View>
 
@@ -146,12 +152,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: wp(26),
     height: hp(10),
-  },
-  contentIconVolume: {
-    position: "absolute",
-    top: 5,
-    right: 5,
-    padding: 15,
   },
 });
 

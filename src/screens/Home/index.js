@@ -2,12 +2,18 @@ import ComponentAddPaquet from "@components/PaquetComponents/addPaquet";
 import ModernModal from "@components/modal";
 import SearchBarHome from "@components/searchBar";
 import { updateUser } from "@redux/reducers/authSlice";
-import { addPaquet } from "@redux/reducers/paquetSlice";
+import { addPaquet, editPaquet } from "@redux/reducers/paquetSlice";
+import { cleanWords } from "@redux/reducers/wordsSlice";
 import FormNewPaquet from "@screens/Home/formPaquet";
 import Paquet from "@screens/Home/paquet";
 import { COLORS } from "@utilities/contans";
-import { packRef, userRef } from "@utilities/references";
-import { getDoc, getDocs, query, where } from "firebase/firestore";
+import {
+  filterPackDoc,
+  packRef,
+  packRefUpdate,
+  userRef,
+} from "@utilities/references";
+import { getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, ScrollView, StyleSheet, View } from "react-native";
 import {
@@ -19,6 +25,8 @@ import { useDispatch, useSelector } from "react-redux";
 export default function Home() {
   const user = useSelector((state) => state.auth.user);
   const paquets = useSelector((state) => state.paquet);
+  const wordsValid = useSelector((state) => state.words);
+
   const dispatch = useDispatch();
 
   const [search, setSearch] = useState("");
@@ -29,7 +37,60 @@ export default function Home() {
   useEffect(() => {
     getUser();
     if (paquets.length === 0) getPacks();
-  }, []);
+  }, [user, paquets]);
+
+  useEffect(() => {
+    if (wordsValid.length > 0) validWords();
+  }, [wordsValid]);
+
+  const validWords = async () => {
+    let idDoc;
+    let paquet;
+
+    const filter = filterPackDoc(user.uid, wordsValid[0].idPaquet);
+    const docSnap = await getDocs(filter);
+    docSnap.forEach((doc) => {
+      idDoc = doc.id;
+      paquet = doc.data();
+    });
+
+    if (!docSnap.empty) {
+      const wordsFalse = paquet.words.filter((word) => !word.pass); //Buscamos que palabras quedan todavia en False
+
+      if (wordsFalse.length === wordsValid.length) {
+        console.log("Entramos a reemplazar");
+        const data = wordsValid.map(({ idPaquet, ...another }) => another); // Eliminar campo idPaquet de las palabras guardardas en Redux
+
+        // Mezclamos las palabras que validamos en redux, con las que ya habian en la base de datos
+        const wordsMix = paquet.words.reduce(
+          (result, producto1) => {
+            const index = data.findIndex(
+              (producto2) => producto2.id === producto1.id
+            );
+            if (index !== -1) result.push(data[index]);
+            else result.push(producto1);
+            return result;
+          },
+          data.filter(
+            (producto2) =>
+              !paquet.words.find((producto1) => producto1.id === producto2.id)
+          )
+        );
+
+        // Creamos un objeto que es igual a la baraja editada
+        const newPaquet = { ...paquet, words: wordsMix };
+
+        // Actualizamos la base de datos; enviando las nuevas palabras
+        await updateDoc(packRefUpdate(idDoc), {
+          words: wordsMix,
+        });
+        // Limpiamos Redux
+        dispatch(cleanWords());
+        // Actualizamos la baraja en Redux
+        dispatch(editPaquet(newPaquet));
+      }
+    }
+  };
 
   const searchMyPaquet = () => {
     return paquets.filter((obj) =>

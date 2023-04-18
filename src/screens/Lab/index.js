@@ -1,4 +1,4 @@
-import RenderItemCard from "@components/LabComponents/RenderItemCard";
+import RenderItemCard from "@screens/Lab/itemCard";
 import { COLORS } from "@utilities/contans";
 import { useRef, useState } from "react";
 import {
@@ -13,8 +13,6 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 
-const CARD_WIDTH = 300;
-
 function Lab({ navigation, route }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const listRef = useRef(null);
@@ -23,6 +21,7 @@ function Lab({ navigation, route }) {
 
   const handleScroll = (event) => {
     const scrollPosition = event.nativeEvent.contentOffset.x;
+    const CARD_WIDTH = words.length * 100;
     const index = Math.round(scrollPosition / CARD_WIDTH);
     setCurrentIndex(index);
   };
@@ -34,6 +33,7 @@ function Lab({ navigation, route }) {
       listRef={listRef}
       index={index}
       id={paquet.id}
+      userID={paquet.userID}
       lastIndex={lastIndex}
     />
   );
@@ -55,6 +55,7 @@ function Lab({ navigation, route }) {
             showsHorizontalScrollIndicator={false}
             onScroll={handleScroll}
             pagingEnabled
+            scrollEnabled={false}
           />
           <View style={styles.pagination}>
             {filteredData.map((item, index) => (

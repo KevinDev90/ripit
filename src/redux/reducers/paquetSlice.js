@@ -16,44 +16,37 @@ export const paquetSlice = createSlice({
     editPaquet: (state, action) => {
       const item = action.payload;
       const editState = state.map((element) => {
-        if (element.id === item.id)
-          return {
-            id: item.id,
-            title: item.title,
-            color: item.color,
-            words: item.words,
-          };
+        if (element.id === item.id) return { ...item };
         else return element;
       });
       return editState;
     },
-    editWord: (state, action) => {
-      const item = action.payload;
+    // editWord: (state, action) => {
+    //   const item = action.payload;
 
-      const editState = state.map((element) => {
-        if (element.id === item.id) {
-          const newItems = element.words.map((word) => {
-            if (word.id === item.word) {
-              return {
-                ...word,
-                ["pass"]: true,
-              };
-            }
-            return word;
-          });
-          return {
-            ...element,
-            words: newItems,
-          };
-        }
-        return element;
-      });
+    //   const editState = state.map((element) => {
+    //     if (element.id === item.id) {
+    //       const newItems = element.words.map((word) => {
+    //         if (word.id === item.word) {
+    //           return {
+    //             ...word,
+    //             ["pass"]: true,
+    //           };
+    //         }
+    //         return word;
+    //       });
+    //       return {
+    //         ...element,
+    //         words: newItems,
+    //       };
+    //     }
+    //     return element;
+    //   });
 
-      return editState;
-    },
+    //   return editState;
+    // },
   },
 });
 
-export const { addPaquet, deletePaquet, editPaquet, editWord } =
-  paquetSlice.actions;
+export const { addPaquet, deletePaquet, editPaquet } = paquetSlice.actions;
 export default paquetSlice.reducer;

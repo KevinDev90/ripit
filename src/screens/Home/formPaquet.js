@@ -5,7 +5,7 @@ import TextInputForm, { TextInputIcon } from "@components/TextInput";
 import { FontAwesome } from "@expo/vector-icons";
 import { addPaquet, editPaquet } from "@redux/reducers/paquetSlice";
 import { COLORS, ToastAlert } from "@utilities/contans";
-import { packRef, packRefUpdate } from "@utilities/references";
+import { filterPackDoc, packRef, packRefUpdate } from "@utilities/references";
 import { addDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
@@ -81,11 +81,7 @@ function FormNewPaquet({ onClose, fields, edit }) {
         words,
       };
 
-      const filter = query(
-        packRef,
-        where("userID", "==", data.userID),
-        where("id", "==", data.id)
-      );
+      const filter = filterPackDoc(data.userID, data.id);
       const docSnap = await getDocs(filter);
       docSnap.forEach((doc) => (idDoc = doc.id));
 
