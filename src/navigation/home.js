@@ -5,11 +5,20 @@ import Home from "@screens/Home";
 import Profile from "@screens/Profile";
 import Zone from "@screens/Zone";
 import { COLORS } from "@utilities/contans";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-
+import { StyleSheet, View } from "react-native";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 const Tab = createBottomTabNavigator();
 
 export const HomeTabs = () => {
+  const renderIconTab = (iconName, size, color) => (
+    <View style={{ ...styles.containerIcons, backgroundColor: color }}>
+      <Ionicons name={iconName} size={size} color={"#fff"} />
+    </View>
+  );
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -20,17 +29,12 @@ export const HomeTabs = () => {
           if (route.name === "Zone") iconName = "flask-outline";
           else if (route.name === "Profile") iconName = "person-outline";
 
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return renderIconTab(iconName, size, color);
         },
         tabBarActiveTintColor: COLORS.BLUE,
-        tabBarInactiveTintColor: "#8b8b8b",
+        tabBarInactiveTintColor: COLORS.GREEN,
         tabBarShowLabel: false,
-        tabBarStyle: {
-          borderTopWidth: 1,
-          borderTopColor: COLORS.GREY,
-          elevation: 0,
-          height: hp(7),
-        },
+        tabBarStyle: styles.containerTab,
       })}
     >
       <Tab.Screen
@@ -56,3 +60,24 @@ export const HomeTabs = () => {
     </Tab.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  containerIcons: {
+    width: wp(12),
+    height: hp(6),
+    borderRadius: 10,
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  containerTab: {
+    elevation: 0,
+    height: hp(8),
+    position: "absolute",
+    bottom: 0,
+    backgroundColor: "#fff",
+    marginHorizontal: 10,
+    marginVertical: 5,
+    borderTopWidth: 0,
+  },
+});

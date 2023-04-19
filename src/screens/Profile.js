@@ -198,6 +198,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     paddingVertical: 40,
+    paddingBottom: hp(10),
   },
   section: {
     width: wp(100),
