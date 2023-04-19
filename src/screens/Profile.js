@@ -1,20 +1,19 @@
 import NoImage from "@assets/img/no-image.jpg";
 import Button from "@components/Button";
+import { ListImages } from "@components/List";
 import ProfilePicture from "@components/ProfileComponents/image";
 import {
   InputCustom,
   InputPicker,
   InputSchedule,
 } from "@components/ProfileComponents/input";
-import ModalCamera from "@components/ProfileComponents/modalCamera";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { authLogoutAction } from "@redux/actions/authActions";
 import { updateUser } from "@redux/reducers/authSlice";
-import { COLORS, ToastAlert } from "@utilities/contans";
-import { pickImage, takePhoto } from "@utilities/expoUtility";
+import { COLORS, ToastAlert, imagesProfile } from "@utilities/contans";
 import { userRef } from "@utilities/references";
-import { setDoc } from "firebase/firestore/lite";
+import { setDoc } from "firebase/firestore";
 import { useState } from "react";
 import {
   ActivityIndicator,
@@ -23,6 +22,7 @@ import {
   Text,
   View,
 } from "react-native";
+import Modal from "react-native-modal";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -43,10 +43,11 @@ export default function Profile() {
   const [level, setLevel] = useState(user.level || "basico");
   const [selectedTime, setSelectedTime] = useState(user.hours || []);
 
-  const [modalVisible, setModalVisible] = useState(false);
   const [isVisiblePopover, setIsVisiblePopover] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
+
+  const [modalImage, setModalImage] = useState(false);
 
   const save = async () => {
     if (email) {
@@ -60,7 +61,8 @@ export default function Profile() {
         hours: selectedTime,
         level,
       };
-      await setDoc(userRef, data)
+
+      await setDoc(userRef(user.uid), data)
         .then((res) => {
           setLoading(false);
           ToastAlert("Usuario editado");
@@ -71,49 +73,6 @@ export default function Profile() {
           ToastAlert("Error al editar el usuario");
         });
     }
-  };
-
-  // const uploadPhoto = async (path) => {
-  //   console.log("====", path);
-  //   const { uri, filename, type } = path;
-  //   const path = uri.replace('file://', '');
-  //   const formData = new FormData();
-  //   formData.append('file', {
-  //     uri: path,
-  //     type: type,
-  //     name: filename
-  //   });
-
-  //   // cloudinary.v2.uploader.upload(path, { folder: 'my_folder' })
-  //   //   .then(response => {
-  //   //     console.log(response);
-  //   //   })
-  //   //   .catch(error => {
-  //   //     console.log(error);
-  //   //   });
-
-  //   // const spaceRef = ref(storage, path);
-  //   // await uploadString(spaceRef, path, "base64")
-  //   //   .then((res) => {
-  //   //     console.log(res.ref);
-  //   //   })
-  //   //   .catch((err) => console.log(err));
-  //   // // return url;
-  // };
-
-  const image = async () => {
-    await pickImage().then((res) => {
-      // uploadPhoto(res[0]);
-      setImageForm(res[0].uri);
-      setModalVisible(false);
-    });
-  };
-
-  const photo = async () => {
-    await takePhoto().then((res) => {
-      setImageForm(res.uri);
-      setModalVisible(false);
-    });
   };
 
   const handleTimeChange = (event, time) => {
@@ -137,15 +96,27 @@ export default function Profile() {
 
         <ProfilePicture
           imageSource={imageForm || NoImage}
-          // onPress={() => setModalVisible(true)}
+          onPress={() => setModalImage(true)}
         />
 
-        <ModalCamera
-          modalVisible={modalVisible}
-          onClose={() => setModalVisible(false)}
-          image={() => image()}
-          photo={() => photo()}
-        />
+        <Modal
+          isVisible={modalImage}
+          animationIn={"bounceIn"}
+          animationOut={"bounceOut"}
+          onBackButtonPress={() => setModalImage(false)}
+        >
+          <View
+            style={{ backgroundColor: "#fff", borderRadius: 10, padding: 20 }}
+          >
+            <ListImages
+              images={imagesProfile}
+              onPress={(uri) => {
+                setImageForm(uri);
+                setModalImage(false);
+              }}
+            />
+          </View>
+        </Modal>
       </View>
 
       <ScrollView

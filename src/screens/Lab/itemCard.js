@@ -104,6 +104,17 @@ function RenderItemCard({ item, listRef, index, id, userID, lastIndex }) {
           </TouchableOpacity>
         </View>
       )}
+
+      <View>
+        <Text
+          style={{ textAlign: "center", fontStyle: "italic", fontSize: 14 }}
+        >
+          <AntDesign name="checkcircle" size={14} color={COLORS.GREEN} /> If you
+          got it {"\n"}
+          <MaterialIcons name="cancel" size={14} color={COLORS.RED} /> If you
+          didn't got it
+        </Text>
+      </View>
     </View>
   );
 }

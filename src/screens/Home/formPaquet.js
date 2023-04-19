@@ -1,5 +1,5 @@
 import Button from "@components/Button";
-import ListWords from "@components/FormAddPaquet/ListWords";
+import { ListWords } from "@components/List";
 import ColorPicker from "@components/FormAddPaquet/colorPicker";
 import TextInputForm, { TextInputIcon } from "@components/TextInput";
 import { FontAwesome } from "@expo/vector-icons";

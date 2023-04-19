@@ -1,19 +1,13 @@
 import ComponentAddPaquet from "@components/PaquetComponents/addPaquet";
 import ModernModal from "@components/modal";
 import SearchBarHome from "@components/searchBar";
-import { updateUser } from "@redux/reducers/authSlice";
 import { addPaquet, editPaquet } from "@redux/reducers/paquetSlice";
 import { cleanWords } from "@redux/reducers/wordsSlice";
 import FormNewPaquet from "@screens/Home/formPaquet";
 import Paquet from "@screens/Home/paquet";
 import { COLORS } from "@utilities/contans";
-import {
-  filterPackDoc,
-  packRef,
-  packRefUpdate,
-  userRef,
-} from "@utilities/references";
-import { getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { filterPackDoc, packRef, packRefUpdate } from "@utilities/references";
+import { getDocs, query, updateDoc, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, ScrollView, StyleSheet, View } from "react-native";
 import {
@@ -35,9 +29,9 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    getUser();
+    // getUser();
     if (paquets.length === 0) getPacks();
-  }, [user, paquets]);
+  }, [paquets]);
 
   useEffect(() => {
     if (wordsValid.length > 0) validWords();
@@ -98,11 +92,11 @@ export default function Home() {
     );
   };
 
-  const getUser = async () => {
-    const docSnap = await getDoc(userRef);
-    if (docSnap.exists()) dispatch(updateUser(docSnap.data()));
-    else console.log("No such document!");
-  };
+  // const getUser = async () => {
+  //   const docSnap = await getDoc(userRef);
+  //   if (docSnap.exists()) dispatch(updateUser(docSnap.data()));
+  //   else console.log("No such document!");
+  // };
 
   const getPacks = async () => {
     setLoading(true);

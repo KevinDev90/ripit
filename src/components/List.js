@@ -1,6 +1,6 @@
 import { COLORS } from "@utilities/contans";
 import React from "react";
-import { StyleSheet } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import { Text } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { View } from "react-native";
@@ -14,7 +14,7 @@ const ITEM_WIDTH = 65; // ancho de cada elemento
 const MAX_ITEMS_PER_ROW = 4; // cantidad máxima de elementos por fila
 const ITEM_MARGIN = 8; // margen horizontal entre los elementos
 
-function ListWords({ words }) {
+export const ListWords = ({ words }) => {
   const renderColorItem = ({ item }) => (
     <View style={styles.item}>
       <TouchableOpacity
@@ -44,7 +44,38 @@ function ListWords({ words }) {
       showsHorizontalScrollIndicator={false}
     />
   );
-}
+};
+
+export const ListImages = ({ images, onPress }) => {
+  const renderImageItem = ({ item }) => (
+    <View style={{ marginVertical: ITEM_MARGIN / 2 }}>
+      <TouchableOpacity onPress={() => onPress(item.uri)}>
+        <Image
+          source={{ uri: item.uri }}
+          resizeMode="contain"
+          style={{
+            width: wp(24),
+            height: hp(12),
+            marginHorizontal: 5,
+            borderRadius: 50,
+          }}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+
+  return (
+    <FlatList
+      data={images}
+      horizontal={true}
+      style={styles.listImage}
+      renderItem={renderImageItem}
+      keyExtractor={(item) => item.id}
+      contentContainerStyle={{ alignItems: "center" }}
+      showsHorizontalScrollIndicator={false}
+    />
+  );
+};
 
 const styles = StyleSheet.create({
   list: {
@@ -52,6 +83,10 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     maxHeight:
       ITEM_WIDTH * MAX_ITEMS_PER_ROW + ITEM_MARGIN * (MAX_ITEMS_PER_ROW - 1),
+  },
+  listImage: {
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
   item: {
     width: wp(16),
@@ -62,5 +97,3 @@ const styles = StyleSheet.create({
     marginVertical: ITEM_MARGIN / 2,
   },
 });
-
-export default ListWords;

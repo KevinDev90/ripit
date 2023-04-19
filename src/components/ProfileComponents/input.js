@@ -1,4 +1,4 @@
-import ListWords from "@components/FormAddPaquet/ListWords";
+import { ListWords } from "@components/List";
 import Popover from "@components/Popover";
 import { Picker } from "@react-native-picker/picker";
 import { COLORS } from "@utilities/contans";
