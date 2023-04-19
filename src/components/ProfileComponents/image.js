@@ -1,5 +1,4 @@
 import { COLORS } from "@utilities/contans";
-import { useState } from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -28,9 +27,9 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   image: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: 150,
+    height: 150,
+    borderRadius: 100,
     borderWidth: 2,
     borderColor: "#fff",
   },

@@ -2,22 +2,23 @@ import { StyleSheet, View } from "react-native";
 import Modal from "react-native-modal";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
-function ModalBlur({ visible, onClose, children }) {
+function ModalBlur({ visible, onClose, children, ownStyles }) {
   return (
     <Modal
       isVisible={visible}
+      animationIn={"bounceIn"}
+      animationOut={"bounceOut"}
       onBackdropPress={onClose}
       backdropOpacity={0.2}
       style={{ alignItems: "center" }}
     >
-      <View style={styles.modalContainer}>{children}</View>
+      <View style={{ ...styles.modalContainer, ...ownStyles }}>{children}</View>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
   modalContainer: {
-    backgroundColor: "rgba(255, 255, 255, 0.6)",
     width: wp(70),
     // height: hp(30),
     padding: 20,

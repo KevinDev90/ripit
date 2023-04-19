@@ -43,6 +43,7 @@ function ActionsModal({ visibleOptions, setVisibleOptions, item }) {
     <>
       <ModalBlur
         visible={visibleOptions}
+        ownStyles={{ backgroundColor: "rgba(255, 255, 255, 0.6)" }}
         onClose={() => {
           setVisibleOptions(false);
           setModalVisibleDelete(false);

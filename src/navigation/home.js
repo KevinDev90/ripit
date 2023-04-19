@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Chat from "@screens/Chat";
 import Home from "@screens/Home";
 import Profile from "@screens/Profile";
-import Zone from "@screens/Zone";
 import { COLORS } from "@utilities/contans";
 import { StyleSheet, View } from "react-native";
 import {
@@ -26,7 +25,6 @@ export const HomeTabs = () => {
           let iconName;
           if (route.name === "Home") iconName = "home-outline";
           if (route.name === "Chat") iconName = "chatbox-outline";
-          if (route.name === "Zone") iconName = "flask-outline";
           else if (route.name === "Profile") iconName = "person-outline";
 
           return renderIconTab(iconName, size, color);
@@ -45,11 +43,6 @@ export const HomeTabs = () => {
       <Tab.Screen
         name="Chat"
         component={Chat}
-        options={{ headerShown: false }}
-      />
-      <Tab.Screen
-        name="Zone"
-        component={Zone}
         options={{ headerShown: false }}
       />
       <Tab.Screen
