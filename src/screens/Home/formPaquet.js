@@ -1,15 +1,18 @@
 import Button from "@components/Button";
-import { ListWords } from "@components/List";
 import ColorPicker from "@components/FormAddPaquet/colorPicker";
+import { ListWords } from "@components/List";
 import TextInputForm, { TextInputIcon } from "@components/TextInput";
 import { FontAwesome } from "@expo/vector-icons";
 import { addPaquet, editPaquet } from "@redux/reducers/paquetSlice";
 import { COLORS, ToastAlert } from "@utilities/contans";
 import { filterPackDoc, packRef, packRefUpdate } from "@utilities/references";
-import { addDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { addDoc, getDocs, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import { useDispatch, useSelector } from "react-redux";
 
 function FormNewPaquet({ onClose, fields, edit }) {
@@ -93,6 +96,11 @@ function FormNewPaquet({ onClose, fields, edit }) {
     }
   };
 
+  const deleteWord = (id) => {
+    const newWords = words.filter((e) => e.id !== id);
+    setWords(newWords);
+  };
+
   return (
     <View style={{ paddingHorizontal: 20, paddingBottom: 20 }}>
       <Text style={{ fontFamily: "Inter_200ExtraLight", marginBottom: 10 }}>
@@ -124,35 +132,37 @@ function FormNewPaquet({ onClose, fields, edit }) {
         />
       </View>
 
-      <ListWords words={words} />
+      <ListWords words={words} onPress={(id) => deleteWord(id)} />
 
-      {!edit ? (
-        <Button
-          title={
-            loading ? (
-              <ActivityIndicator size={32} color={COLORS.BLUE} />
-            ) : (
-              "Guardar"
-            )
-          }
-          color={COLORS.GREEN}
-          onPress={() => saveCard()}
-          ownStyle={{ width: wp(50) }}
-        />
-      ) : (
-        <Button
-          title={
-            loading ? (
-              <ActivityIndicator size={32} color={COLORS.BLUE} />
-            ) : (
-              "Editar"
-            )
-          }
-          color={COLORS.GREEN}
-          onPress={() => editCard()}
-          ownStyle={{ width: wp(50) }}
-        />
-      )}
+      <View style={{ marginTop: hp(1) }}>
+        {!edit ? (
+          <Button
+            title={
+              loading ? (
+                <ActivityIndicator size={32} color={COLORS.BLUE} />
+              ) : (
+                "Guardar"
+              )
+            }
+            color={COLORS.GREEN}
+            onPress={() => saveCard()}
+            ownStyle={{ width: wp(50) }}
+          />
+        ) : (
+          <Button
+            title={
+              loading ? (
+                <ActivityIndicator size={32} color={COLORS.BLUE} />
+              ) : (
+                "Editar"
+              )
+            }
+            color={COLORS.GREEN}
+            onPress={() => editCard()}
+            ownStyle={{ width: wp(50) }}
+          />
+        )}
+      </View>
     </View>
   );
 }

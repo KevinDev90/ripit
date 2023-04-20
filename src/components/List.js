@@ -1,10 +1,13 @@
+import { MaterialIcons } from "@expo/vector-icons";
 import { COLORS } from "@utilities/contans";
-import React from "react";
-import { Image, StyleSheet } from "react-native";
-import { Text } from "react-native";
-import { TouchableOpacity } from "react-native";
-import { View } from "react-native";
-import { FlatList } from "react-native";
+import {
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -14,21 +17,17 @@ const ITEM_WIDTH = 65; // ancho de cada elemento
 const MAX_ITEMS_PER_ROW = 4; // cantidad máxima de elementos por fila
 const ITEM_MARGIN = 8; // margen horizontal entre los elementos
 
-export const ListWords = ({ words }) => {
+export const ListWords = ({ words, onPress }) => {
   const renderColorItem = ({ item }) => (
-    <View style={styles.item}>
-      <TouchableOpacity
-        style={{
-          width: "100%",
-          height: "100%",
-          borderColor: COLORS.GREYBLACK,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+    <View style={styles.containerItem}>
+      <View style={styles.item}>
         <Text numberOfLines={1} ellipsizeMode="tail" style={{ color: "#fff" }}>
           {item.word ? item.word : item}
         </Text>
+      </View>
+
+      <TouchableOpacity style={styles.icon} onPress={() => onPress(item.id)}>
+        <MaterialIcons name="delete" size={10} color={"#fff"} />
       </TouchableOpacity>
     </View>
   );
@@ -53,12 +52,7 @@ export const ListImages = ({ images, onPress }) => {
         <Image
           source={{ uri: item.uri }}
           resizeMode="contain"
-          style={{
-            width: wp(24),
-            height: hp(12),
-            marginHorizontal: 5,
-            borderRadius: 50,
-          }}
+          style={styles.image}
         />
       </TouchableOpacity>
     </View>
@@ -88,12 +82,33 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
   },
-  item: {
+  containerItem: {
     width: wp(16),
     height: hp(4),
     borderRadius: 5,
     backgroundColor: COLORS.BLUE,
     marginHorizontal: ITEM_MARGIN,
     marginVertical: ITEM_MARGIN / 2,
+  },
+  item: {
+    width: "100%",
+    height: "100%",
+    borderColor: COLORS.GREYBLACK,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  icon: {
+    position: "absolute",
+    right: -5,
+    top: -4,
+    backgroundColor: COLORS.RED,
+    borderRadius: 50,
+    padding: 3,
+  },
+  image: {
+    width: wp(24),
+    height: hp(12),
+    marginHorizontal: 5,
+    borderRadius: 50,
   },
 });
