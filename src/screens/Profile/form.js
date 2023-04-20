@@ -1,9 +1,5 @@
 import Button from "@components/Button";
-import {
-  InputCustom,
-  InputPicker,
-  InputSchedule,
-} from "@components/ProfileComponents/input";
+import { InputCustom, InputPicker } from "@components/ProfileComponents/input";
 import { Picker } from "@react-native-picker/picker";
 import { authLogoutAction } from "@redux/actions/authActions";
 import { COLORS } from "@utilities/contans";
@@ -24,24 +20,24 @@ function FormProfile({ user, loading, save }) {
   const [email, setEmail] = useState(user.email || "");
   const [bio, setBio] = useState(user.bio || "");
   const [level, setLevel] = useState(user.level || "basico");
-  const [hours, setHours] = useState(user.hours || []);
+  // const [hours, setHours] = useState(user.hours || []);
 
   const [showPicker, setShowPicker] = useState(false);
   const [isVisiblePopover, setIsVisiblePopover] = useState(false);
 
-  const handleTimeChange = (event, time) => {
-    setShowPicker(false);
-    if (time && hours.length < 4 && event.type !== "dismissed") {
-      const hour = time.getHours();
-      // const minute = time.getMinutes();
-      // const amPM = time
-      //   .toLocaleString("en-US", { hour: "numeric", hour12: true })
-      //   .slice(-2);
-      const timeFormat = hour;
+  // const handleTimeChange = (event, time) => {
+  //   setShowPicker(false);
+  //   if (time && hours.length < 4 && event.type !== "dismissed") {
+  //     const hour = time.getHours();
+  //     // const minute = time.getMinutes();
+  //     // const amPM = time
+  //     //   .toLocaleString("en-US", { hour: "numeric", hour12: true })
+  //     //   .slice(-2);
+  //     const timeFormat = hour;
 
-      setHours([...hours, timeFormat]);
-    }
-  };
+  //     setHours([...hours, timeFormat]);
+  //   }
+  // };
 
   return (
     <ScrollView
@@ -69,7 +65,7 @@ function FormProfile({ user, loading, save }) {
         multiline={true}
       />
 
-      {showPicker && (
+      {/* {showPicker && (
         <DateTimePicker
           testID="dateTimePicker"
           value={dateToday}
@@ -78,15 +74,15 @@ function FormProfile({ user, loading, save }) {
           display="default"
           onChange={handleTimeChange}
         />
-      )}
+      )} */}
 
-      <InputSchedule
+      {/* <InputSchedule
         openPicker={() => setShowPicker(true)}
         visiblePopover={isVisiblePopover}
         closePopover={() => setIsVisiblePopover(false)}
         openPopover={() => setIsVisiblePopover(true)}
         words={hours}
-      />
+      /> */}
 
       <InputPicker
         title={"Nivel de ingles"}
@@ -108,7 +104,6 @@ function FormProfile({ user, loading, save }) {
               username,
               email,
               bio,
-              hours,
               level,
             };
             if (email) save(data);

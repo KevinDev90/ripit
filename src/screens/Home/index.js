@@ -25,17 +25,21 @@ export default function Home() {
 
   const [search, setSearch] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  // const [expoToken, setExpoToken] = useState(null);
 
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // getUser();
     if (paquets.length === 0) getPacks();
   }, [paquets]);
 
   useEffect(() => {
     if (wordsValid.length > 0) validWords();
   }, [wordsValid]);
+
+  // useEffect(() => {
+  //   registerForPushNotificationsAsync().then((token) => setExpoToken(token));
+  // }, [user]);
 
   const validWords = async () => {
     let idDoc;
@@ -91,12 +95,6 @@ export default function Home() {
       obj.title.toLowerCase().includes(search.toLowerCase())
     );
   };
-
-  // const getUser = async () => {
-  //   const docSnap = await getDoc(userRef);
-  //   if (docSnap.exists()) dispatch(updateUser(docSnap.data()));
-  //   else console.log("No such document!");
-  // };
 
   const getPacks = async () => {
     setLoading(true);

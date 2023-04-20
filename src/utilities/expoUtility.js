@@ -1,3 +1,4 @@
+import * as Device from "expo-device";
 import * as ImagePicker from "expo-image-picker";
 import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
@@ -49,40 +50,46 @@ export const takePhoto = async () => {
 
 // NOTIFICATIONS
 
-// Notifications.setNotificationHandler({
-//   handleNotification: async () => ({
-//     sound: Platform.OS === "ios" ? "default" : "default",
-//     shouldPlaySound: true,
-//     shouldSetBadge: true,
-//     shouldShowAlert: true,
-//   }),
-// });
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    sound: Platform.OS === "ios" ? "default" : "default",
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+    shouldShowAlert: true,
+  }),
+});
 
-// Notifications.requestPermissionsAsync().then((status) => {
-//   if (status.granted) {
-//     console.log("Permission to receive notifications has been granted!");
-//     // Use the token below to send notifications to this device later
-//     Notifications.getExpoPushTokenAsync().then((token) => {
-//       console.log(token);
-//     });
-//   } else {
-//     console.log("Permission to receive notifications has not been granted");
-//   }
-// });
+export async function registerForPushNotificationsAsync() {
+  let token;
 
-// export const scheduleHourlyNotification = (hour) => {
-//   const trigger = {
-//     hour, // Hora en la que se enviará la notificación (en formato de 24 horas)
-//     // minute: 0, // Minuto en el que se enviará la notificación
-//     repeats: true, // Indica que la notificación se repetirá todos los días a la misma hora
-//   };
+  if (Platform.OS === "android") {
+    await Notifications.setNotificationChannelAsync("default", {
+      name: "default",
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: "#FF231F7C",
+    });
+  }
 
-//   Notifications.scheduleNotificationAsync({
-//     content: {
-//       title: "Ya practicaste??",
-//       body: "Practica ahora y cumple tus metas",
-//     },
-//     trigger,
-//     repeat: { daily: true },
-//   });
-// };
+  if (Device.isDevice) {
+    const { status: existingStatus } =
+      await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== "granted") {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== "granted") {
+      alert("Failed to get push token for push notification!");
+      return;
+    }
+    // projectId = id proyecto en expo (7ef1fc19-ad50-414a-a9d2-6209a5bc057d)
+
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } else {
+    alert("Must use physical device for Push Notifications");
+  }
+
+  return token;
+}

@@ -9,19 +9,14 @@ import { LoginNavigator } from "./login";
 import { MainTabNavigator } from "./main";
 
 export default function Navigator() {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+
   const [loading, setLoading] = useState(true);
 
-  const token = useSelector((state) => state.auth.token);
-  const user = useSelector((state) => state.auth.user);
-
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    // if (user && user.hours)
-    //   user.hours.map((e) => scheduleHourlyNotification(e));
-
     if (!token) getUser();
-  }, [user, token]);
+  }, [token]);
 
   const getUser = async () => {
     const userStorage = await AsyncStorage.getItem("user");
