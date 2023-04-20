@@ -25,7 +25,6 @@ export default function Home() {
 
   const [search, setSearch] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  // const [expoToken, setExpoToken] = useState(null);
 
   const [loading, setLoading] = useState(false);
 
@@ -36,10 +35,6 @@ export default function Home() {
   useEffect(() => {
     if (wordsValid.length > 0) validWords();
   }, [wordsValid]);
-
-  // useEffect(() => {
-  //   registerForPushNotificationsAsync().then((token) => setExpoToken(token));
-  // }, [user]);
 
   const validWords = async () => {
     let idDoc;
@@ -91,6 +86,15 @@ export default function Home() {
   };
 
   const searchMyPaquet = () => {
+    // const searchTitle = paquets.filter((obj) =>
+    //   obj.title.toLowerCase().includes(search.toLowerCase())
+    // );
+    // const searchWord = paquets.filter((obj) =>
+    //   obj.words.some(
+    //     (value) => value.word.toLowerCase() === search.toLowerCase()
+    //   )
+    // );
+
     return paquets.filter((obj) =>
       obj.title.toLowerCase().includes(search.toLowerCase())
     );

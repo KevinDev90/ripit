@@ -67,7 +67,7 @@ export default function Login({ navigation }) {
         color={COLORS.PURPLE}
       />
       <View style={{ position: "absolute", bottom: 25 }}>
-        <Text style={{ color: "000", fontFamily: "Inter_300Light" }}>
+        <Text style={{ color: "#000", fontFamily: "Inter_300Light" }}>
           No tienes una cuenta?{" "}
           <Text
             style={{

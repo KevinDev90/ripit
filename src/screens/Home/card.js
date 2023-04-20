@@ -54,7 +54,7 @@ function Card({ cards, card, index, item }) {
       />
 
       <HappyAlert
-        modalVisible={modalVisiblePractice}
+        visible={modalVisiblePractice}
         onClose={() => setModalVisiblePractice(false)}
         title={"Estas listo?"}
         text="A continuacion veras una serie de frases y dentro de ellas

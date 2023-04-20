@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: "center",
     alignItems: "center",
+    elevation: 2,
   },
   containerTab: {
     elevation: 0,

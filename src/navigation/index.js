@@ -11,7 +11,6 @@ import { MainTabNavigator } from "./main";
 export default function Navigator() {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,14 +19,19 @@ export default function Navigator() {
 
   const getUser = async () => {
     const userStorage = await AsyncStorage.getItem("user");
-    const userJSON = JSON.parse(userStorage);
+    if (userStorage) {
+      const userJSON = JSON.parse(userStorage);
+      const docSnap = await getDoc(userRef(userJSON.uid));
 
-    const docSnap = await getDoc(userRef(userJSON.uid));
+      const data = {
+        ...docSnap.data(),
+        uid: docSnap.id,
+      };
 
-    if (docSnap.exists()) {
-      dispatch(login(docSnap.data()));
-      setLoading(false);
-    } else console.log("No such document!");
+      if (docSnap.exists()) dispatch(login(data));
+      else console.log("No such document!");
+    }
+    setLoading(false);
   };
 
   if (loading) return;

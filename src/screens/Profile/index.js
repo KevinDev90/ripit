@@ -12,6 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import FormProfile from "./form";
 import SectionImage from "./sectionImage";
+import { HappyAlert } from "@components/Alert";
 
 export default function Profile() {
   const dispatch = useDispatch();
@@ -25,9 +26,13 @@ export default function Profile() {
   const save = async (data) => {
     setLoading(true);
     const myData = {
-      ...data,
-      ...user,
+      username: data.username,
+      bio: data.bio,
+      email: data.email,
+      level: data.level,
       photoURL: imageForm,
+      accessToken: user.accessToken,
+      uid: user.uid,
     };
 
     await setDoc(userRef(user.uid), myData)

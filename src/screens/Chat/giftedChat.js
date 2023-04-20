@@ -40,7 +40,12 @@ function GiftedChatCustom({ messages, onSend, isTyping }) {
         textInputStyle={{
           padding: hp(1),
           backgroundColor: "#fff",
-          margin: 10,
+          borderRadius: 10,
+          borderColor: COLORS.GREY,
+          borderWidth: 1,
+          marginLeft: 4,
+          marginRight: 4,
+          elevation: 1.5,
         }}
       />
     );
@@ -66,8 +71,8 @@ function GiftedChatCustom({ messages, onSend, isTyping }) {
       {...props}
       containerStyle={{
         borderTopWidth: 1,
-        borderTopColor: "#ECECEC",
-        backgroundColor: "#F5F5F5",
+        borderTopColor: "transparent",
+        // backgroundColor: COLORS.GREY,
       }}
       primaryStyle={{ alignItems: "center" }}
     />

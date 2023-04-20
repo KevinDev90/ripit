@@ -35,13 +35,13 @@ export function MinimalAlert({ message, modalVisible, onClose, button }) {
   );
 }
 
-export function HappyAlert({ title, text, modalVisible, onClose, button }) {
+export function HappyAlert({ title, text, visible, onClose, button }) {
   return (
     <View style={styles.container}>
       <Modal
         animationType="fade"
         transparent={true}
-        visible={modalVisible}
+        visible={visible}
         onRequestClose={onClose}
       >
         <View style={styles.centeredView}>

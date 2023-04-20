@@ -14,8 +14,11 @@ function Chat() {
   const [isTyping, setIsTyping] = useState(false);
 
   useEffect(() => {
-    printMessage("Hi!, What would you like to talk about?");
+    initialMessage();
   }, []);
+
+  const initialMessage = () =>
+    printMessage("Hi!, What would you like to talk about?");
 
   const getMessageAPI = async (text) => {
     const response = await fetch(urlChat, {
@@ -27,6 +30,8 @@ function Chat() {
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
         messages: [{ role: "user", content: text }],
+        temperature: 0.5,
+        max_tokens: 100,
       }),
     });
     const data = await response.json();
@@ -68,7 +73,20 @@ function Chat() {
   return (
     <View style={styles.container}>
       <View style={styles.containerText}>
-        <Text style={styles.text}>Charla y practica</Text>
+        <Text style={{ ...styles.text, backgroundColor: COLORS.BLUE }}>
+          Charla y practica
+        </Text>
+        <View style={{ right: 5, position: "absolute" }}>
+          <Text
+            onPress={() => {
+              setMessages([]);
+              initialMessage();
+            }}
+            style={{ ...styles.text, backgroundColor: COLORS.RED }}
+          >
+            Limpiar
+          </Text>
+        </View>
       </View>
 
       <GiftedChatCustom
@@ -92,11 +110,11 @@ const styles = StyleSheet.create({
     width: wp(100),
     justifyContent: "center",
     alignItems: "center",
+    flexDirection: "row",
   },
   text: {
     fontFamily: "Inter_300Light",
     padding: 10,
-    backgroundColor: COLORS.BLUE,
     borderRadius: 10,
     color: "#fff",
     fontStyle: "italic",
