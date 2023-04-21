@@ -13,7 +13,6 @@ import {
 import Navigator from "@navigation";
 import store from "@redux/store";
 import { Provider } from "react-redux";
-import { decode, encode } from "base-64";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -28,17 +27,11 @@ export default function App() {
     Inter_900Black,
   });
 
-  if (!fontsLoaded) {
-    return null;
-  }
+  if (!fontsLoaded) return null;
 
-  if (!globalThis.btoa) {
-    globalThis.btoa = encode;
-  }
+  // if (!globalThis.btoa) globalThis.btoa = encode;
 
-  if (!globalThis.atob) {
-    globalThis.atob = decode;
-  }
+  // if (!globalThis.atob) globalThis.atob = decode;
 
   return (
     <Provider store={store}>

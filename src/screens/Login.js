@@ -12,6 +12,7 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { useDispatch } from "react-redux";
+import Logo from "@assets/img/logo.png";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
@@ -36,13 +37,19 @@ export default function Login({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={{ marginBottom: hp(10) }}>
+      <View
+        style={{
+          marginBottom: hp(2),
+          alignItems: "center",
+        }}
+      >
         <Image
-          source={{
-            uri: "https://lh3.googleusercontent.com/StND2cg3sSbR6l-AHr3VdxKziIhEP4kYHQiTppD-aKc6gwn7PVdht1YqzjWSmwf5JLWf=w200-rwa",
+          source={Logo}
+          containerStyle={{
+            width: wp(50),
+            height: hp(20),
           }}
-          containerStyle={styles.item}
-          PlaceholderContent={<ActivityIndicator />}
+          resizeMode="contain"
         />
       </View>
       <TextInputForm
@@ -94,6 +101,6 @@ const styles = StyleSheet.create({
   },
   item: {
     aspectRatio: 1,
-    width: wp(20),
+    width: wp(100),
   },
 });
