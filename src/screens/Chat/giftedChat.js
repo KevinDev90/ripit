@@ -1,5 +1,7 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "@utilities/contans";
+import { Fragment } from "react";
+import { TouchableOpacity } from "react-native";
 import { Text, View } from "react-native";
 import {
   Bubble,
@@ -9,29 +11,68 @@ import {
   Send,
 } from "react-native-gifted-chat";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import * as Speech from "expo-speech";
 
 function GiftedChatCustom({ messages, onSend, isTyping }) {
-  const BubbleCustom = (props) => (
-    <Bubble
-      {...props}
-      wrapperStyle={{
-        right: {
-          backgroundColor: COLORS.GREEN,
-        },
-        left: {
-          backgroundColor: COLORS.PURPLE,
-        },
-      }}
-      textStyle={{
-        right: {
-          color: "#fff",
-        },
-        left: {
-          color: "#fff",
-        },
-      }}
-    />
-  );
+  const BubbleCustom = (props) => {
+    const { currentMessage } = props;
+
+    if (currentMessage.user._id === 1)
+      return (
+        <Bubble
+          {...props}
+          wrapperStyle={{
+            right: {
+              backgroundColor: COLORS.GREEN,
+            },
+            left: {
+              backgroundColor: COLORS.PURPLE,
+            },
+          }}
+          textStyle={{
+            right: {
+              color: "#fff",
+            },
+            left: {
+              color: "#fff",
+            },
+          }}
+        />
+      );
+
+    return (
+      <Fragment>
+        <Bubble
+          {...props}
+          wrapperStyle={{
+            right: {
+              backgroundColor: COLORS.GREEN,
+            },
+            left: {
+              backgroundColor: COLORS.PURPLE,
+            },
+          }}
+          textStyle={{
+            right: {
+              color: "#fff",
+            },
+            left: {
+              color: "#fff",
+            },
+          }}
+        />
+        <TouchableOpacity
+          onPress={() => Speech.speak(props.currentMessage.text)}
+          style={{
+            padding: 10,
+            margin: 5,
+          }}
+        >
+          <FontAwesome name="volume-up" size={26} color={COLORS.BLUE} />
+        </TouchableOpacity>
+      </Fragment>
+    );
+  };
 
   const ComposerCustom = (props) => {
     return (
@@ -107,6 +148,7 @@ function GiftedChatCustom({ messages, onSend, isTyping }) {
       renderComposer={ComposerCustom}
       renderChatFooter={ChatFooterCustom}
       renderUsernameOnMessage
+      // renderMessage={MessageCustom}
       // showAvatarForEveryMessage
       // renderAvatarOnTop
       scrollToBottom

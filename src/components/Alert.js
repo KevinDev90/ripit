@@ -47,7 +47,7 @@ export function HappyAlert({ title, text, visible, onClose, button }) {
         <View style={styles.centeredView}>
           <View style={{ ...styles.modalView, width: wp(90) }}>
             <Text style={styles.modalText2}>{title}</Text>
-            <Text style={{ fontFamily: "Inter_500Medium" }}>{text}</Text>
+            <Text style={{ fontFamily: "Inter_300Light" }}>{text}</Text>
 
             <View style={styles.containerButtons2}>
               <Button
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: "center",
     textTransform: "capitalize",
-    fontFamily: "Inter_700Bold",
+    fontFamily: "Inter_800ExtraBold",
   },
   openButton: {
     backgroundColor: "#2196F3",

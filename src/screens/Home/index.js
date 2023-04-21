@@ -15,6 +15,7 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { useDispatch, useSelector } from "react-redux";
+import SectionHelp from "./help";
 
 export default function Home() {
   const user = useSelector((state) => state.auth.user);
@@ -25,6 +26,7 @@ export default function Home() {
 
   const [search, setSearch] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisibleHelp, setModalVisibleHelp] = useState(true);
 
   const [loading, setLoading] = useState(false);
 
@@ -133,6 +135,11 @@ export default function Home() {
       >
         <FormNewPaquet onClose={() => setModalVisible(false)} />
       </ModernModal>
+
+      <SectionHelp
+        visible={modalVisibleHelp}
+        setVisible={setModalVisibleHelp}
+      />
     </View>
   );
 }

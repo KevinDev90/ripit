@@ -57,8 +57,9 @@ function Card({ cards, card, index, item }) {
         visible={modalVisiblePractice}
         onClose={() => setModalVisiblePractice(false)}
         title={"Estas listo?"}
-        text="A continuacion veras una serie de frases y dentro de ellas
-          las palabras que has decidido memorizar"
+        text={
+          "A continuación verás una serie de frases y dentro de ellas las palabras que has decidido memorizar"
+        }
         button={optionsButtonPractice}
       />
 

@@ -13,7 +13,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import HeaderCard from "./headerCard";
 
-function RenderItemCard({ item, listRef, index, id, userID, lastIndex }) {
+function RenderItemCard({ item, listRef, index, id, lastIndex }) {
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -52,24 +52,27 @@ function RenderItemCard({ item, listRef, index, id, userID, lastIndex }) {
     if (phrase) Speech.speak(phrase);
   };
 
-  const wrongAnswer = () => {
-    const data = { idPaquet: id, id: item.id, pass: false, word: item.word };
-
-    dispatch(addWords(data));
-
+  const nextPage = () => {
     if (lastIndex !== index)
       listRef.current.scrollToIndex({ index: index + 1 });
     else navigation.navigate("HomeTabs", { screen: "Home" });
+  };
+
+  const wrongAnswer = () => {
+    const data = { idPaquet: id, id: item.id, pass: false, word: item.word };
+    dispatch(addWords(data));
+
+    nextPage();
   };
 
   const goodAnswer = async () => {
     const data = { idPaquet: id, id: item.id, pass: true, word: item.word };
     dispatch(addWords(data));
 
-    if (lastIndex !== index)
-      listRef.current.scrollToIndex({ index: index + 1 });
-    else navigation.navigate("HomeTabs", { screen: "Home" });
+    nextPage();
   };
+
+  const noAnswer = () => nextPage();
 
   return (
     <View style={styles.card}>
@@ -99,6 +102,10 @@ function RenderItemCard({ item, listRef, index, id, userID, lastIndex }) {
             <AntDesign name="checkcircle" size={42} color={COLORS.GREEN} />
           </TouchableOpacity>
 
+          <TouchableOpacity onPress={() => noAnswer()}>
+            <MaterialIcons name="watch-later" size={50} color={COLORS.BLUE} />
+          </TouchableOpacity>
+
           <TouchableOpacity onPress={() => wrongAnswer()}>
             <MaterialIcons name="cancel" size={50} color={COLORS.RED} />
           </TouchableOpacity>
@@ -112,7 +119,13 @@ function RenderItemCard({ item, listRef, index, id, userID, lastIndex }) {
           <AntDesign name="checkcircle" size={14} color={COLORS.GREEN} /> If you
           got it {"\n"}
           <MaterialIcons name="cancel" size={14} color={COLORS.RED} /> If you
-          didn't got it
+          didn't got it {"\n"}
+          <MaterialIcons
+            name="watch-later"
+            size={14}
+            color={COLORS.BLUE}
+          />{" "}
+          Practice again later
         </Text>
       </View>
     </View>
@@ -161,8 +174,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: wp(26),
+    width: wp(40),
     height: hp(10),
+  },
+  containerHelp: {
+    position: "absolute",
+    justifyContent: "center",
+    alignItems: "center",
+    bottom: 10,
+    right: 0,
+    padding: 10,
+    borderRadius: 50,
   },
 });
 

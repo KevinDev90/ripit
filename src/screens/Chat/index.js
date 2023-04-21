@@ -74,7 +74,7 @@ function Chat() {
     <View style={styles.container}>
       <View style={styles.containerText}>
         <Text style={{ ...styles.text, backgroundColor: COLORS.BLUE }}>
-          Charla y practica
+          Escribe y practica
         </Text>
         <View style={{ right: 5, position: "absolute" }}>
           <Text
