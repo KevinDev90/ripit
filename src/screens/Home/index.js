@@ -53,7 +53,6 @@ export default function Home() {
       const wordsFalse = paquet.words.filter((word) => !word.pass); //Buscamos que palabras quedan todavia en False
 
       if (wordsFalse.length === wordsValid.length) {
-        console.log("Entramos a reemplazar");
         const data = wordsValid.map(({ idPaquet, ...another }) => another); // Eliminar campo idPaquet de las palabras guardardas en Redux
 
         // Mezclamos las palabras que validamos en redux, con las que ya habian en la base de datos

@@ -25,7 +25,6 @@ export const pickImage = async () => {
 export const takePhoto = async () => {
   const { status } = await ImagePicker.requestCameraPermissionsAsync();
 
-  console.log(status);
   if (status !== "granted") {
     alert("Sorry, we need camera permissions to make this work!");
     return;
@@ -83,7 +82,6 @@ export const takePhoto = async () => {
 //     // projectId = id proyecto en expo (7ef1fc19-ad50-414a-a9d2-6209a5bc057d)
 
 //     token = (await Notifications.getExpoPushTokenAsync()).data;
-//     console.log(token);
 //   } else {
 //     alert("Must use physical device for Push Notifications");
 //   }

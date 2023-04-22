@@ -37,7 +37,7 @@ export default function Register({ navigation }) {
   return (
     <View style={styles.container}>
       <TextInputForm
-        title="Correo"
+        title="Email"
         value={email}
         changeText={(v) => {
           setEmail(v);

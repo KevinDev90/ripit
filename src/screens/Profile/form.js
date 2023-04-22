@@ -92,10 +92,10 @@ function FormProfile({ user, loading, save }) {
       <HappyAlert
         visible={modalVisibleLogout}
         onClose={() => setModalVisibleLogout(false)}
-        title={"See you later"}
-        text={"Seguro quieres cerrar tu sesion?"}
+        title={"Saliendo..."}
+        text={"Seguro quieres salir?"}
         button={{
-          text: "I'm out",
+          text: "SI",
           press: () => logoutButton(),
           color: COLORS.RED,
         }}

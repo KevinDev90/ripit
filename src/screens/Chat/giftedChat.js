@@ -1,8 +1,8 @@
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { COLORS } from "@utilities/contans";
+import * as Speech from "expo-speech";
 import { Fragment } from "react";
-import { TouchableOpacity } from "react-native";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import {
   Bubble,
   Composer,
@@ -11,7 +11,6 @@ import {
   Send,
 } from "react-native-gifted-chat";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import * as Speech from "expo-speech";
 
 function GiftedChatCustom({ messages, onSend, isTyping }) {
   const BubbleCustom = (props) => {

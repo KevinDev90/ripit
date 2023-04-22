@@ -1,8 +1,9 @@
+import Logo from "@assets/img/logo.png";
+import AnimationImage from "@components/AnimationImage";
 import Button from "@components/Button";
 import TextInputForm from "@components/TextInput";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authLoginAction } from "@redux/actions/authActions";
-import { Image } from "@rneui/themed";
 import { COLORS, ToastAlert } from "@utilities/contans";
 import { ValidateEmail } from "@utilities/formValidation";
 import { useState } from "react";
@@ -12,7 +13,6 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { useDispatch } from "react-redux";
-import Logo from "@assets/img/logo.png";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
@@ -37,21 +37,13 @@ export default function Login({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          marginBottom: hp(2),
-          alignItems: "center",
-        }}
-      >
-        <Image
+      <View style={styles.containerLogo}>
+        <AnimationImage
           source={Logo}
-          containerStyle={{
-            width: wp(50),
-            height: hp(20),
-          }}
-          resizeMode="contain"
+          style={{ borderRadius: 10, width: wp(30), height: hp(22) }}
         />
       </View>
+
       <TextInputForm
         title="Email"
         value={email}
@@ -60,19 +52,22 @@ export default function Login({ navigation }) {
           validEmailF(v);
         }}
       />
+
       <TextInputForm
-        title="Password"
+        title="Contraseña"
         value={password}
         changeText={(v) => setPassword(v)}
         secureTextEntry={true}
       />
+
       <Button
         onPress={handleLogin}
         title={
           loading ? <ActivityIndicator color={"#fff"} /> : "Iniciar Sesion"
         }
-        color={COLORS.PURPLE}
+        color={COLORS.BLUE}
       />
+
       <View style={{ position: "absolute", bottom: 25 }}>
         <Text style={{ color: "#000", fontFamily: "Inter_300Light" }}>
           No tienes una cuenta?{" "}
@@ -99,8 +94,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  item: {
-    aspectRatio: 1,
-    width: wp(100),
+  containerLogo: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: hp(4),
   },
 });
