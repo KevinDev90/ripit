@@ -29,10 +29,6 @@ export default function App() {
 
   if (!fontsLoaded) return null;
 
-  // if (!globalThis.btoa) globalThis.btoa = encode;
-
-  // if (!globalThis.atob) globalThis.atob = decode;
-
   return (
     <Provider store={store}>
       <Navigator />

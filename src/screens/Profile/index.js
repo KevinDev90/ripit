@@ -5,14 +5,10 @@ import { userRef } from "@utilities/references";
 import { setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import {
-  heightPercentageToDP as hp,
-  widthPercentageToDP as wp,
-} from "react-native-responsive-screen";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { useDispatch, useSelector } from "react-redux";
 import FormProfile from "./form";
 import SectionImage from "./sectionImage";
-import { HappyAlert } from "@components/Alert";
 
 export default function Profile() {
   const dispatch = useDispatch();

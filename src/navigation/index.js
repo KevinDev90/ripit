@@ -4,6 +4,7 @@ import { login } from "@redux/reducers/authSlice";
 import { userRef } from "@utilities/references";
 import { getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import Toast from "react-native-toast-message";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginNavigator } from "./login";
 import { MainTabNavigator } from "./main";
@@ -37,8 +38,11 @@ export default function Navigator() {
   if (loading) return;
 
   return (
-    <NavigationContainer>
-      {token ? <MainTabNavigator /> : <LoginNavigator />}
-    </NavigationContainer>
+    <>
+      <NavigationContainer>
+        {token ? <MainTabNavigator /> : <LoginNavigator />}
+      </NavigationContainer>
+      <Toast />
+    </>
   );
 }

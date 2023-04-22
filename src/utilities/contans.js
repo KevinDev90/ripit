@@ -1,4 +1,4 @@
-import Toast from "react-native-simple-toast";
+import Toast from "react-native-toast-message";
 
 export const COLORS = {
   BLUE: "#116ef0",
@@ -9,7 +9,15 @@ export const COLORS = {
   GREYBLACK: "#A5A5A5",
 };
 
-export const ToastAlert = (text) => Toast.show(text, Toast.SHORT);
+export const ToastAlert = (text) =>
+  Toast.show({
+    type: "success",
+    text1: "¡Éxito!",
+    text2: text,
+    visibilityTime: 2000,
+    autoHide: true,
+    topOffset: 50,
+  });
 
 export const imagesProfile = [
   {
