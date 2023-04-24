@@ -1,16 +1,19 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { login, logout } from "@redux/reducers/authSlice";
 import { auth } from "@services/firebaseConfig";
+import { ToastAlert } from "@utilities/contans";
 import {
   createUserWithEmailAndPassword,
+  sendEmailVerification,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const authLoginAction = async (value, dispatch) => {
   return await signInWithEmailAndPassword(auth, value.email, value.password)
     .then((userCredential) => {
       const user = userCredential.user;
-      if (user) {
+      if (user.emailVerified) {
         const data = {
           uid: user.uid,
           displayName: user.displayName,
@@ -21,11 +24,14 @@ export const authLoginAction = async (value, dispatch) => {
         };
         dispatch(login(data));
         return data;
+      } else {
+        sendEmailVerification(auth.currentUser).then(() => {
+          return ToastAlert("Verifica tu correo para iniciar sesion");
+        });
       }
     })
     .catch((error) => {
-      console.log(error);
-      return error;
+      return { messageError: error };
     });
 };
 
@@ -38,6 +44,17 @@ export const authRegisterAction = async (value) => {
     .catch((error) => {
       console.log(error);
       return error;
+    });
+};
+
+export const authRecoverPasswordAction = async (value) => {
+  return sendPasswordResetEmail(auth, value)
+    .then(() => {
+      return ToastAlert("Se te envio un correo de confirmación");
+    })
+    .catch((error) => {
+      const errorMessage = error.message;
+      return { messageError: errorMessage };
     });
 };
 

@@ -19,7 +19,7 @@ function TextInputForm({
         style={{ ...styles.inputText, ...ownStyles }}
         value={value}
         placeholder={title}
-        placeholderTextColor="#003f5c"
+        placeholderTextColor={COLORS.GREYBLACK}
         onChangeText={changeText}
         secureTextEntry={secureTextEntry}
       />

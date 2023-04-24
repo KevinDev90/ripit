@@ -9,10 +9,10 @@ export const COLORS = {
   GREYBLACK: "#A5A5A5",
 };
 
-export const ToastAlert = (text) =>
+export const ToastAlert = (text, error = false) =>
   Toast.show({
-    type: "success",
-    text1: "¡Éxito!",
+    type: error ? "error" : "success",
+    text1: error ? "¡Error!" : "¡Éxito!",
     text2: text,
     visibilityTime: 2000,
     autoHide: true,
