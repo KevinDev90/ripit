@@ -15,9 +15,14 @@ import {
 
 function Lab({ navigation, route }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+
   const listRef = useRef(null);
   const paquet = route.params.item;
   const words = paquet.words;
+
+  const filteredData = words.filter((item) => item.pass === false);
+
+  const lastIndex = filteredData.length - 1;
 
   const handleScroll = (event) => {
     const scrollPosition = event.nativeEvent.contentOffset.x;
@@ -37,10 +42,6 @@ function Lab({ navigation, route }) {
       lastIndex={lastIndex}
     />
   );
-
-  const filteredData = words.filter((item) => item.pass === false);
-
-  const lastIndex = filteredData.length - 1;
 
   return (
     <View style={styles.container}>

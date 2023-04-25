@@ -139,7 +139,7 @@ function FormNewPaquet({ onClose, fields, edit }) {
           <Button
             title={
               loading ? (
-                <ActivityIndicator size={32} color={COLORS.BLUE} />
+                <ActivityIndicator size={32} color={"#fff"} />
               ) : (
                 "Guardar"
               )
@@ -152,7 +152,7 @@ function FormNewPaquet({ onClose, fields, edit }) {
           <Button
             title={
               loading ? (
-                <ActivityIndicator size={32} color={COLORS.BLUE} />
+                <ActivityIndicator size={32} color={"#fff"} />
               ) : (
                 "Editar"
               )

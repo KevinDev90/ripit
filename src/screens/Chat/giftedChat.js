@@ -112,7 +112,7 @@ function GiftedChatCustom({ messages, onSend, isTyping }) {
       containerStyle={{
         borderTopWidth: 1,
         borderTopColor: "transparent",
-        // backgroundColor: COLORS.GREY,
+        marginHorizontal: 4,
       }}
       primaryStyle={{ alignItems: "center" }}
     />
@@ -147,9 +147,6 @@ function GiftedChatCustom({ messages, onSend, isTyping }) {
       renderComposer={ComposerCustom}
       renderChatFooter={ChatFooterCustom}
       renderUsernameOnMessage
-      // renderMessage={MessageCustom}
-      // showAvatarForEveryMessage
-      // renderAvatarOnTop
       scrollToBottom
       scrollToBottomStyle={{ backgroundColor: COLORS.GREEN }}
     />

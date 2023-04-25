@@ -1,4 +1,4 @@
-import NoImage from "@assets/img/no-image.jpg";
+import NoImage from "@assets/img/no-photo-available.png";
 import Button from "@components/Button";
 import { ListImages } from "@components/List";
 import ModalBlur from "@components/ModalBlur";
@@ -30,7 +30,7 @@ function SectionImage({ loadingImage, imageForm, setImageForm, createImage }) {
 
       {loadingImage ? (
         <View style={{ padding: 20 }}>
-          <ActivityIndicator color={COLORS.GREEN} size={30} />
+          <ActivityIndicator color={"#fff"} size={30} />
         </View>
       ) : (
         <ProfilePicture

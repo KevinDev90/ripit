@@ -87,7 +87,7 @@ function ActionsModal({ visibleOptions, setVisibleOptions, item }) {
             <Text
               style={{
                 fontFamily: "Inter_300Light",
-                fontSize: 17,
+                fontSize: 15,
                 textAlign: "center",
               }}
             >
@@ -108,7 +108,7 @@ function ActionsModal({ visibleOptions, setVisibleOptions, item }) {
           <View style={styles.containerActions}>
             <Text
               style={{
-                fontSize: 20,
+                fontSize: 18,
                 fontFamily: "Inter_400Regular",
                 textAlign: "center",
               }}
@@ -119,7 +119,7 @@ function ActionsModal({ visibleOptions, setVisibleOptions, item }) {
               <Text
                 style={{
                   fontFamily: "Inter_300Light",
-                  fontSize: 17,
+                  fontSize: 15,
                   marginTop: hp(1),
                 }}
               >

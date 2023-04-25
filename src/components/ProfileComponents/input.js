@@ -88,26 +88,22 @@ export function InputPicker({ title, value, onChange, children }) {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginVertical: 10,
-    marginHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    flex: 1,
+    marginVertical: 4,
   },
   title: {
-    flex: 1,
     marginRight: 10,
-    marginBottom: 5,
-    fontFamily: "Inter_700Bold",
-    fontSize: 16,
-    color: "#333",
+    fontFamily: "Inter_500Medium",
+    fontSize: 15,
+    color: "#000",
   },
   input: {
-    flex: 2,
-    fontSize: 16,
+    fontSize: 15,
     color: "#666",
+    paddingVertical: 5,
     fontFamily: "Inter_300Light",
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
   },
   containerSchedule: {
     backgroundColor: "rgba(0, 0, 0, 0.05)",
@@ -126,7 +122,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   picker: {
-    width: wp(50),
-    marginBottom: 10,
+    width: wp(90),
   },
 });

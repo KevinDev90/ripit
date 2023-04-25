@@ -1,7 +1,7 @@
 import { updateUser } from "@redux/reducers/authSlice";
-import { apiKey, urlImages } from "@services/openIAapi";
 import { ToastAlert } from "@utilities/contans";
 import { userRef } from "@utilities/references";
+import { fetchCreateImages } from "@utilities/urlsOpenAI";
 import { setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
@@ -32,12 +32,12 @@ export default function Profile() {
     };
 
     await setDoc(userRef(user.uid), myData)
-      .then((res) => {
+      .then(() => {
         setLoading(false);
         ToastAlert("Usuario editado");
         dispatch(updateUser(myData));
       })
-      .catch((err) => {
+      .catch(() => {
         setLoading(false);
         ToastAlert("Error al editar el usuario");
       });
@@ -45,22 +45,10 @@ export default function Profile() {
 
   const createImage = async (prompt) => {
     setLoadingImage(true);
-    const response = await fetch(urlImages, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        prompt,
-        n: 2,
-        size: "1024x1024",
-      }),
-    });
-    const data = await response.json();
 
+    const uriImage = await fetchCreateImages(prompt);
     setLoadingImage(false);
-    setImageForm(data.data[0].url);
+    setImageForm(uriImage);
   };
 
   return (

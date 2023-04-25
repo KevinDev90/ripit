@@ -1,5 +1,5 @@
-import { apiKey, urlChat } from "@services/openIAapi";
 import { COLORS } from "@utilities/contans";
+import { fetchPostMessage } from "@utilities/urlsOpenAI";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
@@ -20,35 +20,15 @@ function Chat() {
   const initialMessage = () =>
     printMessage("Hi!, What would you like to talk about?");
 
-  const getMessageAPI = async (text) => {
-    const response = await fetch(urlChat, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: text }],
-        temperature: 0.5,
-        max_tokens: 100,
-      }),
-    });
-    const data = await response.json();
-
-    return data.choices[0].message.content;
-  };
-
   const onSend = async (newMessages = []) => {
     setMessages(GiftedChat.append(messages, newMessages));
 
     setIsTyping(true);
 
     const { text } = newMessages[0];
-    const message = await getMessageAPI(text);
+    const message = await fetchPostMessage(text);
 
     setIsTyping(false);
-
     printMessage(message);
   };
 

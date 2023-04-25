@@ -34,13 +34,8 @@ function ColorPicker({ onColorChange }) {
       <TouchableOpacity
         style={{
           backgroundColor: item,
-          width: 50,
-          height: 50,
-          borderRadius: 5,
-          margin: 5,
-          borderWidth: selectedColor === item ? 1 : 0,
-          borderColor: COLORS.GREYBLACK,
-          elevation: selectedColor === item ? 4 : 0,
+          opacity: selectedColor === item && 0.2,
+          ...styles.itemColor,
         }}
         onPress={() => handleColorSelect(item)}
       />
@@ -78,6 +73,12 @@ const styles = StyleSheet.create({
     marginVertical: ITEM_MARGIN / 2,
     justifyContent: "center",
     alignItems: "center",
+  },
+  itemColor: {
+    width: 50,
+    height: 50,
+    borderRadius: 5,
+    margin: 5,
   },
 });
 

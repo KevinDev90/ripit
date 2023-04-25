@@ -1,8 +1,8 @@
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { addWords } from "@redux/reducers/wordsSlice";
-import { apiKey, urlCompetitions } from "@services/openIAapi";
 import { COLORS } from "@utilities/contans";
+import { fetchPostText } from "@utilities/urlsOpenAI";
 import * as Speech from "expo-speech";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -14,38 +14,22 @@ import { useDispatch, useSelector } from "react-redux";
 import HeaderCard from "./headerCard";
 
 function RenderItemCard({ item, listRef, index, id, lastIndex }) {
-  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const user = useSelector((state) => state.auth.user);
 
-  const prompt = `podrias darme una frase nivel ${user.level} en ingles que incluya esta palabra en cualquier posicion '${item.word}'`;
   const [phrase, setPhrase] = useState(null);
   const [visibleText, setVisibleText] = useState(false);
+
+  const prompt = `Could you give me a phrase level ${user.level} that includes this word in any position '${item.word}'`;
 
   useEffect(() => {
     getPhrases();
   }, []);
 
   const getPhrases = async () => {
-    await fetch(urlCompetitions, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: "text-davinci-003",
-        prompt,
-        max_tokens: 150,
-        temperature: 0,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const message = data.choices[0].text.trim();
-        setPhrase(message);
-      })
-      .catch((error) => console.error(error));
+    const message = await fetchPostText(prompt);
+    setPhrase(message);
   };
 
   const textToSpeech = () => {
@@ -58,17 +42,9 @@ function RenderItemCard({ item, listRef, index, id, lastIndex }) {
     else navigation.navigate("HomeTabs", { screen: "Home" });
   };
 
-  const wrongAnswer = () => {
-    const data = { idPaquet: id, id: item.id, pass: false, word: item.word };
+  const answerWord = (state) => {
+    const data = { idPaquet: id, id: item.id, pass: state, word: item.word };
     dispatch(addWords(data));
-
-    nextPage();
-  };
-
-  const goodAnswer = async () => {
-    const data = { idPaquet: id, id: item.id, pass: true, word: item.word };
-    dispatch(addWords(data));
-
     nextPage();
   };
 
@@ -98,7 +74,7 @@ function RenderItemCard({ item, listRef, index, id, lastIndex }) {
 
       {!item.pass && (
         <View style={styles.contentButtonActions}>
-          <TouchableOpacity onPress={() => goodAnswer()}>
+          <TouchableOpacity onPress={() => answerWord(true)}>
             <AntDesign name="checkcircle" size={42} color={COLORS.GREEN} />
           </TouchableOpacity>
 
@@ -106,7 +82,7 @@ function RenderItemCard({ item, listRef, index, id, lastIndex }) {
             <MaterialIcons name="watch-later" size={50} color={COLORS.BLUE} />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => wrongAnswer()}>
+          <TouchableOpacity onPress={() => answerWord(false)}>
             <MaterialIcons name="cancel" size={50} color={COLORS.RED} />
           </TouchableOpacity>
         </View>

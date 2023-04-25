@@ -3,6 +3,8 @@ import AnimationImage from "@components/AnimationImage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authLoginAction } from "@redux/actions/authActions";
 import { COLORS, ToastAlert } from "@utilities/contans";
+import { userRef } from "@utilities/references";
+import { setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import {
@@ -25,7 +27,14 @@ export default function Login({ navigation }) {
         setLoading(false);
         if (res && res.messageError)
           return ToastAlert("Usuario incorrecto", true);
-        if (res) await AsyncStorage.setItem("user", JSON.stringify(res));
+        if (res) {
+          await setDoc(userRef(res.uid), {
+            accessToken: res.accessToken,
+            email: res.email,
+            uid: res.uid,
+          });
+          await AsyncStorage.setItem("user", JSON.stringify(res));
+        }
       });
     }
   };

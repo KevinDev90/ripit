@@ -40,8 +40,7 @@ function FormProfile({ user, loading, save }) {
   return (
     <>
       <ScrollView
-        style={{ width: wp(100) }}
-        contentContainerStyle={{ alignItems: "center" }}
+        style={{ width: wp(90) }}
         showsVerticalScrollIndicator={false}
       >
         <InputCustom
@@ -60,7 +59,7 @@ function FormProfile({ user, loading, save }) {
           title={"Biografia"}
           value={bio}
           onChangeText={(v) => setBio(v)}
-          numberOfLines={4}
+          numberOfLines={3}
           multiline={true}
         />
 
@@ -74,7 +73,13 @@ function FormProfile({ user, loading, save }) {
           <Picker.Item label="Avanzado" value="avanzado" />
         </InputPicker>
 
-        <View style={{ marginTop: hp(5), flexDirection: "row" }}>
+        <View
+          style={{
+            marginTop: hp(2),
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
           <Button
             title={loading ? <ActivityIndicator color={"#fff"} /> : "Guardar"}
             color={COLORS.BLUE}
@@ -106,7 +111,7 @@ function FormProfile({ user, loading, save }) {
 
 const styles = StyleSheet.create({
   button: {
-    width: wp(45),
+    width: wp(40),
     borderRadius: 10,
     elevation: 0,
   },
