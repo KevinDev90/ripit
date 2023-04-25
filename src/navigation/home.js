@@ -9,6 +9,7 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+
 const Tab = createBottomTabNavigator();
 
 export const HomeTabs = () => {
@@ -17,6 +18,10 @@ export const HomeTabs = () => {
       <Ionicons name={iconName} size={size} color={"#fff"} />
     </View>
   );
+
+  const options = {
+    headerShown: false,
+  };
 
   return (
     <Tab.Navigator
@@ -35,21 +40,9 @@ export const HomeTabs = () => {
         tabBarStyle: styles.containerTab,
       })}
     >
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{ headerShown: false }}
-      />
-      <Tab.Screen
-        name="Chat"
-        component={Chat}
-        options={{ headerShown: false }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{ headerShown: false }}
-      />
+      <Tab.Screen name="Home" component={Home} options={options} />
+      <Tab.Screen name="Chat" component={Chat} options={options} />
+      <Tab.Screen name="Profile" component={Profile} options={options} />
     </Tab.Navigator>
   );
 };

@@ -21,7 +21,8 @@ function RenderItemCard({ item, listRef, index, id, lastIndex }) {
   const [phrase, setPhrase] = useState(null);
   const [visibleText, setVisibleText] = useState(false);
 
-  const prompt = `Could you give me a phrase level ${user.level} that includes this word in any position '${item.word}'`;
+  // Could you give me a phrase level ${user.level} that includes this word in any position '${item.word}'
+  const prompt = `Podrias darme una frase en ingles nivel ${user.level} que tenga la siguiente palabra en cualquier posicion '${item.word}'`;
 
   useEffect(() => {
     getPhrases();

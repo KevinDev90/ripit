@@ -5,7 +5,7 @@ import { authLoginAction } from "@redux/actions/authActions";
 import { COLORS, ToastAlert } from "@utilities/contans";
 import { userRef } from "@utilities/references";
 import { setDoc } from "firebase/firestore";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import {
   heightPercentageToDP as hp,
@@ -18,7 +18,7 @@ export default function Login({ navigation }) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = (data) => {
+  const handleLogin = useCallback((data) => {
     const { email, password, validEmail } = data;
 
     if (email && password && validEmail) {
@@ -37,7 +37,12 @@ export default function Login({ navigation }) {
         }
       });
     }
-  };
+  }, []);
+
+  const memoizedFormLogin = useMemo(
+    () => <FormLogin loading={loading} onPress={handleLogin} />,
+    [loading, handleLogin]
+  );
 
   return (
     <View style={styles.container}>
@@ -45,7 +50,7 @@ export default function Login({ navigation }) {
         <AnimationImage source={Logo} style={styles.image} />
       </View>
 
-      <FormLogin loading={loading} onPress={(data) => handleLogin(data)} />
+      {memoizedFormLogin}
 
       <View style={{ width: wp(80), padding: 10 }}>
         <Text
