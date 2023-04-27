@@ -40,8 +40,11 @@ function FormProfile({ user, loading, save }) {
   return (
     <>
       <ScrollView
-        style={{ width: wp(90) }}
+        style={{
+          width: wp(90),
+        }}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: hp(15) }}
       >
         <InputCustom
           title={"Nombre"}
@@ -75,7 +78,7 @@ function FormProfile({ user, loading, save }) {
 
         <View
           style={{
-            marginTop: hp(5),
+            marginTop: hp(8),
             flexDirection: "row",
             justifyContent: "space-between",
           }}

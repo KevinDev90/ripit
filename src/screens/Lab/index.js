@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: wp(2),
-    paddingVertical: hp(0.5)
+    paddingVertical: hp(0.5),
   },
   pagination: {
     flexDirection: "row",

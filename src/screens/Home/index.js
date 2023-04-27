@@ -8,7 +8,13 @@ import { COLORS } from "@utilities/contans";
 import { filterPackDoc, packRef, packRefUpdate } from "@utilities/references";
 import { getDocs, query, updateDoc, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -46,6 +52,7 @@ export default function Home() {
   const wordsValid = useSelector((state) => state.words);
 
   const [search, setSearch] = useState("");
+  const [completeCards, setCompleteCards] = useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisibleHelp, setModalVisibleHelp] = useState(true);
@@ -121,33 +128,40 @@ export default function Home() {
     dispatch(editPaquet(newPaquet));
   };
 
-  const searchMyPaquet = () => {
-    // const searchTitle = paquets.filter((obj) =>
-    //   obj.title.toLowerCase().includes(search.toLowerCase())
-    // );
-    // const searchWord = paquets.filter((obj) =>
-    //   obj.words.some(
-    //     (value) => value.word.toLowerCase() === search.toLowerCase()
-    //   )
-    // );
-
-    return paquets.filter((obj) =>
-      obj.title.toLowerCase().includes(search.toLowerCase())
+  const searchMyPaquet = () =>
+    paquets.filter(
+      (obj) =>
+        obj.title.toLowerCase().includes(search.toLowerCase()) &&
+        obj.words.some((value) => value.pass === false)
     );
-  };
+
+  const searchMyPaquetComplete = () =>
+    paquets.filter((obj) => obj.words.every((value) => value.pass === true));
 
   return (
     <View style={styles.container}>
-      <SearchBarHome value={search} onChange={(text) => setSearch(text)} />
+      <SearchBarHome
+        value={search}
+        onChange={(text) => setSearch(text)}
+        onPressComplete={() => setCompleteCards(!completeCards)}
+        complete={completeCards}
+      />
 
       {!loading ? (
         <ScrollView contentContainerStyle={styles.containerScroll}>
           <View style={styles.containerPaquets}>
-            <ComponentAddPaquet onPress={() => setModalVisible(true)} />
-
-            {searchMyPaquet().map((paquet) => (
-              <Paquet item={paquet} key={paquet.id} />
-            ))}
+            {!completeCards ? (
+              <>
+                <ComponentAddPaquet onPress={() => setModalVisible(true)} />
+                {searchMyPaquet().map((paquet) => (
+                  <Paquet item={paquet} key={paquet.id} />
+                ))}
+              </>
+            ) : (
+              searchMyPaquetComplete().map((paquet) => (
+                <Paquet item={paquet} key={paquet.id} />
+              ))
+            )}
           </View>
         </ScrollView>
       ) : (
@@ -175,7 +189,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ffffff",
     alignItems: "center",
-    paddingTop: hp(5),
+    paddingTop: hp(1),
   },
   containerScroll: {
     flexGrow: 1,

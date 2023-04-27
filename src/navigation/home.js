@@ -40,7 +40,6 @@ export const HomeTabs = () => {
         tabBarInactiveTintColor: COLORS.GREEN,
         tabBarShowLabel: false,
         tabBarStyle: styles.containerTab,
-        tabBarHideOnKeyboard: true,
       })}
     >
       <Tab.Screen name="Home" component={Home} options={options} />

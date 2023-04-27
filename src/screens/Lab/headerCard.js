@@ -1,7 +1,10 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { COLORS } from "@utilities/contans";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 function HeaderCard({ visible, unSeen, speach }) {
   return (
@@ -19,7 +22,7 @@ function HeaderCard({ visible, unSeen, speach }) {
           First <Text style={styles.text2}>Listen</Text>{" "}
           <FontAwesome name="volume-up" size={14} color={COLORS.BLUE} />
           {" \n"}
-          Second <Text style={styles.text2}>Read</Text>{" "}
+          Then <Text style={styles.text2}>Read</Text>{" "}
           <FontAwesome name="eye" size={14} color={COLORS.BLUE} />
         </Text>
       </View>
@@ -33,11 +36,10 @@ function HeaderCard({ visible, unSeen, speach }) {
 
 const styles = StyleSheet.create({
   container: {
-    position: "absolute",
     flexDirection: "row",
     justifyContent: "space-between",
     width: wp(90),
-    top: 0,
+    height: hp(10),
     padding: 15,
   },
   text: {

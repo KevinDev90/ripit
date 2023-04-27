@@ -57,13 +57,13 @@ function RenderItemCard({ item, listRef, index, id, lastIndex }) {
         <Text style={styles.title}>{item.word}</Text>
       </View>
 
-      <View style={styles.contentPhrase}>
-        <HeaderCard
-          visible={visibleText}
-          unSeen={() => setVisibleText(!visibleText)}
-          speach={() => textToSpeech()}
-        />
+      <HeaderCard
+        visible={visibleText}
+        unSeen={() => setVisibleText(!visibleText)}
+        speach={() => textToSpeech()}
+      />
 
+      <View style={styles.contentPhrase}>
         {phrase ? (
           <Text style={styles.text}>
             {visibleText ? phrase : "-----------------"}
@@ -89,7 +89,7 @@ function RenderItemCard({ item, listRef, index, id, lastIndex }) {
         </View>
       )}
 
-      <View style={{ width: wp(90), height: hp(8)}}>
+      <View style={{ width: wp(90), height: hp(10) }}>
         <Text
           style={{ textAlign: "center", fontStyle: "italic", fontSize: 14 }}
         >
@@ -136,16 +136,15 @@ const styles = StyleSheet.create({
     width: wp(90),
     alignItems: "center",
     justifyContent: "center",
-    height: hp(8),
+    height: hp(10),
     borderTopEndRadius: 10,
     borderTopStartRadius: 10,
   },
   contentPhrase: {
     width: wp(90),
+    height: hp(55),
     alignItems: "center",
     justifyContent: "center",
-    padding: 10,
-    height: hp(70),
   },
   contentButtonActions: {
     flexDirection: "row",

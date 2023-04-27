@@ -6,7 +6,7 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 
-function SearchBarHome({ value, onChange }) {
+function SearchBarHome({ value, onChange, onPressComplete, complete }) {
   return (
     <View style={{ flexDirection: "row" }}>
       <View style={styles.searchContainer}>
@@ -22,8 +22,12 @@ function SearchBarHome({ value, onChange }) {
         />
       </View>
       <View style={styles.containerCheck}>
-        <TouchableOpacity onPress={() => {}}>
-          <Ionicons name="checkmark" size={24} color="#fff" />
+        <TouchableOpacity onPress={onPressComplete}>
+          <Ionicons
+            name={!complete ? "checkmark" : "list"}
+            size={24}
+            color="#fff"
+          />
         </TouchableOpacity>
       </View>
     </View>
