@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Chat from "@screens/Chat";
 import Home from "@screens/Home";
+import MyNotes from "@screens/Notes";
 import Profile from "@screens/Profile";
 import { COLORS } from "@utilities/contans";
 import { StyleSheet, View } from "react-native";
@@ -30,6 +31,7 @@ export const HomeTabs = () => {
           let iconName;
           if (route.name === "Home") iconName = "home-outline";
           if (route.name === "Chat") iconName = "chatbox-outline";
+          if (route.name === "Notes") iconName = "md-document-text-outline";
           else if (route.name === "Profile") iconName = "person-outline";
 
           return renderIconTab(iconName, size, color);
@@ -38,10 +40,13 @@ export const HomeTabs = () => {
         tabBarInactiveTintColor: COLORS.GREEN,
         tabBarShowLabel: false,
         tabBarStyle: styles.containerTab,
+        tabBarHideOnKeyboard: true,
       })}
     >
       <Tab.Screen name="Home" component={Home} options={options} />
       <Tab.Screen name="Chat" component={Chat} options={options} />
+      <Tab.Screen name="Notes" component={MyNotes} options={options} />
+
       <Tab.Screen name="Profile" component={Profile} options={options} />
     </Tab.Navigator>
   );
@@ -59,12 +64,7 @@ const styles = StyleSheet.create({
   },
   containerTab: {
     elevation: 0,
-    height: hp(8),
-    position: "absolute",
-    bottom: 0,
-    backgroundColor: "#fff",
-    marginHorizontal: 10,
-    marginVertical: 5,
+    height: hp(9),
     borderTopWidth: 0,
   },
 });

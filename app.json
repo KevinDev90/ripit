@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "ripit",
+    "name": "Ripit",
     "slug": "ripit",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/img/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/img/splash.png",
+      "image": "",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,7 +21,7 @@
       "package": "com.kevindev.ripit",
       "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/img/adaptive-icon.png",
+        "foregroundImage": "./assets/img/icon.png",
         "backgroundColor": "#ffffff"
       },
       "softwareKeyboardLayoutMode": "pan",

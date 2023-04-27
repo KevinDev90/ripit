@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authLoginAction } from "@redux/actions/authActions";
 import { COLORS, ToastAlert } from "@utilities/contans";
 import { userRef } from "@utilities/references";
-import { setDoc } from "firebase/firestore";
+import { getDoc, setDoc } from "firebase/firestore";
 import { useCallback, useMemo, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import {
@@ -13,6 +13,7 @@ import {
 } from "react-native-responsive-screen";
 import { useDispatch } from "react-redux";
 import FormLogin from "./form";
+import { login } from "@redux/reducers/authSlice";
 
 export default function Login({ navigation }) {
   const dispatch = useDispatch();
@@ -24,17 +25,26 @@ export default function Login({ navigation }) {
     if (email && password && validEmail) {
       setLoading(true);
       authLoginAction({ email, password }, dispatch).then(async (res) => {
-        setLoading(false);
         if (res && res.messageError)
           return ToastAlert("Usuario incorrecto", true);
         if (res) {
-          await setDoc(userRef(res.uid), {
-            accessToken: res.accessToken,
-            email: res.email,
-            uid: res.uid,
-          });
-          await AsyncStorage.setItem("user", JSON.stringify(res));
+          const docSnap = await getDoc(userRef(res.uid));
+          if (!docSnap.exists()) {
+            await setDoc(userRef(res.uid), {
+              accessToken: res.accessToken,
+              email: res.email,
+              uid: res.uid,
+            });
+          } else {
+            const data = {
+              ...docSnap.data(),
+              uid: docSnap.id,
+            };
+            dispatch(login(data));
+            await AsyncStorage.setItem("user", JSON.stringify(res));
+          }
         }
+        setLoading(false);
       });
     }
   }, []);

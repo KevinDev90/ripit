@@ -82,10 +82,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#ffffff",
-    paddingBottom: hp(10),
+    // paddingBottom: hp(10),
+    paddingTop: hp(1),
   },
   containerText: {
-    marginTop: hp(5),
     marginBottom: hp(2),
     width: wp(100),
     justifyContent: "center",

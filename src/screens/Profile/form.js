@@ -75,7 +75,7 @@ function FormProfile({ user, loading, save }) {
 
         <View
           style={{
-            marginTop: hp(2),
+            marginTop: hp(5),
             flexDirection: "row",
             justifyContent: "space-between",
           }}

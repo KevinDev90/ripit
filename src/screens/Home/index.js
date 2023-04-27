@@ -176,7 +176,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     alignItems: "center",
     paddingTop: hp(5),
-    paddingBottom: hp(10),
   },
   containerScroll: {
     flexGrow: 1,

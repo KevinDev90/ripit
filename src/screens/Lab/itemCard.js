@@ -89,7 +89,7 @@ function RenderItemCard({ item, listRef, index, id, lastIndex }) {
         </View>
       )}
 
-      <View>
+      <View style={{ width: wp(90), height: hp(8)}}>
         <Text
           style={{ textAlign: "center", fontStyle: "italic", fontSize: 14 }}
         >
@@ -149,19 +149,10 @@ const styles = StyleSheet.create({
   },
   contentButtonActions: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: wp(40),
-    height: hp(10),
-  },
-  containerHelp: {
-    position: "absolute",
     justifyContent: "center",
     alignItems: "center",
-    bottom: 10,
-    right: 0,
-    padding: 10,
-    borderRadius: 50,
+    width: wp(90),
+    height: hp(10),
   },
 });
 

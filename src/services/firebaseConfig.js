@@ -3,20 +3,23 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
+import Constants from "expo-constants";
+
+const config = Constants.expoConfig.extra;
 // TODO Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBWgZMXYXwAXTpUnm9SN1kVUMebVrkeQyk",
-  authDomain: "ripit-e2b69.firebaseapp.com",
-  databaseURL: "https://ripit-e2b69-default-rtdb.firebaseio.com",
-  projectId: "ripit-e2b69",
-  storageBucket: "ripit-e2b69.appspot.com",
-  messagingSenderId: "54079679271",
-  appId: "1:54079679271:web:88c23a1aee83a7bd5b1702",
-  measurementId: "G-LDL32K8FN2",
+  apiKey: config.API_KEY_FIREBASE,
+  authDomain: config.DOMAIN_FIREBASE,
+  databaseURL: config.URL_DATABASE,
+  projectId: config.PROJECT_ID,
+  storageBucket: config.STORAGE_FIREBASE,
+  messagingSenderId: config.SENDER_FIREBASE,
+  appId: config.APP_ID_FIREBASE,
+  measurementId: config.MEASUREMENT_FIREBASE,
 };
 
 // Initialize Firebase

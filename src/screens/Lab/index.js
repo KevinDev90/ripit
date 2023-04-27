@@ -112,7 +112,8 @@ const stylesText = StyleSheet.create({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    paddingHorizontal: wp(2),
+    paddingVertical: hp(0.5)
   },
   pagination: {
     flexDirection: "row",

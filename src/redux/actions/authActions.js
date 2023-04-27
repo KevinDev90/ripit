@@ -22,7 +22,6 @@ export const authLoginAction = async (value, dispatch) => {
           photoURL: user.photoURL,
           accessToken: user.stsTokenManager.accessToken,
         };
-        dispatch(login(data));
         return data;
       } else {
         sendEmailVerification(auth.currentUser).then(() => {

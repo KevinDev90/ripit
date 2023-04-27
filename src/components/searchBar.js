@@ -1,25 +1,37 @@
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@utilities/contans";
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 
 function SearchBarHome({ value, onChange }) {
   return (
-    <View style={styles.searchContainer}>
-      <View style={styles.searchIcon}>
-        <Ionicons name="search" size={20} color="#A5A5A5" />
+    <View style={{ flexDirection: "row" }}>
+      <View style={styles.searchContainer}>
+        <View style={styles.searchIcon}>
+          <Ionicons name="search" size={20} color="#A5A5A5" />
+        </View>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Buscar..."
+          placeholderTextColor="#A5A5A5"
+          onChangeText={onChange}
+          value={value}
+        />
       </View>
-      <TextInput
-        style={styles.searchInput}
-        placeholder="Buscar..."
-        placeholderTextColor="#A5A5A5"
-        onChangeText={onChange}
-        value={value}
-      />
+      <View style={styles.containerCheck}>
+        <TouchableOpacity onPress={() => {}}>
+          <Ionicons name="checkmark" size={24} color="#fff" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 const styles = StyleSheet.create({
   searchContainer: {
+    flex: 0.9,
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: COLORS.GREY,
@@ -29,6 +41,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginBottom: 10,
     elevation: 2,
+  },
+  containerCheck: {
+    backgroundColor: COLORS.GREEN,
+    borderRadius: 10,
+    flex: 0.1,
+    padding: 2,
+    marginRight: wp(2),
+    height: hp(5),
+    justifyContent: "center",
+    alignItems: "center",
   },
   searchIcon: {
     marginRight: 10,
