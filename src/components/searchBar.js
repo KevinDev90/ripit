@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from "@utilities/contans";
+import { Text } from "react-native";
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import {
   heightPercentageToDP as hp,
@@ -9,18 +10,31 @@ import {
 function SearchBarHome({ value, onChange, onPressComplete, complete }) {
   return (
     <View style={{ flexDirection: "row" }}>
-      <View style={styles.searchContainer}>
-        <View style={styles.searchIcon}>
-          <Ionicons name="search" size={20} color="#A5A5A5" />
+      {!complete ? (
+        <View style={styles.searchContainer}>
+          <View style={styles.searchIcon}>
+            <Ionicons name="search" size={20} color="#A5A5A5" />
+          </View>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="Buscar..."
+            placeholderTextColor="#A5A5A5"
+            onChangeText={onChange}
+            value={value}
+          />
         </View>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Buscar..."
-          placeholderTextColor="#A5A5A5"
-          onChangeText={onChange}
-          value={value}
-        />
-      </View>
+      ) : (
+        <View style={styles.containerTitle}>
+          <Text
+            style={{
+              fontFamily: "Inter_800ExtraBold",
+              fontSize: 20,
+            }}
+          >
+            Barajas completadas
+          </Text>
+        </View>
+      )}
       <View style={styles.containerCheck}>
         <TouchableOpacity onPress={onPressComplete}>
           <Ionicons
@@ -45,6 +59,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginBottom: 10,
     elevation: 2,
+  },
+  containerTitle: {
+    flex: 0.9,
+    justifyContent: "center",
+    paddingHorizontal: 10,
+    marginHorizontal: 10,
   },
   containerCheck: {
     backgroundColor: COLORS.GREEN,
