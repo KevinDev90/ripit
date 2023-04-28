@@ -1,11 +1,6 @@
 import { db } from "@services/firebaseConfig";
 import { collection, doc, query, where } from "firebase/firestore";
 
-// export const userRef = () => {
-//   const user = useSelector((state) => state.auth.user);
-//   return doc(db, "users", user.uid);
-// };
-
 export const userRef = (id) => doc(db, "users", id);
 
 export const packRef = collection(db, "pack");

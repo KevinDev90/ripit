@@ -15,7 +15,7 @@ import {
 } from "react-native-responsive-screen";
 import { useDispatch } from "react-redux";
 
-function ActionsModal({ visibleOptions, setVisibleOptions, item }) {
+function ActionsModal({ visibleOptions, setVisibleOptions, item, complete }) {
   const dispatch = useDispatch();
 
   const [modalVisibleDelete, setModalVisibleDelete] = useState(false);
@@ -51,17 +51,19 @@ function ActionsModal({ visibleOptions, setVisibleOptions, item }) {
         }}
       >
         <View style={styles.modalContent}>
-          <ButtonIcon
-            onPress={() => {
-              setVisibleOptions(false);
-              setModalVisibleDelete(false);
-              setModalVisibleView(false);
-              setModalVisibleEdit(true);
-            }}
-            ownStyle={styles.icon}
-            color={COLORS.GREEN}
-            icon={<MaterialIcons name="edit" size={26} color="#fff" />}
-          />
+          {!complete && (
+            <ButtonIcon
+              onPress={() => {
+                setVisibleOptions(false);
+                setModalVisibleDelete(false);
+                setModalVisibleView(false);
+                setModalVisibleEdit(true);
+              }}
+              ownStyle={styles.icon}
+              color={COLORS.GREEN}
+              icon={<MaterialIcons name="edit" size={26} color="#fff" />}
+            />
+          )}
           <ButtonIcon
             onPress={() => {
               setModalVisibleView(false);
@@ -149,6 +151,7 @@ const styles = StyleSheet.create({
   icon: {
     width: wp(12),
     height: hp(6),
+    marginHorizontal: wp(2),
   },
   button: {
     width: wp(40),
@@ -159,7 +162,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
     width: "100%",
   },

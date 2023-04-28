@@ -12,7 +12,7 @@ import {
 } from "react-native-responsive-screen";
 import ActionsModal from "./actions";
 
-function Card({ cards, card, index, item }) {
+function Card({ cards, card, index, item, complete }) {
   const navigation = useNavigation();
   const [modalVisibleOptions, setModalVisibleOptions] = useState(false);
   const [modalVisiblePractice, setModalVisiblePractice] = useState(false);
@@ -46,12 +46,14 @@ function Card({ cards, card, index, item }) {
 
       <Text style={styles.text}>{item.title}</Text>
 
-      <Button
-        title="Practicar"
-        color={COLORS.GREEN}
-        onPress={() => setModalVisiblePractice(true)}
-        ownStyle={{ width: wp(30), height: hp(5) }}
-      />
+      {!complete && (
+        <Button
+          title="Practicar"
+          color={COLORS.GREEN}
+          onPress={() => setModalVisiblePractice(true)}
+          ownStyle={{ width: wp(30), height: hp(5) }}
+        />
+      )}
 
       <HappyAlert
         visible={modalVisiblePractice}
@@ -65,6 +67,7 @@ function Card({ cards, card, index, item }) {
 
       <ActionsModal
         item={item}
+        complete={complete}
         visibleOptions={modalVisibleOptions}
         setVisibleOptions={setModalVisibleOptions}
       />

@@ -25,8 +25,10 @@ export default function Login({ navigation }) {
     if (email && password && validEmail) {
       setLoading(true);
       authLoginAction({ email, password }, dispatch).then(async (res) => {
-        if (res && res.messageError)
+        if (res && res.messageError) {
+          setLoading(false);
           return ToastAlert("Usuario incorrecto", true);
+        }
         if (res) {
           const docSnap = await getDoc(userRef(res.uid));
           if (!docSnap.exists()) {

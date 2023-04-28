@@ -23,9 +23,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Card from "./card";
 import SectionHelp from "./help";
 
-const Paquet = (data) => {
+const Paquet = ({ item, complete }) => {
   const cards = [
-    { id: 1, color: data.item.color || COLORS.PURPLE },
+    { id: 1, color: item.color || COLORS.PURPLE },
     { id: 2, color: COLORS.BLUE },
     { id: 3, color: COLORS.GREEN },
   ];
@@ -37,8 +37,9 @@ const Paquet = (data) => {
           key={card.id}
           cards={cards}
           card={card}
-          item={data.item}
+          item={item}
           index={index}
+          complete={complete}
         />
       ))}
     </View>
@@ -159,7 +160,7 @@ export default function Home() {
               </>
             ) : (
               searchMyPaquetComplete().map((paquet) => (
-                <Paquet item={paquet} key={paquet.id} />
+                <Paquet item={paquet} key={paquet.id} complete={true} />
               ))
             )}
           </View>
@@ -189,7 +190,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ffffff",
     alignItems: "center",
-    paddingTop: hp(1),
+    paddingTop: hp(5),
   },
   containerScroll: {
     flexGrow: 1,
