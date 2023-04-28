@@ -8,20 +8,14 @@ import { COLORS } from "@utilities/contans";
 import { filterPackDoc, packRef, packRefUpdate } from "@utilities/references";
 import { getDocs, query, updateDoc, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet, View } from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "./card";
-import SectionHelp from "./help";
+import { SectionHelpHome } from "./help";
 
 const Paquet = ({ item, complete }) => {
   const cards = [
@@ -177,7 +171,7 @@ export default function Home() {
         <FormNewPaquet onClose={() => setModalVisible(false)} />
       </ModernModal>
 
-      <SectionHelp
+      <SectionHelpHome
         visible={modalVisibleHelp}
         setVisible={setModalVisibleHelp}
       />
@@ -190,7 +184,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ffffff",
     alignItems: "center",
-    paddingTop: hp(5),
+    paddingTop: hp(1),
   },
   containerScroll: {
     flexGrow: 1,

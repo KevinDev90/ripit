@@ -1,9 +1,9 @@
 import PopoverCustom from "@components/Popover";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { COLORS } from "@utilities/contans";
 import { StyleSheet, Text, View } from "react-native";
 
-function SectionHelp({ visible, setVisible }) {
+export function SectionHelpHome({ visible, setVisible }) {
   return (
     <View style={styles.containerHelp}>
       <PopoverCustom
@@ -70,6 +70,31 @@ function SectionHelp({ visible, setVisible }) {
   );
 }
 
+export function SectionHelpNotes({ visible, setVisible }) {
+  return (
+    <View style={styles.containerHelp}>
+      <PopoverCustom
+        text={
+          <Text
+            style={{
+              fontSize: 14,
+              fontFamily: "Inter_200ExtraLight",
+              lineHeight: 20,
+            }}
+          >
+            Anota las frases y palabras en Ingles que haz aprendido{"\n"}
+            No olvides Guardar{" "}
+            <MaterialIcons name="save-alt" size={18} color={COLORS.GREEN} />
+          </Text>
+        }
+        visible={visible}
+        onPress={() => setVisible(true)}
+        onClose={() => setVisible(false)}
+      />
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   containerHelp: {
     position: "absolute",
@@ -81,5 +106,3 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
 });
-
-export default SectionHelp;

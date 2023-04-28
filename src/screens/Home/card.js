@@ -67,7 +67,6 @@ function Card({ cards, card, index, item, complete }) {
 
       <ActionsModal
         item={item}
-        complete={complete}
         visibleOptions={modalVisibleOptions}
         setVisibleOptions={setModalVisibleOptions}
       />

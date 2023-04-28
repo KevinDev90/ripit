@@ -15,7 +15,7 @@ import {
 } from "react-native-responsive-screen";
 import { useDispatch } from "react-redux";
 
-function ActionsModal({ visibleOptions, setVisibleOptions, item, complete }) {
+function ActionsModal({ visibleOptions, setVisibleOptions, item }) {
   const dispatch = useDispatch();
 
   const [modalVisibleDelete, setModalVisibleDelete] = useState(false);
@@ -51,19 +51,17 @@ function ActionsModal({ visibleOptions, setVisibleOptions, item, complete }) {
         }}
       >
         <View style={styles.modalContent}>
-          {!complete && (
-            <ButtonIcon
-              onPress={() => {
-                setVisibleOptions(false);
-                setModalVisibleDelete(false);
-                setModalVisibleView(false);
-                setModalVisibleEdit(true);
-              }}
-              ownStyle={styles.icon}
-              color={COLORS.GREEN}
-              icon={<MaterialIcons name="edit" size={26} color="#fff" />}
-            />
-          )}
+          <ButtonIcon
+            onPress={() => {
+              setVisibleOptions(false);
+              setModalVisibleDelete(false);
+              setModalVisibleView(false);
+              setModalVisibleEdit(true);
+            }}
+            ownStyle={styles.icon}
+            color={COLORS.GREEN}
+            icon={<MaterialIcons name="edit" size={26} color="#fff" />}
+          />
           <ButtonIcon
             onPress={() => {
               setModalVisibleView(false);

@@ -16,6 +16,7 @@ export default function Navigator() {
 
   useEffect(() => {
     if (!token) getUser();
+    else setLoading(false);
   }, [token]);
 
   const getUser = async () => {
