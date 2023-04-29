@@ -26,7 +26,7 @@ function Lab({ navigation, route }) {
 
   const handleScroll = (event) => {
     const scrollPosition = event.nativeEvent.contentOffset.x;
-    const CARD_WIDTH = words.length * 100;
+    const CARD_WIDTH = words.length * 150;
     const index = Math.round(scrollPosition / CARD_WIDTH);
     setCurrentIndex(index);
   };
@@ -113,12 +113,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: wp(2),
-    paddingVertical: hp(0.5),
   },
   pagination: {
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 10,
+    padding: 10,
   },
   paginationDot: {
     width: 15,

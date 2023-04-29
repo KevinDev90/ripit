@@ -30,7 +30,7 @@ function SectionImage({ loadingImage, imageForm, setImageForm, createImage }) {
 
       {loadingImage ? (
         <View style={{ padding: 20 }}>
-          <ActivityIndicator color={"#fff"} size={30} />
+          <ActivityIndicator color={"#fff"} size={22} />
         </View>
       ) : (
         <ProfilePicture

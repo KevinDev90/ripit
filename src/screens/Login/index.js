@@ -2,6 +2,7 @@ import Logo from "@assets/img/logo.png";
 import AnimationImage from "@components/AnimationImage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authLoginAction } from "@redux/actions/authActions";
+import { login } from "@redux/reducers/authSlice";
 import { COLORS, ToastAlert } from "@utilities/contans";
 import { userRef } from "@utilities/references";
 import { getDoc, setDoc } from "firebase/firestore";
@@ -13,7 +14,6 @@ import {
 } from "react-native-responsive-screen";
 import { useDispatch } from "react-redux";
 import FormLogin from "./form";
-import { login } from "@redux/reducers/authSlice";
 
 export default function Login({ navigation }) {
   const dispatch = useDispatch();

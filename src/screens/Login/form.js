@@ -33,7 +33,11 @@ function FormLogin({ onPress, loading }) {
       <Button
         onPress={() => onPress({ email, password, validEmail })}
         title={
-          loading ? <ActivityIndicator color={"#fff"} /> : "Iniciar Sesion"
+          loading ? (
+            <ActivityIndicator color={"#fff"} size={22} />
+          ) : (
+            "Iniciar Sesion"
+          )
         }
         color={COLORS.BLUE}
       />

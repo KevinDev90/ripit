@@ -3,7 +3,9 @@ import Button from "@components/Button";
 import { InputCustom, InputPicker } from "@components/ProfileComponents/input";
 import { Picker } from "@react-native-picker/picker";
 import { authLogoutAction } from "@redux/actions/authActions";
+import { auth } from "@services/firebaseConfig";
 import { COLORS } from "@utilities/contans";
+import { signOut } from "firebase/auth";
 import { useState } from "react";
 import { ActivityIndicator, ScrollView, StyleSheet, View } from "react-native";
 import {
@@ -25,6 +27,14 @@ function FormProfile({ user, loading, save }) {
   const logoutButton = () => {
     setModalVisibleLogout(false);
     authLogoutAction(dispatch);
+
+    // signOut(auth)
+    //   .then(() => {
+    //     authLogoutAction(dispatch);
+    //   })
+    //   .catch((error) => {
+    //     // An error happened.
+    //   });
   };
 
   const saveButton = () => {
@@ -84,7 +94,13 @@ function FormProfile({ user, loading, save }) {
           }}
         >
           <Button
-            title={loading ? <ActivityIndicator color={"#fff"} /> : "Guardar"}
+            title={
+              loading ? (
+                <ActivityIndicator color={"#fff"} size={22} />
+              ) : (
+                "Guardar"
+              )
+            }
             color={COLORS.BLUE}
             ownStyle={styles.button}
             onPress={() => saveButton()}

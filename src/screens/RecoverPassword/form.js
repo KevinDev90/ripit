@@ -23,7 +23,9 @@ function FormRecover({ loading, onPress }) {
       />
       <Button
         onPress={() => onPress({ email, validEmail })}
-        title={loading ? <ActivityIndicator color="#fff" /> : "Recuperar"}
+        title={
+          loading ? <ActivityIndicator color="#fff" size={22} /> : "Recuperar"
+        }
         color={COLORS.BLUE}
       />
     </>

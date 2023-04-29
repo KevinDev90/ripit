@@ -39,7 +39,9 @@ function FormRegister({ onPress, loading }) {
         onPress={() =>
           onPress({ email, password, confirmPassword, validEmail })
         }
-        title={loading ? <ActivityIndicator color="#fff" /> : "Registrarse"}
+        title={
+          loading ? <ActivityIndicator color="#fff" size={22} /> : "Registrarse"
+        }
         color={COLORS.BLUE}
       />
     </>

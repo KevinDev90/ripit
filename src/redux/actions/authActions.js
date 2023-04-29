@@ -41,7 +41,6 @@ export const authRegisterAction = async (value) => {
       return user;
     })
     .catch((error) => {
-      console.log(error);
       return error;
     });
 };

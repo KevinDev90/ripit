@@ -160,7 +160,7 @@ export default function Home() {
           </View>
         </ScrollView>
       ) : (
-        <ActivityIndicator color={COLORS.BLUE} size={30} />
+        <ActivityIndicator color={COLORS.BLUE} size={22} />
       )}
 
       <ModernModal

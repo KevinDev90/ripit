@@ -95,7 +95,11 @@ function ActionsModal({ visibleOptions, setVisibleOptions, item }) {
             </Text>
             <Button
               title={
-                loading ? <ActivityIndicator color={"#fff"} /> : "Eliminar"
+                loading ? (
+                  <ActivityIndicator size={22} color={"#fff"} />
+                ) : (
+                  "Eliminar"
+                )
               }
               onPress={() => deleteCard()}
               color={COLORS.RED}
