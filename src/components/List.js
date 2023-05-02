@@ -83,11 +83,11 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   containerItem: {
-    width: wp(16),
+    width: wp(18),
     height: hp(4),
     borderRadius: 5,
     backgroundColor: COLORS.BLUE,
-    marginHorizontal: ITEM_MARGIN,
+    marginHorizontal: 4,
     marginVertical: ITEM_MARGIN / 2,
   },
   item: {
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     borderColor: COLORS.GREYBLACK,
     justifyContent: "center",
     alignItems: "center",
+    padding: 4
   },
   icon: {
     position: "absolute",

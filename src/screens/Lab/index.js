@@ -56,7 +56,7 @@ function Lab({ navigation, route }) {
             showsHorizontalScrollIndicator={false}
             onScroll={handleScroll}
             pagingEnabled
-            scrollEnabled={false}
+            // scrollEnabled={false}
           />
           <View style={styles.pagination}>
             {filteredData.map((item, index) => (

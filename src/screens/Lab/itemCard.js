@@ -1,17 +1,18 @@
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { addWords } from "@redux/reducers/wordsSlice";
 import { COLORS } from "@utilities/contans";
 import { fetchPostText } from "@utilities/urlsOpenAI";
 import * as Speech from "expo-speech";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { useDispatch, useSelector } from "react-redux";
 import HeaderCard from "./headerCard";
+import Chat from "@screens/Chat";
 
 function RenderItemCard({ item, listRef, index, id, lastIndex }) {
   const dispatch = useDispatch();
@@ -21,8 +22,10 @@ function RenderItemCard({ item, listRef, index, id, lastIndex }) {
   const [phrase, setPhrase] = useState(null);
   const [visibleText, setVisibleText] = useState(false);
 
+  const [chatVisible, setChatVisible] = useState(false);
+
   // Could you give me a phrase level ${user.level} that includes this word in any position '${item.word}'
-  const prompt = `Podrias darme una frase en ingles nivel ${user.level} que tenga la siguiente palabra en cualquier posicion '${item.word}'`;
+  const prompt = `Podrias darme una frase en ingles nivel ${user.level} que tenga la siguiente palabra en cualquier posicion: '${item.word}'`;
 
   useEffect(() => {
     getPhrases();
@@ -55,6 +58,49 @@ function RenderItemCard({ item, listRef, index, id, lastIndex }) {
     <View style={styles.card}>
       <View style={styles.contentTitle}>
         <Text style={styles.title}>{item.word}</Text>
+        <TouchableOpacity
+          onPress={() => setChatVisible(true)}
+          style={{ position: "absolute", right: 10 }}
+        >
+          <View
+            style={{
+              backgroundColor: COLORS.GREEN,
+              padding: 8,
+              borderRadius: 10,
+            }}
+          >
+            <Ionicons name={"chatbox-outline"} size={24} color={"#fff"} />
+          </View>
+        </TouchableOpacity>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={chatVisible}
+          onRequestClose={() => {
+            setChatVisible(false);
+          }}
+        >
+          <View style={styles.modalContainer}>
+            <View
+              style={{
+                height: hp(55),
+                width: wp(90),
+                backgroundColor: "#fff",
+                padding: 5,
+                borderRadius: 10,
+              }}
+            >
+              <Chat />
+              <TouchableOpacity
+                onPress={() => {
+                  setChatVisible(false);
+                }}
+              >
+                <Text style={styles.closeButton}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
 
       <HeaderCard
@@ -119,6 +165,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: hp(1),
   },
+  modalContainer: {
+    flex: 1,
+    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  closeButton: {
+    marginTop: 20,
+    color: "#fff",
+    backgroundColor: COLORS.GREEN,
+    padding: 10,
+    borderRadius: 5,
+    textAlign: "center",
+    minWidth: 100,
+    fontFamily: "Inter_500Medium",
+  },
   title: {
     fontSize: 20,
     fontFamily: "Inter_800ExtraBold",
@@ -139,6 +202,7 @@ const styles = StyleSheet.create({
     height: hp(10),
     borderTopEndRadius: 10,
     borderTopStartRadius: 10,
+    flexDirection: "row",
   },
   contentPhrase: {
     width: wp(90),

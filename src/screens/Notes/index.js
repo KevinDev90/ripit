@@ -23,7 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 export default function NoteScreen() {
   const dispatch = useDispatch();
 
-  const id = Math.floor(Math.random() * 100) + 1;
+  const id = Math.floor(Math.random() * 10000) + 1;
   const user = useSelector((state) => state.auth.user);
   const notes = useSelector((state) => state.notes);
 

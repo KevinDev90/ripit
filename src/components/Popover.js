@@ -1,8 +1,11 @@
-import { Entypo } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { COLORS } from "@utilities/contans";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import Popover from "react-native-popover-view";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 
 function PopoverCustom({ text, onPress, onClose, visible }) {
   return (
@@ -10,19 +13,14 @@ function PopoverCustom({ text, onPress, onClose, visible }) {
       isVisible={visible}
       onRequestClose={onClose}
       from={
-        <TouchableOpacity onPress={onPress}>
-          <Entypo
-            name="info-with-circle"
-            size={36}
-            color={COLORS.BLUE}
-            style={{ marginLeft: 5 }}
-          />
+        <TouchableOpacity onPress={onPress} style={styles.icon}>
+          <FontAwesome5 name="info" size={22} color={"#fff"} />
         </TouchableOpacity>
       }
       placement="top"
       arrowStyle={styles.arrow}
       popoverStyle={styles.popover}
-      offset={50}
+      offset={hp(6)}
     >
       <Text>{text}</Text>
     </Popover>
@@ -44,6 +42,14 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 5,
     width: wp(90),
+  },
+  icon: {
+    width: wp(10),
+    height: hp(5),
+    backgroundColor: COLORS.BLUE,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

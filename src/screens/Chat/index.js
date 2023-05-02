@@ -8,6 +8,7 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import GiftedChatCustom from "./giftedChat";
+import { TouchableOpacity } from "react-native";
 
 function Chat() {
   const [messages, setMessages] = useState([]);
@@ -53,19 +54,28 @@ function Chat() {
   return (
     <View style={styles.container}>
       <View style={styles.containerText}>
-        <Text style={{ ...styles.text, backgroundColor: COLORS.BLUE }}>
-          Charla y practica
-        </Text>
-        <View style={{ right: 5, position: "absolute" }}>
-          <Text
+        <View style={{ alignSelf: "center" }}>
+          <Text style={{ ...styles.text, backgroundColor: COLORS.BLUE }}>
+            Charla y practica
+          </Text>
+        </View>
+        <View
+          style={{
+            position: "absolute",
+            bottom: 5,
+            right: 5,
+          }}
+        >
+          <TouchableOpacity
             onPress={() => {
               setMessages([]);
               initialMessage();
             }}
-            style={{ ...styles.text, backgroundColor: COLORS.RED }}
           >
-            Limpiar
-          </Text>
+            <Text style={{ ...styles.text, backgroundColor: COLORS.RED }}>
+              Limpiar
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -85,11 +95,10 @@ const styles = StyleSheet.create({
     paddingTop: hp(1),
   },
   containerText: {
+    position: "relative",
+    width: "100%",
+    padding: 5,
     marginBottom: hp(2),
-    width: wp(100),
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
   },
   text: {
     fontFamily: "Inter_300Light",

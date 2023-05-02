@@ -35,6 +35,7 @@ export const TextInputIcon = ({
   icon,
   ownStyles,
   onPress,
+  editable,
 }) => {
   return (
     <View style={{ ...styles.inputView, ...styles.inputIcon }}>
@@ -45,6 +46,7 @@ export const TextInputIcon = ({
         placeholderTextColor="#003f5c"
         onChangeText={changeText}
         secureTextEntry={secureTextEntry}
+        editable={editable}
       />
       <View style={{ height: hp(3) }}>
         <TouchableOpacity

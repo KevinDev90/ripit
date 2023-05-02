@@ -19,14 +19,14 @@ function FormNewPaquet({ onClose, fields, edit }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
 
-  const id = Math.floor(Math.random() * 100) + 1;
+  const id = Math.floor(Math.random() * 10000) + 1;
   const [title, setTitle] = useState("");
   const [color, setColor] = useState(null);
   const [words, setWords] = useState([]);
 
   const [newInputValue, setNewInputValue] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [editInput, setEditInput] = useState(true);
   const handleColorChange = (color) => setColor(color);
 
   useEffect(() => {
@@ -40,13 +40,18 @@ function FormNewPaquet({ onClose, fields, edit }) {
   };
 
   const handleAddInput = () => {
-    const word = {
-      id: Math.floor(Math.random() * (100 - 1 + 1)) + 1,
-      word: newInputValue,
-      pass: false,
-    };
-    setWords([...words, word]);
-    setNewInputValue("");
+    if (words.length < 10) {
+      const word = {
+        id: Math.floor(Math.random() * (10000 - 1 + 1)) + 1,
+        word: newInputValue,
+        pass: false,
+      };
+      setWords([...words, word]);
+      setNewInputValue("");
+    } else {
+      setNewInputValue("Max 10 words");
+      setEditInput(false);
+    }
   };
 
   const saveCard = async () => {
@@ -97,6 +102,8 @@ function FormNewPaquet({ onClose, fields, edit }) {
   };
 
   const deleteWord = (id) => {
+    setEditInput(true);
+    setNewInputValue("");
     const newWords = words.filter((e) => e.id !== id);
     setWords(newWords);
   };
@@ -129,6 +136,7 @@ function FormNewPaquet({ onClose, fields, edit }) {
           changeText={(v) => setNewInputValue(v)}
           icon={<FontAwesome name="send" size={22} color={COLORS.GREYBLACK} />}
           onPress={() => handleAddInput()}
+          editable={editInput}
         />
       </View>
 

@@ -35,7 +35,7 @@ export const fetchPostMessage = async (text) => {
       model: "gpt-3.5-turbo",
       messages: [{ role: "user", content: text }],
       temperature: 0.5,
-      max_tokens: 100,
+      // max_tokens: 100,
     }),
   });
   const data = await response.json();

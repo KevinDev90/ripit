@@ -8,7 +8,7 @@ import { COLORS } from "@utilities/contans";
 import { filterPackDoc, packRefUpdate } from "@utilities/references";
 import { deleteDoc, getDocs } from "firebase/firestore";
 import { useState } from "react";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -117,18 +117,22 @@ function ActionsModal({ visibleOptions, setVisibleOptions, item }) {
                 textAlign: "center",
               }}
             >
-              Tus Palabras
+              {item.title}
             </Text>
-            <View style={{ width: "50%" }}>
-              <Text
-                style={{
-                  fontFamily: "Inter_300Light",
-                  fontSize: 15,
-                  marginTop: hp(1),
-                }}
-              >
-                {item.words.map((e, i) => `${i + 1}. ${e.word} \n`)}
-              </Text>
+            <View style={{ width: "100%", height: hp(20) }}>
+              <ScrollView>
+                <View>
+                  <Text
+                    style={{
+                      fontFamily: "Inter_300Light",
+                      fontSize: 15,
+                      marginTop: hp(1),
+                    }}
+                  >
+                    {item.words.map((e, i) => `${e.word} \n`).sort()}
+                  </Text>
+                </View>
+              </ScrollView>
             </View>
           </View>
         )}
