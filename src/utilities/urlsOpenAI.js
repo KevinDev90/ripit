@@ -40,6 +40,8 @@ export const fetchPostMessage = async (text) => {
   });
   const data = await response.json();
 
+  if (data.error) return data.error.message;
+
   return data.choices[0].message.content;
 };
 
@@ -58,6 +60,8 @@ export const fetchPostText = async (prompt) => {
     }),
   });
   const data = await response.json();
+
+  if (data.error) return data.error.message;
 
   return data.choices[0].text.trim();
 };

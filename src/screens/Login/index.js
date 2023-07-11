@@ -1,6 +1,5 @@
 import Logo from "@assets/img/logo.png";
 import AnimationImage from "@components/AnimationImage";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { authLoginAction } from "@redux/actions/authActions";
 import { login } from "@redux/reducers/authSlice";
 import { COLORS, ToastAlert } from "@utilities/contans";
@@ -43,7 +42,6 @@ export default function Login({ navigation }) {
               uid: docSnap.id,
             };
             dispatch(login(data));
-            await AsyncStorage.setItem("user", JSON.stringify(res));
           }
         }
         setLoading(false);

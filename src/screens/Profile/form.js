@@ -3,9 +3,8 @@ import Button from "@components/Button";
 import { InputCustom, InputPicker } from "@components/ProfileComponents/input";
 import { Picker } from "@react-native-picker/picker";
 import { authLogoutAction } from "@redux/actions/authActions";
-import { auth } from "@services/firebaseConfig";
 import { COLORS } from "@utilities/contans";
-import { signOut } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import { useState } from "react";
 import { ActivityIndicator, ScrollView, StyleSheet, View } from "react-native";
 import {
@@ -16,6 +15,7 @@ import { useDispatch } from "react-redux";
 
 function FormProfile({ user, loading, save }) {
   const dispatch = useDispatch();
+  const auth = getAuth();
 
   const [username, setUsername] = useState(user.username || "");
   const [email, setEmail] = useState(user.email || "");
@@ -25,16 +25,14 @@ function FormProfile({ user, loading, save }) {
   const [modalVisibleLogout, setModalVisibleLogout] = useState(false);
 
   const logoutButton = () => {
-    setModalVisibleLogout(false);
-    authLogoutAction(dispatch);
-
-    // signOut(auth)
-    //   .then(() => {
-    //     authLogoutAction(dispatch);
-    //   })
-    //   .catch((error) => {
-    //     // An error happened.
-    //   });
+    signOut(auth)
+      .then(() => {
+        setModalVisibleLogout(false);
+        authLogoutAction(dispatch);
+      })
+      .catch((error) => {
+        console.log("🚀 ~ file: form.js:34 ~ logoutButton ~ error:", error);
+      });
   };
 
   const saveButton = () => {

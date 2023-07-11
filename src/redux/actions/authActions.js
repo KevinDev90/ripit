@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { login, logout } from "@redux/reducers/authSlice";
+import { logout } from "@redux/reducers/authSlice";
 import { auth } from "@services/firebaseConfig";
 import { ToastAlert } from "@utilities/contans";
 import {
@@ -13,6 +13,8 @@ export const authLoginAction = async (value, dispatch) => {
   return await signInWithEmailAndPassword(auth, value.email, value.password)
     .then((userCredential) => {
       const user = userCredential.user;
+      AsyncStorage.setItem("user", JSON.stringify(user));
+
       if (user.emailVerified) {
         const data = {
           uid: user.uid,
