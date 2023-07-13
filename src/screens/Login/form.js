@@ -6,8 +6,8 @@ import { useState } from "react";
 import { ActivityIndicator } from "react-native";
 
 function FormLogin({ onPress, loading }) {
-  const [email, setEmail] = useState("guzmankevin90@gmail.com");
-  const [password, setPassword] = useState("123456789");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [validEmail, setValidEmail] = useState(true);
 
   const validEmailF = (email) => setValidEmail(ValidateEmail(email));
