@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginHorizontal: 12,
     alignItems: "center",
-    marginTop: hp(1),
+    marginTop: hp(6),
   },
   modalContainer: {
     flex: 1,
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
   },
   contentPhrase: {
     width: wp(90),
-    height: hp(55),
+    height: hp(52),
     alignItems: "center",
     justifyContent: "center",
   },

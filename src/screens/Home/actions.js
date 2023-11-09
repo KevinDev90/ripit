@@ -8,7 +8,13 @@ import { COLORS } from "@utilities/contans";
 import { filterPackDoc, packRefUpdate } from "@utilities/references";
 import { deleteDoc, getDocs } from "firebase/firestore";
 import { useState } from "react";
-import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -139,7 +145,7 @@ function ActionsModal({ visibleOptions, setVisibleOptions, item }) {
       </ModalBlur>
 
       <ModernModal
-        visible={modalVisibleEdit}
+        modalVisible={modalVisibleEdit}
         onClose={() => setModalVisibleEdit(false)}
         color={COLORS.PURPLE}
       >

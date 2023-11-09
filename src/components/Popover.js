@@ -20,7 +20,7 @@ function PopoverCustom({ text, onPress, onClose, visible }) {
       placement="top"
       arrowStyle={styles.arrow}
       popoverStyle={styles.popover}
-      offset={hp(6)}
+      offset={hp(1)}
     >
       <Text>{text}</Text>
     </Popover>

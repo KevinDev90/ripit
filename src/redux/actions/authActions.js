@@ -27,7 +27,7 @@ export const authLoginAction = async (value, dispatch) => {
         return data;
       } else {
         sendEmailVerification(auth.currentUser).then(() => {
-          return ToastAlert("Verifica tu correo para iniciar sesion");
+          return ToastAlert("Verifica tu correo para iniciar sesion", true);
         });
       }
     })

@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 22,
     fontFamily: "Inter_900Black",
+    marginTop: hp(2),
   },
   button: {
     width: wp(45),

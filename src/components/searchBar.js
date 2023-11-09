@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flex: 0.9,
     flexDirection: "row",
+    height: hp(4),
     alignItems: "center",
     backgroundColor: COLORS.GREY,
     borderRadius: 10,
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
     flex: 0.1,
     padding: 2,
     marginRight: wp(2),
-    height: hp(5),
+    height: hp(4),
     justifyContent: "center",
     alignItems: "center",
   },

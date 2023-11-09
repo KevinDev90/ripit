@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     paddingHorizontal: wp(4),
-    paddingTop: hp(1),
+    paddingTop: hp(8),
   },
   textInput: {
     flex: 1,

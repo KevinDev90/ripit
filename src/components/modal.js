@@ -5,11 +5,11 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 
-const ModernModal = ({ visible, onClose, title, children, color }) => {
+const ModernModal = ({ modalVisible, onClose, title, children, color }) => {
   return (
     <Modal
       transparent={true}
-      visible={visible}
+      visible={modalVisible}
       animationType="fade"
       onRequestClose={onClose}
     >

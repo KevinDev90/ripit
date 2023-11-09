@@ -3,6 +3,7 @@ import { ToastAlert } from "@utilities/contans";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import FormRegister from "./form";
+import HeaderRow from "@components/headerRow";
 
 export default function Register({ navigation }) {
   const [loading, setLoading] = useState(false);
@@ -17,13 +18,14 @@ export default function Register({ navigation }) {
         if (res.email) {
           ToastAlert("Usuario creado");
           navigation.navigate("login");
-        } else ToastAlert("Error al crear un usuario");
+        } else ToastAlert("Error al crear un usuario", true);
       });
     }
   };
 
   return (
     <View style={styles.container}>
+      <HeaderRow navigation={navigation} />
       <FormRegister
         loading={loading}
         onPress={(data) => handleRegister(data)}

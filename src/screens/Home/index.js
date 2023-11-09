@@ -164,7 +164,7 @@ export default function Home() {
       )}
 
       <ModernModal
-        visible={modalVisible}
+        modalVisible={modalVisible}
         onClose={() => setModalVisible(false)}
         color={COLORS.PURPLE}
       >
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ffffff",
     alignItems: "center",
-    paddingTop: hp(1),
+    paddingTop: hp(8),
   },
   containerScroll: {
     flexGrow: 1,

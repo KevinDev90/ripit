@@ -12,7 +12,7 @@ function ComponentAddPaquet({ onPress }) {
       <View style={styles.newContainer}>
         <TouchableOpacity onPress={onPress} style={{ alignItems: "center" }}>
           <Ionicons name="add" size={30} color={COLORS.GREYBLACK} />
-          <Text style={styles.text}>Nueva Baraja</Text>
+          <Text style={styles.text}>New Card</Text>
         </TouchableOpacity>
       </View>
     </View>

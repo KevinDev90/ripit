@@ -54,8 +54,18 @@ function Chat() {
   return (
     <View style={styles.container}>
       <View style={styles.containerText}>
-        <View style={{ alignSelf: "center" }}>
-          <Text style={{ ...styles.text, backgroundColor: COLORS.BLUE }}>
+        <View
+          style={{
+            alignSelf: "center",
+            backgroundColor: COLORS.BLUE,
+            borderRadius: 10,
+          }}
+        >
+          <Text
+            style={{
+              ...styles.text,
+            }}
+          >
             Charla y practica
           </Text>
         </View>
@@ -64,6 +74,8 @@ function Chat() {
             position: "absolute",
             bottom: 5,
             right: 5,
+            backgroundColor: COLORS.RED,
+            borderRadius: 10,
           }}
         >
           <TouchableOpacity
@@ -72,9 +84,7 @@ function Chat() {
               initialMessage();
             }}
           >
-            <Text style={{ ...styles.text, backgroundColor: COLORS.RED }}>
-              Limpiar
-            </Text>
+            <Text style={styles.text}>Limpiar</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -92,7 +102,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#ffffff",
-    paddingTop: hp(1),
+    paddingTop: hp(8),
   },
   containerText: {
     position: "relative",
