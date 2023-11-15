@@ -66,7 +66,6 @@ Make sure you have the following installed:
       ```bash
       // apiKeys.js      
       export const API_KEY_OPENAI = 'your_api_key_here';
-      bash```
 
       Replace 'your_api_key_here' with the API keys you obtained.
 
