@@ -54,14 +54,7 @@ Make sure you have the following installed:
    ```bash
    npm install or yarn install
 
-4. Start the Expo development server:
-
-   ```bash
-   npx expo start
-   
-   Scan the QR code with the Expo Go app on your mobile device or run the app in an emulator.
-
-5. API Key Setup
+4. API Key Setup
 
    1. OpenAI API
       - Visit [API OpenAI](https://platform.openai.com/api-keys).
@@ -78,6 +71,15 @@ Make sure you have the following installed:
       Replace 'your_api_key_here' with the API keys you obtained.
 
    3. Save the file.
+
+5. Start the Expo development server:
+
+   ```bash
+   npx expo start
+   
+   Scan the QR code with the Expo Go app on your mobile device or run the app in an emulator.
+
+
 
 ### Usage
 
