@@ -61,6 +61,23 @@ Make sure you have the following installed:
    
    Scan the QR code with the Expo Go app on your mobile device or run the app in an emulator.
 
+5. API Key Setup
+
+   1. OpenAI API
+      Visit [API OpenAI](https://platform.openai.com/api-keys).
+      Sign up for an account if you don't have one.
+      Navigate to the API keys section and generate a new API key.
+      Copy the API key.
+
+   2. Create a file named apiKeys.js in the root of the project:
+      ```bash
+      // apiKeys.js
+      export const API_KEY_OPENAI = 'your_api_key_here';
+
+      Replace 'your_api_key_here' with the API keys you obtained.
+
+   3. Save the file.
+
 ### Usage
 
 1. Sign up or log in to start practicing your favorite lenguage.
